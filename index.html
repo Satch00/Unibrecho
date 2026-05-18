@@ -7,25 +7,49 @@
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
 </head>
-<body>
-    <h1>Unibrecho</h1>
-    <p>Bem-vindo ao Unibrecho, o sistema de gerenciamento de repositórios!</p>
-    <p>Aqui você pode criar, editar e gerenciar seus repositórios de forma fácil e eficiente.</p>
-    <hr>
-    <li>
-        <input placeholder="Buscar">
-        <form>
-            <label for="Roupas">Escolha uma estilo</label>
-            <select name="Roupas" id="Roupas">
-                <option value="Casual">Casual</option>
-                <option value="Esportivo">Esportivo</option>
-                <option value="Formal">Formal</option>
-        </form>
-        <input type="submit" value="Pesquisar">
-        <input type="submit" value="Notificações">
-        <input type="submit" value="Entrar">
-        <input type="submit" value="Anunciar">
-    </li>
-    <hr>
+ <nav>
+    <div class="logo">
+      <div class="logo-dot"></div>
+      Unibrecho
+    </div>
+
+    <div class="search-bar">
+      <input type="text" placeholder="Buscar peças, estilos..." />
+      <select>
+        <option value="casual">Casual</option>
+        <option value="esportivo">Esportivo</option>
+        <option value="formal">Formal</option>
+        <option value="vintage">Vintage</option>
+      </select>
+      <button class="btn btn-primary">Pesquisar</button>
+    </div>
+
+    <div class="actions">
+      <button class="btn">Notificações</button>
+      <button class="btn">Entrar</button>
+      <button class="btn btn-primary">Anunciar</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <span class="tag">Moda circular e sustentável</span>
+    <p>O projeto propõe unir sustentabilidade, moda circular e confiança no mercado de brechós em uma única plataforma. A ideia principal é reaproveitar tecidos e peças selecionadas por um processo de curadoria para criar novos produtos, reduzindo desperdícios e dando uma nova vida aos materiais.</p>
+    
+  </div>
+    <div class="card">
+        <div class="img-area">
+        <img src="https://m.media-amazon.com/images/I/41piWsToC6L._AC_SY1000_.jpg" alt="Blusa gun n roses autografada pela próprio artista" />
+        </div>
+        <div class="card-body">
+            <p class="title">Blusa gun n roses autografada pela próprio artista</p>
+            <p class="price-old">R$ 129,99</p>
+            <p class="price-main">
+                <sup>R$</sup> 106<span>,59</span>
+        </p>
+        <p class="pix-line"><strong>18% OFF</strong> no Pix</p>
+        <p class="pix-line" style="margin-top: 2px;">8x R$ 4,49 sem juros</p>
+        <span class="badge badge-blue">18% OFF brecho SANTA LUZIA</span>
+        </div>
+    </div>
 </body>
 </html>
