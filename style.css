@@ -1,7 +1,5 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background-color: black;
-}
+
 .ub-nav {
   background: #0b0b0f;
   border-bottom: 0.5px solid #2b2038;
@@ -169,7 +167,7 @@ body {
 }
 
 .card {
-  background: #111114;
+  background: black;
   border: 1px solid #2f2340;
   margin: 2%;
   border-radius: 12px;
