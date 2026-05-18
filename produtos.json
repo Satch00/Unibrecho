@@ -1,0 +1,31 @@
+[
+  {
+    "titulo": "Blusa Guns N Roses autografada pelo artista",
+    "precoAntigo": "1.239,99",
+    "preco": "1.126,59",
+    "desconto": "18% OFF",
+    "parcelas": "8x R$ 140,82 sem juros",
+    "loja": "Brechó Santa Luzia",
+    "imagem": "https://m.media-amazon.com/images/I/41piWsToC6L._AC_SY1000_.jpg"
+  },
+
+  {
+    "titulo": "Jaqueta vintage oversized anos 90",
+    "precoAntigo": "949,99",
+    "preco": "649,90",
+    "desconto": "29% OFF",
+    "parcelas": "6x R$ 41,65 sem juros",
+    "loja": "Vintage Street",
+    "imagem": "https://images.tcdn.com.br/img/img_prod/460977/jaqueta_jeans_oversized_feminina_azul_escuro_10159_1_20201211180743.jpg"
+  },
+
+  {
+    "titulo": "Tênis nike retrô usado poucas vezes",
+    "precoAntigo": "599,99",
+    "preco": "429,90",
+    "desconto": "15% OFF",
+    "parcelas": "10x R$ 42,99 sem juros",
+    "loja": "Urban Heat",
+    "imagem": "https://imgnike-a.akamaihd.net/1300x1300/01113751.jpg"
+  }
+]
