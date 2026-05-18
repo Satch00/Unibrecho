@@ -27,5 +27,14 @@
     "parcelas": "10x R$ 42,99 sem juros",
     "loja": "Urban Heat",
     "imagem": "https://imgnike-a.akamaihd.net/1300x1300/01113751.jpg"
+  },
+  {
+    "titulo": "Vestido Renner usado poucas vezes",
+    "precoAntigo": "599,99",
+    "preco": "529,90",
+    "desconto": "15% OFF",
+    "parcelas": "10x R$ 72,99 sem juros",
+    "loja": "Casual",
+    "imagem": "https://mail.google.com/mail/u/0?ui=2&ik=b9a5e7df0f&attid=0.3&permmsgid=msg-f:1865552027947115077&th=19e3c5af6fcc2245&view=fimg&fur=ip&permmsgid=msg-f:1865552027947115077&sz=s0-l75-ft&attbid=ANGjdJ-11TpIjmakCWITPDpKXTkkPOgfzQ3wJNCcGf-054OpeT5qoST_VbGvECXBzWMECI0XQc8iqxBw19d-UuudICHhdtX5BP_ihcqlbofrTm3FOQzpnppm8ltzflQ&disp=emb&realattid=ii_mpbj9rdr2&zw"
   }
 ]
