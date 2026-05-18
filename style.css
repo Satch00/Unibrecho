@@ -1,5 +1,9 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+body {
+  background: #09040d;
+}
+
 .ub-nav {
   background: #0b0b0f;
   border-bottom: 0.5px solid #2b2038;
