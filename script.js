@@ -95,3 +95,17 @@ document.addEventListener("click", (e) => {
 
 });
 carregarProdutos();
+/* =========================
+   SCROLL HERO
+========================= */
+
+const explorarBtn = document.getElementById("explorar-btn");
+
+explorarBtn.addEventListener("click", () => {
+
+    document.getElementById("products-section")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+});
