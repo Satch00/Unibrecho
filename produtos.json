@@ -1,38 +1,47 @@
 [
     {
-        "titulo": "Blusa Guns N Roses autografada pelo artista",
-        "precoAntigo": "1.239,99",
-        "preco": "1.126,59",
-        "desconto": "18% OFF",
-        "parcelas": "8x R$ 140,82 sem juros",
-        "loja": "Casual",
-        "imagem": "https://m.media-amazon.com/images/I/41piWsToC6L._AC_SY1000_.jpg"
+        "titulo":"Blusa Guns N Roses autografada pelo artista",
+        "precoAntigo":"1.239,99",
+        "preco":"1.126,59",
+        "desconto":"18% OFF",
+        "parcelas":"8x R$ 140,82 sem juros",
+        "loja":"Casual",
+        "imagem":"https:\/\/m.media-amazon.com\/images\/I\/41piWsToC6L._AC_SY1000_.jpg"
     },
     {
-        "titulo": "Jaqueta Harley Davidson oversized anos 90",
-        "precoAntigo": "949,99",
-        "preco": "249,90",
-        "desconto": "29% OFF",
-        "parcelas": "6x R$ 41,65 sem juros",
-        "loja": "Vintage Street",
-        "imagem": "https://production.autoforce.com/uploads/accessory/profile_image/8939/model_main_webp_comprar-jaqueta-de-nylon-ventilada-masculina-trenton_8971725a67.JPG.webp"
+        "titulo":"Jaqueta Harley Davidson oversized anos 90",
+        "precoAntigo":"949,99",
+        "preco":"249,90",
+        "desconto":"29% OFF",
+        "parcelas":"6x R$ 41,65 sem juros",
+        "loja":"Vintage Street",
+        "imagem":"https:\/\/production.autoforce.com\/uploads\/accessory\/profile_image\/8939\/model_main_webp_comprar-jaqueta-de-nylon-ventilada-masculina-trenton_8971725a67.JPG.webp"
     },
     {
-        "titulo": "Tênis nike retrô usado poucas vezes",
-        "precoAntigo": "599,99",
-        "preco": "429,90",
-        "desconto": "15% OFF",
-        "parcelas": "10x R$ 42,99 sem juros",
-        "loja": "Urban Heat",
-        "imagem": "https://imgnike-a.akamaihd.net/1300x1300/01113751.jpg"
+        "titulo":"Tênis nike retrô usado poucas vezes",
+        "precoAntigo":"599,99",
+        "preco":"429,90",
+        "desconto":"15% OFF",
+        "parcelas":"10x R$ 42,99 sem juros",
+        "loja":"Urban Heat",
+        "imagem":"https:\/\/imgnike-a.akamaihd.net\/1300x1300\/01113751.jpg"
     },
     {
-        "titulo": "Vestido Renner usado poucas vezes",
-        "precoAntigo": "599,99",
-        "preco": "529,90",
-        "desconto": "15% OFF",
-        "parcelas": "10x R$ 72,99 sem juros",
-        "loja": "Casual",
-        "imagem": "https://mail.google.com/mail/u/0?ui=2&ik=b9a5e7df0f&attid=0.3&permmsgid=msg-f:1865552027947115077&th=19e3c5af6fcc2245&view=fimg&fur=ip&permmsgid=msg-f:1865552027947115077&sz=s0-l75-ft&attbid=ANGjdJ-11TpIjmakCWITPDpKXTkkPOgfzQ3wJNCcGf-054OpeT5qoST_VbGvECXBzWMECI0XQc8iqxBw19d-UuudICHhdtX5BP_ihcqlbofrTm3FOQzpnppm8ltzflQ&disp=emb&realattid=ii_mpbj9rdr2&zw"
+        "titulo":"Vestido Renner usado poucas vezes",
+        "precoAntigo":"599,99",
+        "preco":"529,90",
+        "desconto":"15% OFF",
+        "parcelas":"10x R$ 72,99 sem juros",
+        "loja":"Casual",
+        "imagem":"https:\/\/mail.google.com\/mail\/u\/0?ui=2&ik=b9a5e7df0f&attid=0.3&permmsgid=msg-f:1865552027947115077&th=19e3c5af6fcc2245&view=fimg&fur=ip&permmsgid=msg-f:1865552027947115077&sz=s0-l75-ft&attbid=ANGjdJ-11TpIjmakCWITPDpKXTkkPOgfzQ3wJNCcGf-054OpeT5qoST_VbGvECXBzWMECI0XQc8iqxBw19d-UuudICHhdtX5BP_ihcqlbofrTm3FOQzpnppm8ltzflQ&disp=emb&realattid=ii_mpbj9rdr2&zw"
+    },
+    {
+        "titulo":"Short para dormir",
+        "precoAntigo":"89.99",
+        "preco":"39.99",
+        "desconto":"56% OFF",
+        "parcelas":"6x R$ 6.67 sem juros",
+        "loja":"Casual",
+        "imagem":"https:\/\/mail.google.com\/mail\/u\/2?ui=2&ik=b9a5e7df0f&attid=0.1&permmsgid=msg-f:1865552027947115077&th=19e3c5af6fcc2245&view=fimg&fur=ip&permmsgid=msg-f:1865552027947115077&sz=s0-l75-ft&attbid=ANGjdJ8ymWNEzC3Q15mH1Kgfpo6-UrhMp8vvIvpYp3TJ4MYiFo_SKgVPrpKbqHuq64LUd1iQyov0d5Owtw4p40ShHceC2YLFGPcKYW_qcRN9Udy3wCSE2zCSrbI2N84&disp=emb&realattid=ii_mpbj5p5m0&zw"
     }
 ]
