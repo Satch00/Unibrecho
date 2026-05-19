@@ -61,5 +61,37 @@ async function carregarProdutos() {
   });
 
 }
+const selected = document.querySelector(".selected");
 
+const options = document.querySelector(".options");
+
+const optionItems = document.querySelectorAll(".options div");
+
+selected.addEventListener("click", () => {
+
+    options.classList.toggle("active");
+
+});
+
+optionItems.forEach(item => {
+
+    item.addEventListener("click", () => {
+
+        selected.textContent = item.textContent;
+
+        options.classList.remove("active");
+
+    });
+
+});
+
+document.addEventListener("click", (e) => {
+
+    if (!e.target.closest(".custom-select")) {
+
+        options.classList.remove("active");
+
+    }
+
+});
 carregarProdutos();
