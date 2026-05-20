@@ -43,5 +43,140 @@
         "parcelas": "3x R$ 16,67 sem juros",
         "loja": "Casual",
         "imagem": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQsIEfRKcTE6_lQbqNvWir8VnJag0iTSKRmCL6WbmDRIpJu-fOd7JHtDnSbwwEdrsGVvM1_yzd-9Px2bFQnnK-S7wQLORus0P-WoRBh9h8ABZsO_fKF6Sna"
+    },
+    {
+        "titulo": "Camiseta Nirvana vintage original anos 90",
+        "precoAntigo": "349,99",
+        "preco": "129,90",
+        "desconto": "63% OFF",
+        "parcelas": "6x R$ 21,65 sem juros",
+        "loja": "Vintage Street",
+        "imagem": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
+    },
+    {
+        "titulo": "Jaqueta jeans oversized retrô",
+        "precoAntigo": "259,99",
+        "preco": "89,90",
+        "desconto": "65% OFF",
+        "parcelas": "5x R$ 17,98 sem juros",
+        "loja": "Urban Heat",
+        "imagem": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246"
+    },
+    {
+        "titulo": "Vestido floral vintage anos 80",
+        "precoAntigo": "179,99",
+        "preco": "54,90",
+        "desconto": "69% OFF",
+        "parcelas": "4x R$ 13,72 sem juros",
+        "loja": "Brechó Rosa",
+        "imagem": "https://images.unsplash.com/photo-1496747611176-843222e1e57c"
+    },
+    {
+        "titulo": "Tênis All Star cano alto usado",
+        "precoAntigo": "199,99",
+        "preco": "79,99",
+        "desconto": "60% OFF",
+        "parcelas": "8x R$ 10,00 sem juros",
+        "loja": "Casual",
+        "imagem": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77"
+    },
+    {
+        "titulo": "Camisa social Ralph Lauren retrô",
+        "precoAntigo": "299,99",
+        "preco": "119,90",
+        "desconto": "60% OFF",
+        "parcelas": "7x R$ 17,13 sem juros",
+        "loja": "Premium Vintage",
+        "imagem": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"
+    },
+    {
+        "titulo": "Moletom Adidas retrô bordado",
+        "precoAntigo": "239,99",
+        "preco": "94,90",
+        "desconto": "61% OFF",
+        "parcelas": "6x R$ 15,82 sem juros",
+        "loja": "Urban Heat",
+        "imagem": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f"
+    },
+    {
+        "titulo": "Calça cargo streetwear vintage",
+        "precoAntigo": "189,99",
+        "preco": "69,90",
+        "desconto": "63% OFF",
+        "parcelas": "5x R$ 13,98 sem juros",
+        "loja": "Vintage Street",
+        "imagem": "https://images.unsplash.com/photo-1542272604-787c3835535d"
+    },
+    {
+        "titulo": "Bolsa retrô couro legítimo",
+        "precoAntigo": "420,00",
+        "preco": "159,90",
+        "desconto": "62% OFF",
+        "parcelas": "10x R$ 15,99 sem juros",
+        "loja": "Brechó Chic",
+        "imagem": "https://images.unsplash.com/photo-1584917865442-de89df76afd3"
+    },
+    {
+        "titulo": "Saia xadrez aesthetic vintage",
+        "precoAntigo": "119,99",
+        "preco": "39,90",
+        "desconto": "67% OFF",
+        "parcelas": "3x R$ 13,30 sem juros",
+        "loja": "Brechó Rosa",
+        "imagem": "https://images.unsplash.com/photo-1583496661160-fb5886a13d77"
+    },
+    {
+        "titulo": "Jaqueta Harley Davidson original",
+        "precoAntigo": "799,99",
+        "preco": "329,90",
+        "desconto": "58% OFF",
+        "parcelas": "12x R$ 27,49 sem juros",
+        "loja": "Premium Vintage",
+        "imagem": "https://images.unsplash.com/photo-1523398002811-999ca8dec234"
+    },
+    {
+        "titulo": "Blazer social oversized retrô",
+        "precoAntigo": "229,99",
+        "preco": "84,90",
+        "desconto": "63% OFF",
+        "parcelas": "6x R$ 14,15 sem juros",
+        "loja": "Casual",
+        "imagem": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea"
+    },
+    {
+        "titulo": "Camiseta banda Metallica vintage",
+        "precoAntigo": "279,99",
+        "preco": "109,90",
+        "desconto": "61% OFF",
+        "parcelas": "7x R$ 15,70 sem juros",
+        "loja": "Rock Wear",
+        "imagem": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c"
+    },
+    {
+        "titulo": "Macacão jeans retrô feminino",
+        "precoAntigo": "199,90",
+        "preco": "74,90",
+        "desconto": "62% OFF",
+        "parcelas": "5x R$ 14,98 sem juros",
+        "loja": "Brechó Chic",
+        "imagem": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f"
+    },
+    {
+        "titulo": "Boné Nike vintage anos 2000",
+        "precoAntigo": "99,99",
+        "preco": "34,90",
+        "desconto": "65% OFF",
+        "parcelas": "2x R$ 17,45 sem juros",
+        "loja": "Urban Heat",
+        "imagem": "https://images.unsplash.com/photo-1521369909029-2afed882baee"
+    },
+    {
+        "titulo": "Tênis Vans old school usado",
+        "precoAntigo": "259,99",
+        "preco": "99,90",
+        "desconto": "61% OFF",
+        "parcelas": "8x R$ 12,49 sem juros",
+        "loja": "Street Vintage",
+        "imagem": "https://images.unsplash.com/photo-1542291026-7eec264c27ff"
     }
 ]
