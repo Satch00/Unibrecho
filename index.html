@@ -109,23 +109,18 @@ body::before{
 }
 .cs-options div:hover{background:rgba(124,58,237,.15);color:var(--text)}
 
+/* ══ HERO COMPACTO ══════════════════════════════════════ */
 .hero{
-  position:relative;min-height:100vh;
+  position:relative;
+  padding: 90px 2rem 56px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:120px 2rem 80px;overflow:hidden
+  text-align:center;overflow:hidden
 }
 .hero-glow{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
-  width:700px;height:700px;border-radius:50%;
-  background:radial-gradient(circle, rgba(124,58,237,.18) 0%, transparent 70%);
-  pointer-events:none;z-index:0
-}
-.hero-ring{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:900px;height:900px;border-radius:50%;
-  border:1px solid rgba(124,58,237,.07);
+  width:600px;height:400px;border-radius:50%;
+  background:radial-gradient(circle, rgba(124,58,237,.14) 0%, transparent 70%);
   pointer-events:none;z-index:0
 }
 .hero>*{position:relative;z-index:1}
@@ -136,27 +131,27 @@ body::before{
   background:rgba(124,58,237,.12);
   color:#c4b5fd;
   border:1px solid rgba(124,58,237,.25);
-  margin-bottom:2rem;letter-spacing:.03em
+  margin-bottom:1.25rem;letter-spacing:.03em
 }
 .hero h1{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(44px,7vw,90px);
+  font-size:clamp(36px,5vw,68px);
   font-weight:600;line-height:1.1;
   color:var(--text);
-  max-width:860px;margin-bottom:1.5rem
+  max-width:780px;margin-bottom:1rem
 }
 .hero h1 em{font-style:italic;color:var(--accent-2)}
 .hero p{
-  font-size:16px;color:var(--text-2);line-height:1.75;
-  max-width:580px;margin-bottom:2.5rem
+  font-size:15px;color:var(--text-2);line-height:1.7;
+  max-width:520px;margin-bottom:1.75rem
 }
-.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
-.hero-btn{height:48px;padding:0 26px;font-size:14px;border-radius:12px}
-.pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:1.75rem}
+.hero-btn{height:46px;padding:0 24px;font-size:14px;border-radius:12px}
+.pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
 .pill{
   font-size:12px;color:var(--text-3);
   background:var(--bg-card);border:1px solid var(--border);
-  padding:5px 14px;border-radius:99px
+  padding:4px 12px;border-radius:99px
 }
 
 .section{position:relative;padding:90px 2rem}
@@ -185,6 +180,20 @@ body::before{
   scroll-snap-type:x mandatory
 }
 #products::-webkit-scrollbar{height:6px}
+
+/* Loading state */
+.products-loading{
+  display:flex;align-items:center;gap:12px;
+  color:var(--text-3);font-size:14px;padding:40px 0
+}
+.products-loading .spinner{
+  width:20px;height:20px;border-radius:50%;
+  border:2px solid var(--border);
+  border-top-color:var(--accent);
+  animation:spin .7s linear infinite
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
 .card{
   min-width:215px;max-width:215px;
   background:var(--bg-card);
@@ -195,9 +204,14 @@ body::before{
 .card:hover{box-shadow:0 8px 32px rgba(124,58,237,.25);transform:translateY(-4px);border-color:var(--border-2)}
 .img-area{
   background:var(--bg-3);height:190px;
-  display:flex;align-items:center;justify-content:center;padding:16px
+  display:flex;align-items:center;justify-content:center;padding:16px;
+  overflow:hidden
 }
-.img-area img{max-height:165px;max-width:100%;object-fit:contain}
+.img-area img{
+  max-height:165px;max-width:100%;object-fit:contain;
+  transition:transform .3s
+}
+.card:hover .img-area img{transform:scale(1.04)}
 .card-body{padding:14px 16px 18px}
 .card-title{font-size:13px;color:var(--text);line-height:1.45;margin:0 0 8px;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -244,14 +258,12 @@ body::before{
 .sobre-circle-icon{font-size:56px;color:var(--accent-2)}
 .sobre-circle-text{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text-2)}
 
-/* ══ ESG REDESIGN ══════════════════════════════════════ */
 #esg{background:var(--bg-2);padding:100px 2rem}
 
 .esg-intro{
   max-width:1100px;margin:0 auto 72px;
   display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end
 }
-.esg-intro-left{}
 .esg-intro-right{
   display:flex;flex-direction:column;gap:20px;
   padding-top:8px
@@ -272,7 +284,6 @@ body::before{
 .esg-numbers{
   display:flex;gap:32px;flex-wrap:wrap
 }
-.esg-num-item{}
 .esg-num-val{
   font-family:'Cormorant Garamond',serif;
   font-size:36px;font-weight:600;color:var(--text);line-height:1
@@ -334,7 +345,6 @@ body::before{
 .esg-pillar.s .esg-pillar-item-icon{color:#c084fc}
 .esg-pillar.g .esg-pillar-item-icon{color:#fbbf24}
 
-/* ══ FAQ REDESIGN ═════════════════════════════════════ */
 #faq{background:var(--bg);padding:100px 2rem}
 
 .faq-layout{
@@ -356,7 +366,6 @@ body::before{
 .faq-contact-card strong{color:var(--text)}
 .faq-contact-actions{display:flex;gap:8px;flex-wrap:wrap}
 
-.faq-right{}
 .faq-item{
   border-bottom:1px solid var(--border);
   transition:.2s
@@ -385,7 +394,6 @@ body::before{
 }
 .faq-item.open .faq-a{max-height:400px;padding-bottom:22px}
 
-/* ══ BANNER PRÉ-FOOTER ════════════════════════════════ */
 .cta-banner{
   background:var(--bg-2);
   border-top:1px solid var(--border);
@@ -537,7 +545,7 @@ footer{
   .search-wrap{display:none}
   .footer-top{grid-template-columns:1fr 1fr}
   .chat-window{width:calc(100vw - 32px);right:16px;bottom:84px}
-  .hero{padding:100px 1.5rem 60px}
+  .hero{padding:84px 1.5rem 48px}
 }
 @media(max-width:480px){
   .footer-top{grid-template-columns:1fr}
@@ -580,15 +588,14 @@ footer{
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO COMPACTO -->
 <section class="hero">
   <div class="hero-glow"></div>
-  <div class="hero-ring"></div>
   <span class="hero-badge">
     <i class="ti ti-leaf" style="font-size:13px"></i> Moda circular e sustentável
   </span>
   <h1>Brechó com <em>curadoria</em>,<br>confiança e propósito</h1>
-  <p>Unimos sustentabilidade e moda circular em uma única plataforma. Peças selecionadas que ganham nova vida, conectando quem vende com quem valoriza o que é único.</p>
+  <p>Peças selecionadas que ganham nova vida, conectando quem vende com quem valoriza o que é único.</p>
   <div class="hero-actions">
     <button class="btn btn-primary hero-btn" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
       <i class="ti ti-search" style="font-size:16px"></i> Explorar peças
@@ -616,7 +623,11 @@ footer{
       </div>
       <button class="btn">Ver todos <i class="ti ti-arrow-right" style="font-size:14px"></i></button>
     </div>
-    <div id="products"></div>
+    <div id="products">
+      <div class="products-loading">
+        <div class="spinner"></div> Carregando peças…
+      </div>
+    </div>
   </div>
 </section>
 
@@ -662,9 +673,8 @@ footer{
 
 <div class="divider"></div>
 
-<!-- ESG — REDESENHADO -->
+<!-- ESG -->
 <section id="esg">
-  <!-- Intro dividida em 2 colunas: título + manifesto/dados -->
   <div class="esg-intro">
     <div class="reveal">
       <span class="section-label"><i class="ti ti-leaf" style="font-size:13px"></i> Compromisso ESG</span>
@@ -691,7 +701,6 @@ footer{
     </div>
   </div>
 
-  <!-- Os 3 pilares em grid unificado -->
   <div class="esg-pillars reveal" style="max-width:1100px;margin:0 auto">
     <div class="esg-pillar e">
       <div class="esg-pillar-letter" aria-hidden="true">E</div>
@@ -699,22 +708,10 @@ footer{
       <h3>Roupa velha<br>é ação climática.</h3>
       <p class="esg-pillar-body">Cada transação na Unibrecho tem seu impacto ambiental calculado e divulgado. Não escondemos os dados — publicamos tudo no relatório anual aberto.</p>
       <div class="esg-pillar-items">
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Resíduo têxtil evitado rastreado por peça
-        </div>
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Embalagens 100% recicláveis ou reutilizadas
-        </div>
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Logística com parceiros de baixa emissão
-        </div>
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Meta: operação carbono zero até 2026
-        </div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Resíduo têxtil evitado rastreado por peça</div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Embalagens 100% recicláveis ou reutilizadas</div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Logística com parceiros de baixa emissão</div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Meta: operação carbono zero até 2026</div>
       </div>
     </div>
     <div class="esg-pillar s">
@@ -723,22 +720,10 @@ footer{
       <h3>Renda real para<br>quem vende.</h3>
       <p class="esg-pillar-body">Nossa plataforma foi desenhada para quem precisa de renda extra — não para grandes marcas. Microempreendedores e comunidades periféricas têm ferramentas e suporte para prosperar.</p>
       <div class="esg-pillar-items">
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Programa de capacitação gratuita para vendedores
-        </div>
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Política ativa de diversidade e inclusão
-        </div>
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Doação de peças recusadas a ONGs parceiras
-        </div>
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Moda de qualidade acessível a todas as rendas
-        </div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Programa de capacitação gratuita para vendedores</div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Política ativa de diversidade e inclusão</div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Doação de peças recusadas a ONGs parceiras</div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Moda de qualidade acessível a todas as rendas</div>
       </div>
     </div>
     <div class="esg-pillar g">
@@ -747,22 +732,10 @@ footer{
       <h3>Transparência<br>sem asterisco.</h3>
       <p class="esg-pillar-body">Nossas regras de curadoria, precificação e moderação são públicas. Se erramos, avisamos. Se melhoramos, publicamos. Confiança não se declara — se demonstra.</p>
       <div class="esg-pillar-items">
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Relatório de impacto anual 100% público
-        </div>
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Comitê de ética independente — sem exceções
-        </div>
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Conformidade total com LGPD
-        </div>
-        <div class="esg-pillar-item">
-          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
-          Política antifraude com zero tolerância
-        </div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Relatório de impacto anual 100% público</div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Comitê de ética independente — sem exceções</div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Conformidade total com LGPD</div>
+        <div class="esg-pillar-item"><i class="ti ti-check esg-pillar-item-icon"></i>Política antifraude com zero tolerância</div>
       </div>
     </div>
   </div>
@@ -770,10 +743,9 @@ footer{
 
 <div class="divider"></div>
 
-<!-- FAQ — REDESENHADO -->
+<!-- FAQ -->
 <section id="faq">
   <div class="faq-layout">
-    <!-- Coluna esquerda fixa -->
     <div class="faq-left reveal">
       <span class="section-label"><i class="ti ti-question-mark" style="font-size:13px"></i> FAQ</span>
       <h2 class="section-title">Ficou alguma dúvida?</h2>
@@ -790,74 +762,47 @@ footer{
         </div>
       </div>
     </div>
-
-    <!-- Coluna direita com as perguntas -->
     <div class="faq-right">
       <div class="faq-item reveal">
-        <button class="faq-q">
-          Como funciona o processo de curadoria das peças?
-          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
-        </button>
+        <button class="faq-q">Como funciona o processo de curadoria das peças?<span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span></button>
         <div class="faq-a">Cada anúncio passa pela nossa equipe antes de ir ao ar. A gente avalia fotos, estado de conservação, descrição e preço. Peças que não passam nos nossos critérios são recusadas ou devolvidas com orientação ao vendedor. O processo leva até 24h — rápido, mas sem atalhos.</div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">
-          É seguro comprar na plataforma?
-          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
-        </button>
+        <button class="faq-q">É seguro comprar na plataforma?<span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span></button>
         <div class="faq-a">Sim, e com garantia real: o dinheiro fica retido na Unibrecho até você confirmar que a peça chegou e está como descrita. Se não estiver, você tem 7 dias para solicitar devolução e recebe o reembolso completo. Sem burocracia, sem julgamento.</div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">
-          Como faço para anunciar minhas peças?
-          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
-        </button>
+        <button class="faq-q">Como faço para anunciar minhas peças?<span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span></button>
         <div class="faq-a">Crie sua conta, clique em "Anunciar" e siga o passo a passo: fotos, descrição, tamanho, estado de conservação e preço. A curadoria revisa em até 24h e, se aprovada, a peça vai ao ar automaticamente. É gratuito anunciar — você só paga quando vende.</div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">
-          Quais são as taxas cobradas para vendedores?
-          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
-        </button>
+        <button class="faq-q">Quais são as taxas cobradas para vendedores?<span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span></button>
         <div class="faq-a">Cobramos 12% sobre o valor da venda. Esse percentual cobre proteção ao comprador, processamento de pagamento e suporte completo. Sem mensalidade, sem taxa de cadastro, sem surpresa no extrato. Vendeu? Recebeu. Simples assim.</div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">
-          O frete é calculado de que forma?
-          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
-        </button>
+        <button class="faq-q">O frete é calculado de que forma?<span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span></button>
         <div class="faq-a">O valor exato aparece no checkout — calculado automaticamente com base no CEP do comprador e do vendedor. Trabalhamos com Correios, Jadlog e Melhor Envio. Você vê o custo antes de fechar a compra. Sem estimativa, sem taxa oculta.</div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">
-          Posso negociar o preço diretamente com o vendedor?
-          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
-        </button>
+        <button class="faq-q">Posso negociar o preço diretamente com o vendedor?<span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span></button>
         <div class="faq-a">Pode, sim. Cada anúncio tem o botão "Fazer oferta" — você propõe um valor, o vendedor aceita, recusa ou faz uma contraproposta. Toda negociação fica registrada com segurança dentro da plataforma. Brechó também tem mercado.</div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-q">
-          Como me torno um vendedor verificado?
-          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
-        </button>
+        <button class="faq-q">Como me torno um vendedor verificado?<span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span></button>
         <div class="faq-a">O selo é conquistado — não comprado. Você precisa de 10 vendas concluídas com avaliação acima de 4.5 estrelas e cadastro com CPF ou CNPJ confirmado. Vendedores verificados ganham destaque nas buscas e mais confiança de quem compra.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA BANNER PRÉ-FOOTER -->
+<!-- CTA BANNER -->
 <div class="cta-banner">
   <div class="cta-banner-inner reveal">
     <h2>Sua peça parada<br>pode ser a <em>favorita</em><br>de alguém.</h2>
     <p>Mais de 4.800 vendedores já descobriram que dar uma segunda vida para roupas pode gerar renda — e ainda fazer bem pro planeta.</p>
     <div class="cta-banner-actions">
-      <button class="btn btn-primary hero-btn">
-        <i class="ti ti-plus" style="font-size:16px"></i> Começar a vender
-      </button>
-      <button class="btn hero-btn">
-        Explorar o brechó
-      </button>
+      <button class="btn btn-primary hero-btn"><i class="ti ti-plus" style="font-size:16px"></i> Começar a vender</button>
+      <button class="btn hero-btn">Explorar o brechó</button>
     </div>
   </div>
 </div>
@@ -938,102 +883,138 @@ footer{
 </div>
 
 <script>
-const mockProducts=[
-  {titulo:"Jaqueta Vintage Années 90",preco:"89,90",precoAntigo:"180,00",desconto:"10%",parcelas:"4× R$ 24,72",loja:"VintageSP",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=🧥"},
-  {titulo:"Calça Mom Jeans Oversized",preco:"59,90",precoAntigo:"120,00",desconto:"8%",parcelas:"3× R$ 21,30",loja:"ReStore",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👖"},
-  {titulo:"Blazer Xadrez Streetwear",preco:"129,90",precoAntigo:"260,00",desconto:"12%",parcelas:"6× R$ 23,90",loja:"ModaCircular",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=🧣"},
-  {titulo:"Vestido Midi Floral Casual",preco:"74,90",precoAntigo:"150,00",desconto:"9%",parcelas:"4× R$ 20,53",loja:"SegundaMão",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👗"},
-  {titulo:"Tênis Chunky Retro Branco",preco:"149,90",precoAntigo:"320,00",desconto:"15%",parcelas:"6× R$ 27,56",loja:"SneakerSP",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👟"},
-  {titulo:"Moletom Oversized Vintage",preco:"69,90",precoAntigo:"140,00",desconto:"7%",parcelas:"3× R$ 24,86",loja:"VintageSP",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👕"},
-  {titulo:"Bolsa de Couro Tote Anos 80",preco:"109,90",precoAntigo:"220,00",desconto:"11%",parcelas:"5× R$ 23,73",loja:"LuxoCircular",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👜"},
-];
-function renderProducts(){
-  const c=document.getElementById('products');
-  mockProducts.forEach(p=>{
-    const[int,dec]=p.preco.split(',');
-    const card=document.createElement('div');
-    card.className='card';
-    card.innerHTML=`<div class="img-area"><img src="${p.imagem}" alt="${p.titulo}" loading="lazy"></div><div class="card-body"><p class="card-title">${p.titulo}</p><p class="price-old">R$ ${p.precoAntigo}</p><p class="price-main"><sup>R$</sup>${int}<span>,${dec}</span></p><p class="pix"><strong>${p.desconto}</strong> no Pix</p><p class="pix" style="margin-top:2px">${p.parcelas}</p><span class="badge">${p.desconto} · ${p.loja}</span></div>`;
+// ── Carrega produtos do arquivo produtos.json ──────────────────────
+async function loadProducts() {
+  const container = document.getElementById('products');
+  try {
+    const res = await fetch('produtos.json');
+    if (!res.ok) throw new Error('Não foi possível carregar produtos.json');
+    const products = await res.json();
+    renderProducts(products);
+  } catch (err) {
+    container.innerHTML = `<div style="color:var(--text-3);font-size:13px;padding:32px 0">
+      <i class="ti ti-alert-circle" style="font-size:16px;margin-right:6px"></i>
+      Não foi possível carregar as peças. Certifique-se que o arquivo <strong>produtos.json</strong> está na mesma pasta que este HTML.
+    </div>`;
+    console.error(err);
+  }
+}
+
+function renderProducts(list) {
+  const c = document.getElementById('products');
+  c.innerHTML = '';
+  list.forEach(p => {
+    const parts = p.preco.split(',');
+    const int = parts[0];
+    const dec = parts[1] || '00';
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="img-area">
+        <img src="${p.imagem}" alt="${p.titulo}" loading="lazy"
+          onerror="this.src='https://via.placeholder.com/180x160/131020/8b5cf6?text=📦'">
+      </div>
+      <div class="card-body">
+        <p class="card-title">${p.titulo}</p>
+        <p class="price-old">R$ ${p.precoAntigo}</p>
+        <p class="price-main"><sup>R$</sup>${int}<span>,${dec}</span></p>
+        <p class="pix"><strong>${p.desconto}</strong> no Pix</p>
+        <p class="pix" style="margin-top:2px">${p.parcelas}</p>
+        <span class="badge">${p.desconto} · ${p.loja}</span>
+      </div>`;
     c.appendChild(card);
   });
 }
-renderProducts();
 
-const csSelected=document.getElementById('csSelected');
-const csOptions=document.getElementById('csOptions');
-csSelected.addEventListener('click',()=>csOptions.classList.toggle('open'));
-csOptions.querySelectorAll('div').forEach(d=>{
-  d.addEventListener('click',()=>{
-    csSelected.innerHTML=d.textContent+' <i class="ti ti-chevron-down" style="font-size:13px"></i>';
+loadProducts();
+
+// ── Dropdown de categorias ────────────────────────────────────────
+const csSelected = document.getElementById('csSelected');
+const csOptions  = document.getElementById('csOptions');
+csSelected.addEventListener('click', () => csOptions.classList.toggle('open'));
+csOptions.querySelectorAll('div').forEach(d => {
+  d.addEventListener('click', () => {
+    csSelected.innerHTML = d.textContent + ' <i class="ti ti-chevron-down" style="font-size:13px"></i>';
     csOptions.classList.remove('open');
   });
 });
-document.addEventListener('click',e=>{if(!e.target.closest('#catSelect'))csOptions.classList.remove('open');});
+document.addEventListener('click', e => { if (!e.target.closest('#catSelect')) csOptions.classList.remove('open'); });
 
-document.querySelectorAll('.faq-q').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const item=btn.parentElement;
-    const wasOpen=item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
-    if(!wasOpen)item.classList.add('open');
+// ── FAQ accordion ─────────────────────────────────────────────────
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
   });
 });
 
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
-},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+// ── Scroll reveal ─────────────────────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-const fab=document.getElementById('chatFab');
-const win=document.getElementById('chatWindow');
-const msgs=document.getElementById('chatMessages');
-const inp=document.getElementById('chatInput');
-const ANSWERS={
-  comprar:"Para comprar na Unibrecho é simples! 🛍️ Explore as peças, clique naquela que te interessar e adicione ao carrinho. O pagamento fica retido até você confirmar que a peça chegou certinha. Se não gostar, tem 7 dias para devolver!",
-  vender:"Vender aqui é fácil e gratuito! 📦 Crie sua conta, clique em 'Anunciar', adicione fotos e descrição da peça. Nossa curadoria revisa em até 24h. Quando vender, descontamos apenas 12% de comissão — sem mensalidade.",
-  frete:"O frete é calculado automaticamente no checkout com base no seu CEP. 🚚 Trabalhamos com Correios, Jadlog e Melhor Envio. O valor exato aparece antes de você finalizar a compra — sem surpresas!",
-  devolucao:"Sua compra é protegida! 🔒 Se a peça não for como no anúncio, você tem 7 dias após o recebimento para abrir uma solicitação de devolução. O reembolso é 100% garantido e processado em até 5 dias úteis.",
-  verificado:"O selo de vendedor verificado é dado após 10 vendas com avaliação acima de 4.5 ⭐. Você também precisa confirmar CPF/CNPJ. Vendedores verificados aparecem em destaque nas buscas e têm muito mais conversão!",
-  pix:"Ao pagar no Pix você recebe um desconto exclusivo direto no valor da peça! 💜 O percentual varia por anúncio e aparece sempre indicado nos cards como 'X% no Pix'. É a forma mais barata de comprar na Unibrecho.",
+// ── Chatbot ───────────────────────────────────────────────────────
+const fab  = document.getElementById('chatFab');
+const win  = document.getElementById('chatWindow');
+const msgs = document.getElementById('chatMessages');
+const inp  = document.getElementById('chatInput');
+
+const ANSWERS = {
+  comprar:    "Para comprar na Unibrecho é simples! 🛍️ Explore as peças, clique naquela que te interessar e adicione ao carrinho. O pagamento fica retido até você confirmar que a peça chegou certinha. Se não gostar, tem 7 dias para devolver!",
+  vender:     "Vender aqui é fácil e gratuito! 📦 Crie sua conta, clique em 'Anunciar', adicione fotos e descrição da peça. Nossa curadoria revisa em até 24h. Quando vender, descontamos apenas 12% de comissão — sem mensalidade.",
+  frete:      "O frete é calculado automaticamente no checkout com base no seu CEP. 🚚 Trabalhamos com Correios, Jadlog e Melhor Envio. O valor exato aparece antes de você finalizar a compra — sem surpresas!",
+  devolucao:  "Sua compra é protegida! 🔒 Se a peça não for como no anúncio, você tem 7 dias após o recebimento para abrir uma solicitação de devolução. O reembolso é 100% garantido e processado em até 5 dias úteis.",
+  verificado: "O selo de vendedor verificado é dado após 10 vendas com avaliação acima de 4.5 ⭐. Você também precisa confirmar CPF/CNPJ. Vendedores verificados aparecem em destaque nas buscas e têm muito mais conversão!",
+  pix:        "Ao pagar no Pix você recebe um desconto exclusivo direto no valor da peça! 💜 O percentual varia por anúncio e aparece sempre indicado nos cards. É a forma mais barata de comprar na Unibrecho.",
 };
-const GENERIC=[
+const GENERIC = [
   "Boa pergunta! Para essa dúvida específica, recomendo acessar nossa <strong>Central de Ajuda</strong> ou conversar com o suporte pelo chat em tempo real. 💜",
   "Entendi! Sobre isso, o melhor é verificar a aba <strong>FAQ</strong> aqui no site ou nos chamar no WhatsApp. Estou aqui para o que precisar! 😊",
   "Hmm, não tenho certeza sobre isso agora, mas nossa equipe de suporte vai te ajudar rapidinho! Clique em 'Fale Conosco' no rodapé. 🚀",
 ];
-let chatOpen=false;
-function toggleChat(){chatOpen=!chatOpen;win.classList.toggle('open',chatOpen);if(chatOpen)inp.focus();}
-fab.addEventListener('click',toggleChat);
-document.getElementById('chatClose').addEventListener('click',toggleChat);
-function addMsg(text,isUser){
-  const div=document.createElement('div');
-  div.className='msg '+(isUser?'user':'bot');
-  div.innerHTML=isUser?`<div class="msg-bubble">${text}</div>`:`<div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div><div class="msg-bubble">${text}</div>`;
-  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+
+let chatOpen = false;
+function toggleChat() { chatOpen = !chatOpen; win.classList.toggle('open', chatOpen); if (chatOpen) inp.focus(); }
+fab.addEventListener('click', toggleChat);
+document.getElementById('chatClose').addEventListener('click', toggleChat);
+
+function addMsg(text, isUser) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + (isUser ? 'user' : 'bot');
+  div.innerHTML = isUser
+    ? `<div class="msg-bubble">${text}</div>`
+    : `<div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div><div class="msg-bubble">${text}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
 }
-function showTyping(){
-  const div=document.createElement('div');div.className='msg bot';div.id='typing-indicator';
-  div.innerHTML='<div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>';
-  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+function showTyping() {
+  const div = document.createElement('div'); div.className = 'msg bot'; div.id = 'typing-indicator';
+  div.innerHTML = '<div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
 }
-function hideTyping(){const el=document.getElementById('typing-indicator');if(el)el.remove();}
-function botReply(answer){showTyping();setTimeout(()=>{hideTyping();addMsg(answer,false);},900+Math.random()*500);}
-document.querySelectorAll('.sug-btn').forEach(btn=>{
-  btn.addEventListener('click',()=>{addMsg(btn.textContent,true);botReply(ANSWERS[btn.dataset.key]);});
+function hideTyping() { const el = document.getElementById('typing-indicator'); if (el) el.remove(); }
+function botReply(answer) { showTyping(); setTimeout(() => { hideTyping(); addMsg(answer, false); }, 900 + Math.random() * 500); }
+
+document.querySelectorAll('.sug-btn').forEach(btn => {
+  btn.addEventListener('click', () => { addMsg(btn.textContent, true); botReply(ANSWERS[btn.dataset.key]); });
 });
-function handleSend(){
-  const text=inp.value.trim();if(!text)return;
-  inp.value='';addMsg(text,true);
-  const lower=text.toLowerCase();
-  let ans=GENERIC[Math.floor(Math.random()*GENERIC.length)];
-  for(const[k,v]of Object.entries(ANSWERS)){
-    const kws={comprar:['comprar','compra'],vender:['vender','venda','anunciar'],frete:['frete','entrega','envio'],devolucao:['devolver','devolução','reembolso'],verificado:['verificado','verificação','selo'],pix:['pix','desconto']};
-    if((kws[k]||[]).some(w=>lower.includes(w))){ans=v;break;}
+
+function handleSend() {
+  const text = inp.value.trim(); if (!text) return;
+  inp.value = ''; addMsg(text, true);
+  const lower = text.toLowerCase();
+  let ans = GENERIC[Math.floor(Math.random() * GENERIC.length)];
+  const kws = { comprar:['comprar','compra'], vender:['vender','venda','anunciar'], frete:['frete','entrega','envio'], devolucao:['devolver','devolução','reembolso'], verificado:['verificado','verificação','selo'], pix:['pix','desconto'] };
+  for (const [k, v] of Object.entries(ANSWERS)) {
+    if ((kws[k] || []).some(w => lower.includes(w))) { ans = v; break; }
   }
   botReply(ans);
 }
-document.getElementById('chatSend').addEventListener('click',handleSend);
-inp.addEventListener('keydown',e=>{if(e.key==='Enter')handleSend();});
+document.getElementById('chatSend').addEventListener('click', handleSend);
+inp.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
 </script>
 </body>
 </html>
