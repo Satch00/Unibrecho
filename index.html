@@ -1,80 +1,1039 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unibrecho </title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="Logo.png"</head>
- <nav>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unibrecho — Moda Circular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<style>
+:root {
+  --bg:       #07050d;
+  --bg-2:     #0e0b18;
+  --bg-3:     #131020;
+  --bg-card:  #110e1c;
+  --border:   rgba(139,92,246,.18);
+  --border-2: rgba(139,92,246,.32);
+  --accent:   #7c3aed;
+  --accent-2: #a855f7;
+  --accent-glow: rgba(124,58,237,.35);
+  --text:     #f0eefa;
+  --text-2:   #b5aed6;
+  --text-3:   #7a739a;
+  --radius:   14px;
+  --radius-sm:8px;
+  --radius-xl:22px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg-2)}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:99px}
+
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.4
+}
+
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(7,5,13,.85);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(18px);
+  padding:0 2rem;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  height:62px
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:600;
+  color:var(--text);letter-spacing:-.3px;
+  display:flex;align-items:center;gap:8px;white-space:nowrap;text-decoration:none
+}
+.nav-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.nav-links{display:flex;gap:2px;align-items:center}
+.nav-links a{
+  font-size:13px;color:var(--text-2);
+  padding:7px 14px;border-radius:var(--radius-sm);
+  text-decoration:none;transition:.2s;white-space:nowrap
+}
+.nav-links a:hover{color:var(--text);background:rgba(124,58,237,.12)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.btn{
+  height:36px;padding:0 16px;font-size:13px;font-family:'DM Sans',sans-serif;
+  border-radius:var(--radius-sm);border:1px solid var(--border);
+  background:transparent;color:var(--text);cursor:pointer;
+  display:inline-flex;align-items:center;gap:6px;
+  white-space:nowrap;transition:.2s
+}
+.btn:hover{background:rgba(124,58,237,.12);border-color:var(--border-2)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:500}
+.btn-primary:hover{background:#6d28d9;border-color:#6d28d9}
+
+.search-wrap{
+  flex:1;max-width:460px;min-width:220px;
+  display:flex;align-items:center;gap:8px
+}
+.search-wrap input{
+  flex:1;height:36px;padding:0 14px;font-size:13px;
+  font-family:'DM Sans',sans-serif;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--bg-3);color:var(--text);outline:none;
+  transition:.2s;min-width:0
+}
+.search-wrap input:focus{border-color:var(--accent)}
+.custom-select{position:relative;width:160px;flex-shrink:0}
+.cs-selected{
+  height:36px;padding:0 12px;font-size:13px;font-family:'DM Sans',sans-serif;
+  border:1px solid var(--border);border-radius:var(--radius-sm);
+  background:var(--bg-3);color:var(--text-2);cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:6px;
+  transition:.2s;user-select:none
+}
+.cs-selected:hover{border-color:var(--border-2)}
+.cs-options{
+  position:absolute;top:calc(100% + 6px);left:0;width:100%;z-index:200;
+  background:var(--bg-2);border:1px solid var(--border-2);
+  border-radius:var(--radius-sm);overflow:hidden;
+  opacity:0;transform:translateY(-8px) scale(.97);
+  pointer-events:none;transition:.22s
+}
+.cs-options.open{opacity:1;transform:none;pointer-events:auto}
+.cs-options div{
+  padding:10px 14px;font-size:13px;color:var(--text-2);
+  cursor:pointer;transition:.15s
+}
+.cs-options div:hover{background:rgba(124,58,237,.15);color:var(--text)}
+
+.hero{
+  position:relative;min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:120px 2rem 80px;overflow:hidden
+}
+.hero-glow{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle, rgba(124,58,237,.18) 0%, transparent 70%);
+  pointer-events:none;z-index:0
+}
+.hero-ring{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:900px;height:900px;border-radius:50%;
+  border:1px solid rgba(124,58,237,.07);
+  pointer-events:none;z-index:0
+}
+.hero>*{position:relative;z-index:1}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:500;
+  padding:5px 14px;border-radius:99px;
+  background:rgba(124,58,237,.12);
+  color:#c4b5fd;
+  border:1px solid rgba(124,58,237,.25);
+  margin-bottom:2rem;letter-spacing:.03em
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(44px,7vw,90px);
+  font-weight:600;line-height:1.1;
+  color:var(--text);
+  max-width:860px;margin-bottom:1.5rem
+}
+.hero h1 em{font-style:italic;color:var(--accent-2)}
+.hero p{
+  font-size:16px;color:var(--text-2);line-height:1.75;
+  max-width:580px;margin-bottom:2.5rem
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:3rem}
+.hero-btn{height:48px;padding:0 26px;font-size:14px;border-radius:12px}
+.pills{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.pill{
+  font-size:12px;color:var(--text-3);
+  background:var(--bg-card);border:1px solid var(--border);
+  padding:5px 14px;border-radius:99px
+}
+
+.section{position:relative;padding:90px 2rem}
+.section-label{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--accent-2);margin-bottom:1rem;font-weight:500
+}
+.section-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,4vw,52px);font-weight:600;
+  line-height:1.2;color:var(--text);margin-bottom:1rem
+}
+.section-sub{font-size:15px;color:var(--text-2);line-height:1.7;max-width:560px}
+.section-center{text-align:center;display:flex;flex-direction:column;align-items:center}
+.divider{height:1px;background:var(--border);margin:0}
+
+#products-section{background:var(--bg-2)}
+#products-section .inner{max-width:1280px;margin:0 auto;padding:70px 2rem 60px}
+.products-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:32px;flex-wrap:wrap;gap:16px
+}
+#products{
+  display:flex;gap:20px;overflow-x:auto;padding-bottom:16px;
+  scroll-snap-type:x mandatory
+}
+#products::-webkit-scrollbar{height:6px}
+.card{
+  min-width:215px;max-width:215px;
+  background:var(--bg-card);
+  border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;cursor:pointer;transition:.3s;
+  flex-shrink:0;scroll-snap-align:start
+}
+.card:hover{box-shadow:0 8px 32px rgba(124,58,237,.25);transform:translateY(-4px);border-color:var(--border-2)}
+.img-area{
+  background:var(--bg-3);height:190px;
+  display:flex;align-items:center;justify-content:center;padding:16px
+}
+.img-area img{max-height:165px;max-width:100%;object-fit:contain}
+.card-body{padding:14px 16px 18px}
+.card-title{font-size:13px;color:var(--text);line-height:1.45;margin:0 0 8px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.price-old{font-size:12px;color:var(--text-3);text-decoration:line-through;margin:0 0 2px}
+.price-main{font-size:22px;font-weight:500;color:#fff;margin:0 0 6px;line-height:1.1}
+.price-main sup{font-size:13px;vertical-align:top;margin-top:4px;display:inline-block}
+.price-main span{font-size:13px;font-weight:400;vertical-align:bottom}
+.pix{font-size:12px;color:var(--text-2);margin:0}
+.pix strong{color:#a78bfa}
+.badge{
+  display:inline-block;font-size:11px;font-weight:500;
+  padding:3px 9px;border-radius:6px;margin-top:8px;
+  background:rgba(139,92,246,.15);color:#c4b5fd;
+  border:1px solid rgba(139,92,246,.22)
+}
+
+#sobre{background:var(--bg)}
+.sobre-grid{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center
+}
+.sobre-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px
+}
+.stat-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px 20px
+}
+.stat-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:42px;font-weight:600;color:var(--accent-2);line-height:1
+}
+.stat-label{font-size:13px;color:var(--text-2);margin-top:6px}
+.sobre-visual{
+  position:relative;
+  width:100%;aspect-ratio:1;max-width:440px;margin:0 auto
+}
+.sobre-circle{
+  width:100%;height:100%;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%, rgba(168,85,247,.25), rgba(124,58,237,.08) 60%, transparent 80%);
+  border:1px solid var(--border-2);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px
+}
+.sobre-circle-icon{font-size:56px;color:var(--accent-2)}
+.sobre-circle-text{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--text-2)}
+
+/* ══ ESG REDESIGN ══════════════════════════════════════ */
+#esg{background:var(--bg-2);padding:100px 2rem}
+
+.esg-intro{
+  max-width:1100px;margin:0 auto 72px;
+  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end
+}
+.esg-intro-left{}
+.esg-intro-right{
+  display:flex;flex-direction:column;gap:20px;
+  padding-top:8px
+}
+.esg-manifesto{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(15px,1.5vw,18px);
+  font-style:italic;
+  color:var(--text-2);
+  line-height:1.85;
+  border-left:2px solid var(--accent);
+  padding-left:22px;
+  margin:0
+}
+.esg-manifesto strong{
+  font-style:normal;font-weight:600;color:var(--accent-2)
+}
+.esg-numbers{
+  display:flex;gap:32px;flex-wrap:wrap
+}
+.esg-num-item{}
+.esg-num-val{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:600;color:var(--text);line-height:1
+}
+.esg-num-desc{
+  font-size:12px;color:var(--text-3);margin-top:4px;letter-spacing:.02em
+}
+
+.esg-pillars{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);border-radius:var(--radius)
+}
+.esg-pillar{
+  background:var(--bg-card);padding:40px 32px;position:relative;
+  transition:.3s
+}
+.esg-pillar:first-child{border-radius:var(--radius) 0 0 var(--radius)}
+.esg-pillar:last-child{border-radius:0 var(--radius) var(--radius) 0}
+.esg-pillar:hover{background:var(--bg-3)}
+.esg-pillar-letter{
+  font-family:'Cormorant Garamond',serif;
+  font-size:80px;font-weight:600;line-height:1;
+  position:absolute;top:28px;right:28px;
+  opacity:.06;pointer-events:none
+}
+.esg-pillar.e .esg-pillar-letter{color:#22c55e}
+.esg-pillar.s .esg-pillar-letter{color:#a855f7}
+.esg-pillar.g .esg-pillar-letter{color:#f59e0b}
+.esg-pillar-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 12px;border-radius:99px;margin-bottom:24px
+}
+.esg-pillar.e .esg-pillar-tag{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2)}
+.esg-pillar.s .esg-pillar-tag{background:rgba(168,85,247,.1);color:#c084fc;border:1px solid rgba(168,85,247,.2)}
+.esg-pillar.g .esg-pillar-tag{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.2)}
+.esg-pillar h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;font-weight:600;color:var(--text);
+  margin-bottom:12px;line-height:1.25
+}
+.esg-pillar-body{
+  font-size:14px;color:var(--text-2);line-height:1.75;
+  margin-bottom:28px
+}
+.esg-pillar-items{
+  display:flex;flex-direction:column;gap:10px
+}
+.esg-pillar-item{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:13px;color:var(--text-2);line-height:1.5
+}
+.esg-pillar-item-icon{
+  flex-shrink:0;margin-top:1px;font-size:14px
+}
+.esg-pillar.e .esg-pillar-item-icon{color:#4ade80}
+.esg-pillar.s .esg-pillar-item-icon{color:#c084fc}
+.esg-pillar.g .esg-pillar-item-icon{color:#fbbf24}
+
+/* ══ FAQ REDESIGN ═════════════════════════════════════ */
+#faq{background:var(--bg);padding:100px 2rem}
+
+.faq-layout{
+  max-width:1100px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1.6fr;gap:80px;align-items:start
+}
+.faq-left{
+  position:sticky;top:90px
+}
+.faq-left .section-title{margin-bottom:20px}
+.faq-left p{font-size:14px;color:var(--text-2);line-height:1.75;margin-bottom:32px}
+
+.faq-contact-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px 22px;
+  display:flex;flex-direction:column;gap:16px
+}
+.faq-contact-card p{font-size:13px;color:var(--text-2);line-height:1.6}
+.faq-contact-card strong{color:var(--text)}
+.faq-contact-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+.faq-right{}
+.faq-item{
+  border-bottom:1px solid var(--border);
+  transition:.2s
+}
+.faq-item:first-child{border-top:1px solid var(--border)}
+.faq-q{
+  width:100%;background:none;border:none;color:var(--text);
+  font-family:'DM Sans',sans-serif;font-size:15px;font-weight:400;
+  text-align:left;padding:22px 0;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  transition:.2s
+}
+.faq-q:hover{color:var(--accent-2)}
+.faq-icon{
+  width:28px;height:28px;border-radius:50%;
+  border:1px solid var(--border-2);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:16px;color:var(--accent-2);
+  transition:.3s
+}
+.faq-item.open .faq-icon{transform:rotate(45deg)}
+.faq-a{
+  font-size:14px;color:var(--text-2);line-height:1.75;
+  max-height:0;overflow:hidden;
+  transition:max-height .35s ease, padding .35s ease
+}
+.faq-item.open .faq-a{max-height:400px;padding-bottom:22px}
+
+/* ══ BANNER PRÉ-FOOTER ════════════════════════════════ */
+.cta-banner{
+  background:var(--bg-2);
+  border-top:1px solid var(--border);
+  padding:80px 2rem
+}
+.cta-banner-inner{
+  max-width:900px;margin:0 auto;text-align:center
+}
+.cta-banner h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,5vw,64px);font-weight:600;
+  line-height:1.15;color:var(--text);margin-bottom:20px
+}
+.cta-banner h2 em{font-style:italic;color:var(--accent-2)}
+.cta-banner p{
+  font-size:16px;color:var(--text-2);line-height:1.75;
+  max-width:520px;margin:0 auto 36px
+}
+.cta-banner-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+footer{
+  background:var(--bg-2);border-top:1px solid var(--border);
+  padding:60px 2rem 32px
+}
+.footer-inner{max-width:1100px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand p{font-size:13px;color:var(--text-2);line-height:1.7;margin-top:12px;max-width:240px}
+.footer-col h4{font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:16px;font-weight:500}
+.footer-col a{
+  display:block;font-size:13px;color:var(--text-2);
+  text-decoration:none;margin-bottom:10px;transition:.2s
+}
+.footer-col a:hover{color:var(--accent-2)}
+.footer-bottom{
+  border-top:1px solid var(--border);padding-top:24px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px
+}
+.footer-bottom p{font-size:12px;color:var(--text-3)}
+
+.chat-fab{
+  position:fixed;bottom:28px;right:28px;z-index:300;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--accent);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;color:#fff;
+  box-shadow:0 4px 20px rgba(124,58,237,.5);
+  transition:.25s
+}
+.chat-fab:hover{background:#6d28d9;transform:scale(1.08)}
+.chat-fab .badge-dot{
+  position:absolute;top:6px;right:6px;
+  width:10px;height:10px;border-radius:50%;
+  background:#22c55e;border:2px solid var(--bg)
+}
+.chat-window{
+  position:fixed;bottom:96px;right:28px;z-index:299;
+  width:370px;max-height:560px;
+  background:var(--bg-2);border:1px solid var(--border-2);
+  border-radius:var(--radius-xl);overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  display:flex;flex-direction:column;
+  transform:scale(.9) translateY(20px);
+  opacity:0;pointer-events:none;
+  transition:.25s cubic-bezier(.34,1.56,.64,1);
+  transform-origin:bottom right
+}
+.chat-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:auto}
+.chat-header{
+  padding:18px 20px 14px;
+  background:var(--bg-card);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px
+}
+.chat-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;color:#fff;flex-shrink:0
+}
+.chat-title{font-size:14px;font-weight:500}
+.chat-subtitle{font-size:12px;color:var(--text-3);margin-top:2px;display:flex;align-items:center;gap:5px}
+.chat-online{width:7px;height:7px;border-radius:50%;background:#22c55e}
+.chat-close{margin-left:auto;background:none;border:none;color:var(--text-2);cursor:pointer;font-size:18px;padding:4px}
+.chat-messages{
+  flex:1;overflow-y:auto;padding:20px 16px;
+  display:flex;flex-direction:column;gap:14px
+}
+.msg{display:flex;gap:10px;max-width:100%}
+.msg.user{flex-direction:row-reverse}
+.msg-bubble{
+  max-width:80%;padding:11px 14px;font-size:13px;line-height:1.6;
+  border-radius:16px
+}
+.msg.bot .msg-bubble{background:var(--bg-3);color:var(--text);border-radius:4px 16px 16px 16px}
+.msg.user .msg-bubble{background:var(--accent);color:#fff;border-radius:16px 4px 16px 16px}
+.msg-avatar{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff
+}
+.chat-suggestions{padding:12px 16px;display:flex;flex-wrap:wrap;gap:8px}
+.sug-btn{
+  font-size:12px;font-family:'DM Sans',sans-serif;
+  padding:7px 12px;border-radius:99px;cursor:pointer;
+  border:1px solid var(--border-2);
+  background:rgba(124,58,237,.1);color:#c4b5fd;transition:.2s
+}
+.sug-btn:hover{background:rgba(124,58,237,.25);border-color:var(--accent)}
+.chat-input-row{
+  padding:14px 16px;border-top:1px solid var(--border);
+  display:flex;gap:8px;align-items:center
+}
+.chat-input-row input{
+  flex:1;height:36px;padding:0 12px;font-size:13px;
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg-3);border:1px solid var(--border);
+  border-radius:var(--radius-sm);color:var(--text);outline:none
+}
+.chat-input-row input:focus{border-color:var(--accent)}
+.chat-send{
+  width:36px;height:36px;border-radius:var(--radius-sm);
+  background:var(--accent);border:none;cursor:pointer;
+  color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.2s
+}
+.chat-send:hover{background:#6d28d9}
+
+.typing{display:flex;gap:5px;padding:4px 0}
+.typing span{width:7px;height:7px;border-radius:50%;background:var(--text-3);animation:blink 1.4s ease infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+@media(max-width:1024px){
+  .footer-top{grid-template-columns:1fr 1fr}
+  .sobre-grid{grid-template-columns:1fr;gap:48px}
+  .sobre-visual{max-width:320px}
+  .esg-intro{grid-template-columns:1fr;gap:40px}
+  .esg-pillars{grid-template-columns:1fr}
+  .esg-pillar:first-child{border-radius:var(--radius) var(--radius) 0 0}
+  .esg-pillar:last-child{border-radius:0 0 var(--radius) var(--radius)}
+  .faq-layout{grid-template-columns:1fr;gap:48px}
+  .faq-left{position:static}
+}
+@media(max-width:768px){
+  .nav{padding:0 1rem}
+  .nav-links{display:none}
+  .search-wrap{display:none}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .chat-window{width:calc(100vw - 32px);right:16px;bottom:84px}
+  .hero{padding:100px 1.5rem 60px}
+}
+@media(max-width:480px){
+  .footer-top{grid-template-columns:1fr}
+  .sobre-stats{grid-template-columns:1fr}
+}
+
+.reveal{opacity:0;transform:translateY(28px);transition:.7s cubic-bezier(.22,1,.36,1)}
+.reveal.visible{opacity:1;transform:none}
+</style>
+</head>
 <body>
-   <nav class="ub-nav">
-  <div class="ub-logo"><span class="ub-logo-dot"></span>Unibrecho</div>
-  <div class="ub-search">
-    <input type="text" placeholder="Buscar peças, estilos..." />
-    <div class="ub-search">
 
-  <!-- CUSTOM SELECT NOVO -->
-
-  <div class="custom-select">
-
-      <div class="selected">
-          Escolha Categoria
+<!-- NAV -->
+<nav class="nav">
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-dot"></span>Unibrecho
+  </a>
+  <div class="search-wrap">
+    <input type="text" placeholder="Buscar peças, estilos…" id="searchInput">
+    <div class="custom-select" id="catSelect">
+      <div class="cs-selected" id="csSelected">
+        Categoria <i class="ti ti-chevron-down" style="font-size:13px"></i>
       </div>
-
-      <div class="options">
-          <div>Vintage</div>
-          <div>Streetwear</div>
-          <div>Oversized</div>
-          <div>Casual</div>
+      <div class="cs-options" id="csOptions">
+        <div>Vintage</div><div>Streetwear</div><div>Oversized</div><div>Casual</div><div>Luxo</div>
       </div>
-
+    </div>
+    <button class="btn btn-primary" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
+      <i class="ti ti-search" style="font-size:14px"></i> Buscar
+    </button>
   </div>
-
-  <button class="ub-btn ub-btn-primary">
-    <i class="ti ti-search" style="font-size:15px" aria-hidden="true"></i>
-    Pesquisar
-  </button>
-
-</div>
+  <div class="nav-links">
+    <a href="#sobre">Sobre nós</a>
+    <a href="#esg">ESG</a>
+    <a href="#faq">FAQ</a>
   </div>
-  <div class="ub-actions">
-    <button class="ub-btn"><i class="ti ti-bell" style="font-size:15px" aria-hidden="true"></i>Notificações</button>
-    <button class="ub-btn"><i class="ti ti-user" style="font-size:15px" aria-hidden="true"></i>Entrar</button>
-    <button class="ub-btn ub-btn-primary"><i class="ti ti-plus" style="font-size:15px" aria-hidden="true"></i>Anunciar</button>
+  <div class="nav-right">
+    <button class="btn"><i class="ti ti-user" style="font-size:14px"></i> Entrar</button>
+    <button class="btn btn-primary"><i class="ti ti-plus" style="font-size:14px"></i> Anunciar</button>
   </div>
 </nav>
 
-<section class="ub-hero">
-  <span class="ub-tag">
-    <i class="ti ti-leaf" style="font-size:13px" aria-hidden="true"></i>
-    Moda circular e sustentável
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-ring"></div>
+  <span class="hero-badge">
+    <i class="ti ti-leaf" style="font-size:13px"></i> Moda circular e sustentável
   </span>
-
-  <h2>Brechó com <em>curadoria</em>,<br>confiança e propósito</h2>
-
-  <p>Unimos sustentabilidade e moda circular em uma única plataforma. Peças selecionadas que ganham nova vida, reduzindo desperdícios e conectando quem vende com quem valoriza o que é único.</p>
-
-  <div class="ub-hero-actions">
-    <button class="ub-btn ub-btn-primary" id="explorar-btn" style="height:42px;padding:0 20px;font-size:14px;">
-      <i class="ti ti-search" style="font-size:16px" aria-hidden="true"></i>
-      Explorar peças
+  <h1>Brechó com <em>curadoria</em>,<br>confiança e propósito</h1>
+  <p>Unimos sustentabilidade e moda circular em uma única plataforma. Peças selecionadas que ganham nova vida, conectando quem vende com quem valoriza o que é único.</p>
+  <div class="hero-actions">
+    <button class="btn btn-primary hero-btn" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
+      <i class="ti ti-search" style="font-size:16px"></i> Explorar peças
     </button>
-    <button class="ub-btn" style="height:42px;padding:0 20px;font-size:14px;">
+    <button class="btn hero-btn" onclick="document.getElementById('sobre').scrollIntoView({behavior:'smooth'})">
       Saiba mais
     </button>
   </div>
-
-  <div class="ub-pill">
-    <span>Curadoria selecionada</span>
-    <span>Sem desperdício</span>
-    <span>Venda sem complicação</span>
-    <span>Moda com história</span> 
+  <div class="pills">
+    <span class="pill">Curadoria selecionada</span>
+    <span class="pill">Sem desperdício</span>
+    <span class="pill">Venda sem complicação</span>
+    <span class="pill">Moda com história</span>
+    <span class="pill">100% sustentável</span>
   </div>
 </section>
-  <div id="products-section">
+
+<!-- PRODUTOS -->
+<section id="products-section">
+  <div class="inner">
+    <div class="products-header reveal">
+      <div>
+        <span class="section-label"><i class="ti ti-sparkles" style="font-size:13px"></i> Destaques</span>
+        <div class="section-title" style="font-size:clamp(26px,3vw,38px)">Peças em destaque</div>
+      </div>
+      <button class="btn">Ver todos <i class="ti ti-arrow-right" style="font-size:14px"></i></button>
+    </div>
     <div id="products"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SOBRE NÓS -->
+<section class="section" id="sobre">
+  <div class="sobre-grid">
+    <div class="reveal">
+      <span class="section-label"><i class="ti ti-info-circle" style="font-size:13px"></i> Sobre nós</span>
+      <h2 class="section-title">Uma plataforma criada por quem ama moda consciente</h2>
+      <p class="section-sub">A Unibrecho nasceu da vontade de mudar a forma como o Brasil consome moda. Somos uma plataforma de brechó com curadoria, que conecta vendedores apaixonados a compradores que valorizam peças com história e propósito.</p>
+      <p class="section-sub" style="margin-top:16px">Acreditamos que cada peça de roupa merece uma segunda chance — e que moda bonita não precisa custar o planeta.</p>
+      <div class="sobre-stats">
+        <div class="stat-card">
+          <div class="stat-num">12k+</div>
+          <div class="stat-label">Peças disponíveis</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">4.8k</div>
+          <div class="stat-label">Vendedores ativos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">98%</div>
+          <div class="stat-label">Satisfação dos compradores</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">32t</div>
+          <div class="stat-label">CO₂ evitadas</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal" style="display:flex;justify-content:center">
+      <div class="sobre-visual">
+        <div class="sobre-circle">
+          <i class="ti ti-hanger sobre-circle-icon" aria-hidden="true"></i>
+          <span class="sobre-circle-text">Moda com propósito</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ESG — REDESENHADO -->
+<section id="esg">
+  <!-- Intro dividida em 2 colunas: título + manifesto/dados -->
+  <div class="esg-intro">
+    <div class="reveal">
+      <span class="section-label"><i class="ti ti-leaf" style="font-size:13px"></i> Compromisso ESG</span>
+      <h2 class="section-title">Não é pauta.<br>É a forma como<br><em style="font-style:italic;color:var(--accent-2)">a gente opera.</em></h2>
+    </div>
+    <div class="reveal">
+      <p class="esg-manifesto">
+        A indústria têxtil é a <strong>segunda mais poluente do mundo</strong>. Cada vez que você compra uma peça usada em vez de uma nova, evita em média <strong>2 kg de CO₂</strong> e economiza <strong>2.700 litros de água</strong>. A gente não faz ESG por marketing — fazemos porque acreditamos que moda pode ser um ato de responsabilidade.
+      </p>
+      <div class="esg-numbers" style="margin-top:28px">
+        <div class="esg-num-item">
+          <div class="esg-num-val">32t</div>
+          <div class="esg-num-desc">CO₂ evitadas até hoje</div>
+        </div>
+        <div class="esg-num-item">
+          <div class="esg-num-val">8.6M L</div>
+          <div class="esg-num-desc">água não consumida</div>
+        </div>
+        <div class="esg-num-item">
+          <div class="esg-num-val">12k</div>
+          <div class="esg-num-desc">peças fora dos aterros</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Os 3 pilares em grid unificado -->
+  <div class="esg-pillars reveal" style="max-width:1100px;margin:0 auto">
+    <div class="esg-pillar e">
+      <div class="esg-pillar-letter" aria-hidden="true">E</div>
+      <div class="esg-pillar-tag"><i class="ti ti-leaf" style="font-size:12px"></i> Ambiental</div>
+      <h3>Roupa velha<br>é ação climática.</h3>
+      <p class="esg-pillar-body">Cada transação na Unibrecho tem seu impacto ambiental calculado e divulgado. Não escondemos os dados — publicamos tudo no relatório anual aberto.</p>
+      <div class="esg-pillar-items">
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Resíduo têxtil evitado rastreado por peça
+        </div>
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Embalagens 100% recicláveis ou reutilizadas
+        </div>
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Logística com parceiros de baixa emissão
+        </div>
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Meta: operação carbono zero até 2026
+        </div>
+      </div>
+    </div>
+    <div class="esg-pillar s">
+      <div class="esg-pillar-letter" aria-hidden="true">S</div>
+      <div class="esg-pillar-tag"><i class="ti ti-users" style="font-size:12px"></i> Social</div>
+      <h3>Renda real para<br>quem vende.</h3>
+      <p class="esg-pillar-body">Nossa plataforma foi desenhada para quem precisa de renda extra — não para grandes marcas. Microempreendedores e comunidades periféricas têm ferramentas e suporte para prosperar.</p>
+      <div class="esg-pillar-items">
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Programa de capacitação gratuita para vendedores
+        </div>
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Política ativa de diversidade e inclusão
+        </div>
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Doação de peças recusadas a ONGs parceiras
+        </div>
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Moda de qualidade acessível a todas as rendas
+        </div>
+      </div>
+    </div>
+    <div class="esg-pillar g">
+      <div class="esg-pillar-letter" aria-hidden="true">G</div>
+      <div class="esg-pillar-tag"><i class="ti ti-shield-check" style="font-size:12px"></i> Governança</div>
+      <h3>Transparência<br>sem asterisco.</h3>
+      <p class="esg-pillar-body">Nossas regras de curadoria, precificação e moderação são públicas. Se erramos, avisamos. Se melhoramos, publicamos. Confiança não se declara — se demonstra.</p>
+      <div class="esg-pillar-items">
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Relatório de impacto anual 100% público
+        </div>
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Comitê de ética independente — sem exceções
+        </div>
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Conformidade total com LGPD
+        </div>
+        <div class="esg-pillar-item">
+          <i class="ti ti-check esg-pillar-item-icon" aria-hidden="true"></i>
+          Política antifraude com zero tolerância
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FAQ — REDESENHADO -->
+<section id="faq">
+  <div class="faq-layout">
+    <!-- Coluna esquerda fixa -->
+    <div class="faq-left reveal">
+      <span class="section-label"><i class="ti ti-question-mark" style="font-size:13px"></i> FAQ</span>
+      <h2 class="section-title">Ficou alguma dúvida?</h2>
+      <p>Respondemos aqui o que mais aparece. Se não encontrar o que precisa, nossa equipe responde em menos de 2h.</p>
+      <div class="faq-contact-card">
+        <p><strong>Prefere falar com alguém?</strong><br>Nosso suporte é feito por pessoas reais — sem bot de triagem, sem fila infinita.</p>
+        <div class="faq-contact-actions">
+          <button class="btn btn-primary" style="height:34px;font-size:12px">
+            <i class="ti ti-message-2" style="font-size:13px"></i> Chat ao vivo
+          </button>
+          <button class="btn" style="height:34px;font-size:12px">
+            <i class="ti ti-mail" style="font-size:13px"></i> E-mail
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coluna direita com as perguntas -->
+    <div class="faq-right">
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          Como funciona o processo de curadoria das peças?
+          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
+        </button>
+        <div class="faq-a">Cada anúncio passa pela nossa equipe antes de ir ao ar. A gente avalia fotos, estado de conservação, descrição e preço. Peças que não passam nos nossos critérios são recusadas ou devolvidas com orientação ao vendedor. O processo leva até 24h — rápido, mas sem atalhos.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          É seguro comprar na plataforma?
+          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
+        </button>
+        <div class="faq-a">Sim, e com garantia real: o dinheiro fica retido na Unibrecho até você confirmar que a peça chegou e está como descrita. Se não estiver, você tem 7 dias para solicitar devolução e recebe o reembolso completo. Sem burocracia, sem julgamento.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          Como faço para anunciar minhas peças?
+          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
+        </button>
+        <div class="faq-a">Crie sua conta, clique em "Anunciar" e siga o passo a passo: fotos, descrição, tamanho, estado de conservação e preço. A curadoria revisa em até 24h e, se aprovada, a peça vai ao ar automaticamente. É gratuito anunciar — você só paga quando vende.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          Quais são as taxas cobradas para vendedores?
+          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
+        </button>
+        <div class="faq-a">Cobramos 12% sobre o valor da venda. Esse percentual cobre proteção ao comprador, processamento de pagamento e suporte completo. Sem mensalidade, sem taxa de cadastro, sem surpresa no extrato. Vendeu? Recebeu. Simples assim.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          O frete é calculado de que forma?
+          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
+        </button>
+        <div class="faq-a">O valor exato aparece no checkout — calculado automaticamente com base no CEP do comprador e do vendedor. Trabalhamos com Correios, Jadlog e Melhor Envio. Você vê o custo antes de fechar a compra. Sem estimativa, sem taxa oculta.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          Posso negociar o preço diretamente com o vendedor?
+          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
+        </button>
+        <div class="faq-a">Pode, sim. Cada anúncio tem o botão "Fazer oferta" — você propõe um valor, o vendedor aceita, recusa ou faz uma contraproposta. Toda negociação fica registrada com segurança dentro da plataforma. Brechó também tem mercado.</div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q">
+          Como me torno um vendedor verificado?
+          <span class="faq-icon"><i class="ti ti-plus" style="font-size:14px"></i></span>
+        </button>
+        <div class="faq-a">O selo é conquistado — não comprado. Você precisa de 10 vendas concluídas com avaliação acima de 4.5 estrelas e cadastro com CPF ou CNPJ confirmado. Vendedores verificados ganham destaque nas buscas e mais confiança de quem compra.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER PRÉ-FOOTER -->
+<div class="cta-banner">
+  <div class="cta-banner-inner reveal">
+    <h2>Sua peça parada<br>pode ser a <em>favorita</em><br>de alguém.</h2>
+    <p>Mais de 4.800 vendedores já descobriram que dar uma segunda vida para roupas pode gerar renda — e ainda fazer bem pro planeta.</p>
+    <div class="cta-banner-actions">
+      <button class="btn btn-primary hero-btn">
+        <i class="ti ti-plus" style="font-size:16px"></i> Começar a vender
+      </button>
+      <button class="btn hero-btn">
+        Explorar o brechó
+      </button>
+    </div>
+  </div>
 </div>
-<script src="script.js"></script>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo" style="font-size:20px">
+          <span class="nav-logo-dot"></span>Unibrecho
+        </div>
+        <p>Moda circular com curadoria, confiança e propósito. Cada peça tem uma história — encontre a sua.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Plataforma</h4>
+        <a href="#">Explorar peças</a>
+        <a href="#">Anunciar</a>
+        <a href="#">Como funciona</a>
+        <a href="#">Vendedor verificado</a>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <a href="#sobre">Sobre nós</a>
+        <a href="#esg">ESG</a>
+        <a href="#">Blog</a>
+        <a href="#">Carreiras</a>
+      </div>
+      <div class="footer-col">
+        <h4>Suporte</h4>
+        <a href="#faq">FAQ</a>
+        <a href="#">Central de ajuda</a>
+        <a href="#">Política de devolução</a>
+        <a href="#">Fale conosco</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Unibrecho. Todos os direitos reservados.</p>
+      <p>LGPD · Privacidade · Termos de uso</p>
+    </div>
+  </div>
+</footer>
+
+<!-- CHATBOT FAB -->
+<button class="chat-fab" id="chatFab" aria-label="Abrir assistente">
+  <i class="ti ti-message-chatbot" aria-hidden="true"></i>
+  <span class="badge-dot"></span>
+</button>
+
+<!-- CHAT WINDOW -->
+<div class="chat-window" id="chatWindow" role="dialog" aria-label="Assistente Uni">
+  <div class="chat-header">
+    <div class="chat-avatar"><i class="ti ti-sparkles" style="font-size:16px"></i></div>
+    <div>
+      <div class="chat-title">Uni — Assistente Unibrecho</div>
+      <div class="chat-subtitle"><span class="chat-online"></span> Online agora</div>
+    </div>
+    <button class="chat-close" id="chatClose" aria-label="Fechar"><i class="ti ti-x"></i></button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="msg bot">
+      <div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div>
+      <div class="msg-bubble">Olá! 👋 Sou a <strong>Uni</strong>, assistente da Unibrecho. Como posso te ajudar hoje?</div>
+    </div>
+  </div>
+  <div class="chat-suggestions" id="chatSuggestions">
+    <button class="sug-btn" data-key="comprar">Como comprar?</button>
+    <button class="sug-btn" data-key="vender">Como vender?</button>
+    <button class="sug-btn" data-key="frete">Informações de frete</button>
+    <button class="sug-btn" data-key="devolucao">Política de devolução</button>
+    <button class="sug-btn" data-key="verificado">Vendedor verificado</button>
+    <button class="sug-btn" data-key="pix">Desconto no Pix</button>
+  </div>
+  <div class="chat-input-row">
+    <input type="text" id="chatInput" placeholder="Digite sua dúvida…" autocomplete="off">
+    <button class="chat-send" id="chatSend"><i class="ti ti-send" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<script>
+const mockProducts=[
+  {titulo:"Jaqueta Vintage Années 90",preco:"89,90",precoAntigo:"180,00",desconto:"10%",parcelas:"4× R$ 24,72",loja:"VintageSP",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=🧥"},
+  {titulo:"Calça Mom Jeans Oversized",preco:"59,90",precoAntigo:"120,00",desconto:"8%",parcelas:"3× R$ 21,30",loja:"ReStore",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👖"},
+  {titulo:"Blazer Xadrez Streetwear",preco:"129,90",precoAntigo:"260,00",desconto:"12%",parcelas:"6× R$ 23,90",loja:"ModaCircular",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=🧣"},
+  {titulo:"Vestido Midi Floral Casual",preco:"74,90",precoAntigo:"150,00",desconto:"9%",parcelas:"4× R$ 20,53",loja:"SegundaMão",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👗"},
+  {titulo:"Tênis Chunky Retro Branco",preco:"149,90",precoAntigo:"320,00",desconto:"15%",parcelas:"6× R$ 27,56",loja:"SneakerSP",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👟"},
+  {titulo:"Moletom Oversized Vintage",preco:"69,90",precoAntigo:"140,00",desconto:"7%",parcelas:"3× R$ 24,86",loja:"VintageSP",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👕"},
+  {titulo:"Bolsa de Couro Tote Anos 80",preco:"109,90",precoAntigo:"220,00",desconto:"11%",parcelas:"5× R$ 23,73",loja:"LuxoCircular",imagem:"https://via.placeholder.com/180x160/1a1622/8b5cf6?text=👜"},
+];
+function renderProducts(){
+  const c=document.getElementById('products');
+  mockProducts.forEach(p=>{
+    const[int,dec]=p.preco.split(',');
+    const card=document.createElement('div');
+    card.className='card';
+    card.innerHTML=`<div class="img-area"><img src="${p.imagem}" alt="${p.titulo}" loading="lazy"></div><div class="card-body"><p class="card-title">${p.titulo}</p><p class="price-old">R$ ${p.precoAntigo}</p><p class="price-main"><sup>R$</sup>${int}<span>,${dec}</span></p><p class="pix"><strong>${p.desconto}</strong> no Pix</p><p class="pix" style="margin-top:2px">${p.parcelas}</p><span class="badge">${p.desconto} · ${p.loja}</span></div>`;
+    c.appendChild(card);
+  });
+}
+renderProducts();
+
+const csSelected=document.getElementById('csSelected');
+const csOptions=document.getElementById('csOptions');
+csSelected.addEventListener('click',()=>csOptions.classList.toggle('open'));
+csOptions.querySelectorAll('div').forEach(d=>{
+  d.addEventListener('click',()=>{
+    csSelected.innerHTML=d.textContent+' <i class="ti ti-chevron-down" style="font-size:13px"></i>';
+    csOptions.classList.remove('open');
+  });
+});
+document.addEventListener('click',e=>{if(!e.target.closest('#catSelect'))csOptions.classList.remove('open');});
+
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.parentElement;
+    const wasOpen=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!wasOpen)item.classList.add('open');
+  });
+});
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+const fab=document.getElementById('chatFab');
+const win=document.getElementById('chatWindow');
+const msgs=document.getElementById('chatMessages');
+const inp=document.getElementById('chatInput');
+const ANSWERS={
+  comprar:"Para comprar na Unibrecho é simples! 🛍️ Explore as peças, clique naquela que te interessar e adicione ao carrinho. O pagamento fica retido até você confirmar que a peça chegou certinha. Se não gostar, tem 7 dias para devolver!",
+  vender:"Vender aqui é fácil e gratuito! 📦 Crie sua conta, clique em 'Anunciar', adicione fotos e descrição da peça. Nossa curadoria revisa em até 24h. Quando vender, descontamos apenas 12% de comissão — sem mensalidade.",
+  frete:"O frete é calculado automaticamente no checkout com base no seu CEP. 🚚 Trabalhamos com Correios, Jadlog e Melhor Envio. O valor exato aparece antes de você finalizar a compra — sem surpresas!",
+  devolucao:"Sua compra é protegida! 🔒 Se a peça não for como no anúncio, você tem 7 dias após o recebimento para abrir uma solicitação de devolução. O reembolso é 100% garantido e processado em até 5 dias úteis.",
+  verificado:"O selo de vendedor verificado é dado após 10 vendas com avaliação acima de 4.5 ⭐. Você também precisa confirmar CPF/CNPJ. Vendedores verificados aparecem em destaque nas buscas e têm muito mais conversão!",
+  pix:"Ao pagar no Pix você recebe um desconto exclusivo direto no valor da peça! 💜 O percentual varia por anúncio e aparece sempre indicado nos cards como 'X% no Pix'. É a forma mais barata de comprar na Unibrecho.",
+};
+const GENERIC=[
+  "Boa pergunta! Para essa dúvida específica, recomendo acessar nossa <strong>Central de Ajuda</strong> ou conversar com o suporte pelo chat em tempo real. 💜",
+  "Entendi! Sobre isso, o melhor é verificar a aba <strong>FAQ</strong> aqui no site ou nos chamar no WhatsApp. Estou aqui para o que precisar! 😊",
+  "Hmm, não tenho certeza sobre isso agora, mas nossa equipe de suporte vai te ajudar rapidinho! Clique em 'Fale Conosco' no rodapé. 🚀",
+];
+let chatOpen=false;
+function toggleChat(){chatOpen=!chatOpen;win.classList.toggle('open',chatOpen);if(chatOpen)inp.focus();}
+fab.addEventListener('click',toggleChat);
+document.getElementById('chatClose').addEventListener('click',toggleChat);
+function addMsg(text,isUser){
+  const div=document.createElement('div');
+  div.className='msg '+(isUser?'user':'bot');
+  div.innerHTML=isUser?`<div class="msg-bubble">${text}</div>`:`<div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div><div class="msg-bubble">${text}</div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+function showTyping(){
+  const div=document.createElement('div');div.className='msg bot';div.id='typing-indicator';
+  div.innerHTML='<div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div><div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>';
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+function hideTyping(){const el=document.getElementById('typing-indicator');if(el)el.remove();}
+function botReply(answer){showTyping();setTimeout(()=>{hideTyping();addMsg(answer,false);},900+Math.random()*500);}
+document.querySelectorAll('.sug-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{addMsg(btn.textContent,true);botReply(ANSWERS[btn.dataset.key]);});
+});
+function handleSend(){
+  const text=inp.value.trim();if(!text)return;
+  inp.value='';addMsg(text,true);
+  const lower=text.toLowerCase();
+  let ans=GENERIC[Math.floor(Math.random()*GENERIC.length)];
+  for(const[k,v]of Object.entries(ANSWERS)){
+    const kws={comprar:['comprar','compra'],vender:['vender','venda','anunciar'],frete:['frete','entrega','envio'],devolucao:['devolver','devolução','reembolso'],verificado:['verificado','verificação','selo'],pix:['pix','desconto']};
+    if((kws[k]||[]).some(w=>lower.includes(w))){ans=v;break;}
+  }
+  botReply(ans);
+}
+document.getElementById('chatSend').addEventListener('click',handleSend);
+inp.addEventListener('keydown',e=>{if(e.key==='Enter')handleSend();});
+</script>
 </body>
- </html>
+</html>
