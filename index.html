@@ -640,7 +640,7 @@ footer{
         <span class="section-label"><i class="ti ti-sparkles" style="font-size:13px"></i> Destaques</span>
         <div class="section-title" style="font-size:clamp(26px,3vw,38px)">Peças em destaque</div>
       </div>
-      <button class="btn">Ver todos <i class="ti ti-arrow-right" style="font-size:14px"></i></button>
+      <button class="btn" id="verTodosBtn">Ver todos <i class="ti ti-arrow-right" style="font-size:14px"></i></button>
     </div>
     <div id="products">
       <div class="products-loading">
@@ -905,6 +905,9 @@ footer{
 </div>
 
 <script>
+// ── Global: tracks products currently loaded ───────────────────────
+let currentProducts = [];
+
 // ── Region → JSON file mapping (add new regions here) ──────────────
 const REGIONS = {
   "regiao1": "produtos.json",
@@ -920,6 +923,7 @@ async function loadProducts(file) {
     const res = await fetch(file);
     if (!res.ok) throw new Error(`Não foi possível carregar ${file}`);
     const products = await res.json();
+    currentProducts = products;
     renderProducts(products);
   } catch (err) {
     container.innerHTML = `<div style="color:var(--text-3);font-size:13px;padding:32px 0">
@@ -965,6 +969,11 @@ regionSelect.addEventListener('change', () => {
 
 // Load default region on page init
 loadProducts(REGIONS[regionSelect.value]);
+
+// ── "Ver todos" button ────────────────────────────────────────────
+document.getElementById('verTodosBtn').addEventListener('click', () => {
+  renderProducts(currentProducts);
+});
 
 // ── Dropdown de categorias ────────────────────────────────────────
 const csSelected = document.getElementById('csSelected');
