@@ -1,0 +1,164 @@
+[
+    {
+        "titulo": "Camiseta reggae Bob Marley vintage anos 80",
+        "precoAntigo": "189,99",
+        "preco": "89,90",
+        "desconto": "53% OFF",
+        "parcelas": "4x R$ 22,47 sem juros",
+        "loja": "Brechó Carioca",
+        "imagem": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c"
+    },
+    {
+        "titulo": "Short jeans destroyed feminino anos 90",
+        "precoAntigo": "129,99",
+        "preco": "44,90",
+        "desconto": "65% OFF",
+        "parcelas": "3x R$ 14,97 sem juros",
+        "loja": "Ipanema Vintage",
+        "imagem": "https://images.unsplash.com/photo-1583496661160-fb5886a13d77"
+    },
+    {
+        "titulo": "Sandália rasteira couro usada quase nova",
+        "precoAntigo": "159,99",
+        "preco": "54,90",
+        "desconto": "66% OFF",
+        "parcelas": "3x R$ 18,30 sem juros",
+        "loja": "Brechó Carioca",
+        "imagem": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77"
+    },
+    {
+        "titulo": "Vestido rodado estampado estilo carioca",
+        "precoAntigo": "219,99",
+        "preco": "74,90",
+        "desconto": "66% OFF",
+        "parcelas": "4x R$ 18,72 sem juros",
+        "loja": "Lapa Retrô",
+        "imagem": "https://images.unsplash.com/photo-1496747611176-843222e1e57c"
+    },
+    {
+        "titulo": "Camisa havaiana vintage anos 90 colorida",
+        "precoAntigo": "149,99",
+        "preco": "49,90",
+        "desconto": "67% OFF",
+        "parcelas": "3x R$ 16,63 sem juros",
+        "loja": "Ipanema Vintage",
+        "imagem": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"
+    },
+    {
+        "titulo": "Bermuda surf boardshort vintage",
+        "precoAntigo": "139,99",
+        "preco": "47,90",
+        "desconto": "66% OFF",
+        "parcelas": "3x R$ 15,97 sem juros",
+        "loja": "Brechó Carioca",
+        "imagem": "https://images.unsplash.com/photo-1542272604-787c3835535d"
+    },
+    {
+        "titulo": "Jaqueta corta-vento anos 90 colorida",
+        "precoAntigo": "229,99",
+        "preco": "84,90",
+        "desconto": "63% OFF",
+        "parcelas": "5x R$ 16,98 sem juros",
+        "loja": "Lapa Retrô",
+        "imagem": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246"
+    },
+    {
+        "titulo": "Camiseta polo Lacoste vintage semi nova",
+        "precoAntigo": "259,99",
+        "preco": "94,90",
+        "desconto": "63% OFF",
+        "parcelas": "5x R$ 18,98 sem juros",
+        "loja": "Ipanema Vintage",
+        "imagem": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
+    },
+    {
+        "titulo": "Tênis Reebok Classic usado bom estado",
+        "precoAntigo": "289,99",
+        "preco": "99,90",
+        "desconto": "65% OFF",
+        "parcelas": "5x R$ 19,98 sem juros",
+        "loja": "Brechó Carioca",
+        "imagem": "https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+    },
+    {
+        "titulo": "Bolsa de praia palha artesanal vintage",
+        "precoAntigo": "179,99",
+        "preco": "59,90",
+        "desconto": "67% OFF",
+        "parcelas": "3x R$ 19,97 sem juros",
+        "loja": "Lapa Retrô",
+        "imagem": "https://images.unsplash.com/photo-1584917865442-de89df76afd3"
+    },
+    {
+        "titulo": "Calça wide leg estampada anos 70",
+        "precoAntigo": "199,99",
+        "preco": "69,90",
+        "desconto": "65% OFF",
+        "parcelas": "4x R$ 17,47 sem juros",
+        "loja": "Ipanema Vintage",
+        "imagem": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f"
+    },
+    {
+        "titulo": "Top cropped tie-dye vintage anos 90",
+        "precoAntigo": "89,99",
+        "preco": "29,90",
+        "desconto": "67% OFF",
+        "parcelas": "2x R$ 14,95 sem juros",
+        "loja": "Brechó Carioca",
+        "imagem": "https://images.unsplash.com/photo-1583496661160-fb5886a13d77"
+    },
+    {
+        "titulo": "Óculos de sol retrô oval anos 90",
+        "precoAntigo": "149,99",
+        "preco": "49,90",
+        "desconto": "67% OFF",
+        "parcelas": "3x R$ 16,63 sem juros",
+        "loja": "Lapa Retrô",
+        "imagem": "https://images.unsplash.com/photo-1521369909029-2afed882baee"
+    },
+    {
+        "titulo": "Vestido de linho longo anos 80",
+        "precoAntigo": "239,99",
+        "preco": "84,90",
+        "desconto": "65% OFF",
+        "parcelas": "5x R$ 16,98 sem juros",
+        "loja": "Ipanema Vintage",
+        "imagem": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea"
+    },
+    {
+        "titulo": "Blusa cropped de renda vintage",
+        "precoAntigo": "109,99",
+        "preco": "34,90",
+        "desconto": "68% OFF",
+        "parcelas": "2x R$ 17,45 sem juros",
+        "loja": "Brechó Carioca",
+        "imagem": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f"
+    },
+    {
+        "titulo": "Mochila escolar vintage anos 90",
+        "precoAntigo": "169,99",
+        "preco": "59,90",
+        "desconto": "65% OFF",
+        "parcelas": "3x R$ 19,97 sem juros",
+        "loja": "Lapa Retrô",
+        "imagem": "https://images.unsplash.com/photo-1584917865442-de89df76afd3"
+    },
+    {
+        "titulo": "Camisa social listrada retrô masculina",
+        "precoAntigo": "179,99",
+        "preco": "64,90",
+        "desconto": "64% OFF",
+        "parcelas": "4x R$ 16,22 sem juros",
+        "loja": "Ipanema Vintage",
+        "imagem": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"
+    },
+    {
+        "titulo": "Calça jeans skinny anos 2000 usada",
+        "precoAntigo": "159,99",
+        "preco": "54,90",
+        "desconto": "66% OFF",
+        "parcelas": "3x R$ 18,30 sem juros",
+        "loja": "Brechó Carioca",
+        "imagem": "https://images.unsplash.com/photo-1542272604-787c3835535d"
+    }
+]

@@ -1,0 +1,164 @@
+[
+    {
+        "titulo": "Camiseta Sepultura banda mineira vintage",
+        "precoAntigo": "219,99",
+        "preco": "79,90",
+        "desconto": "64% OFF",
+        "parcelas": "4x R$ 19,97 sem juros",
+        "loja": "Brechó BH",
+        "imagem": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"
+    },
+    {
+        "titulo": "Jaqueta de couro masculina anos 80",
+        "precoAntigo": "599,99",
+        "preco": "229,90",
+        "desconto": "62% OFF",
+        "parcelas": "10x R$ 22,99 sem juros",
+        "loja": "Savassi Vintage",
+        "imagem": "https://images.unsplash.com/photo-1523398002811-999ca8dec234"
+    },
+    {
+        "titulo": "Calça social de alfaiataria retrô",
+        "precoAntigo": "249,99",
+        "preco": "89,90",
+        "desconto": "64% OFF",
+        "parcelas": "5x R$ 17,98 sem juros",
+        "loja": "Brechó BH",
+        "imagem": "https://images.unsplash.com/photo-1542272604-787c3835535d"
+    },
+    {
+        "titulo": "Vestido rodado midi estampado floral",
+        "precoAntigo": "179,99",
+        "preco": "59,90",
+        "desconto": "67% OFF",
+        "parcelas": "3x R$ 19,97 sem juros",
+        "loja": "Santa Tereza Retrô",
+        "imagem": "https://images.unsplash.com/photo-1496747611176-843222e1e57c"
+    },
+    {
+        "titulo": "Moletom careca vintage bordado anos 90",
+        "precoAntigo": "199,99",
+        "preco": "74,90",
+        "desconto": "62% OFF",
+        "parcelas": "4x R$ 18,72 sem juros",
+        "loja": "Savassi Vintage",
+        "imagem": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f"
+    },
+    {
+        "titulo": "Camisa xadrez flanela anos 90 grunge",
+        "precoAntigo": "149,99",
+        "preco": "49,90",
+        "desconto": "67% OFF",
+        "parcelas": "3x R$ 16,63 sem juros",
+        "loja": "Brechó BH",
+        "imagem": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"
+    },
+    {
+        "titulo": "Tênis Fila Disruptor semi novo",
+        "precoAntigo": "319,99",
+        "preco": "114,90",
+        "desconto": "64% OFF",
+        "parcelas": "6x R$ 19,15 sem juros",
+        "loja": "Santa Tereza Retrô",
+        "imagem": "https://images.unsplash.com/photo-1542291026-7eec264c27ff"
+    },
+    {
+        "titulo": "Saia midi plissada anos 80 usada",
+        "precoAntigo": "139,99",
+        "preco": "44,90",
+        "desconto": "68% OFF",
+        "parcelas": "3x R$ 14,97 sem juros",
+        "loja": "Brechó BH",
+        "imagem": "https://images.unsplash.com/photo-1583496661160-fb5886a13d77"
+    },
+    {
+        "titulo": "Blazer de veludo vinho vintage",
+        "precoAntigo": "279,99",
+        "preco": "99,90",
+        "desconto": "64% OFF",
+        "parcelas": "5x R$ 19,98 sem juros",
+        "loja": "Savassi Vintage",
+        "imagem": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea"
+    },
+    {
+        "titulo": "Mochila de couro sintético anos 90",
+        "precoAntigo": "189,99",
+        "preco": "64,90",
+        "desconto": "66% OFF",
+        "parcelas": "4x R$ 16,22 sem juros",
+        "loja": "Brechó BH",
+        "imagem": "https://images.unsplash.com/photo-1584917865442-de89df76afd3"
+    },
+    {
+        "titulo": "Camiseta regata vintage tie-dye",
+        "precoAntigo": "79,99",
+        "preco": "24,90",
+        "desconto": "69% OFF",
+        "parcelas": "2x R$ 12,45 sem juros",
+        "loja": "Santa Tereza Retrô",
+        "imagem": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c"
+    },
+    {
+        "titulo": "Calça cargo oversized retrô anos 2000",
+        "precoAntigo": "209,99",
+        "preco": "74,90",
+        "desconto": "64% OFF",
+        "parcelas": "5x R$ 14,98 sem juros",
+        "loja": "Savassi Vintage",
+        "imagem": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f"
+    },
+    {
+        "titulo": "Tênis All Star anos 90 colorido",
+        "precoAntigo": "169,99",
+        "preco": "59,90",
+        "desconto": "65% OFF",
+        "parcelas": "3x R$ 19,97 sem juros",
+        "loja": "Brechó BH",
+        "imagem": "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77"
+    },
+    {
+        "titulo": "Blusa de tricô vintage anos 70",
+        "precoAntigo": "129,99",
+        "preco": "39,90",
+        "desconto": "69% OFF",
+        "parcelas": "2x R$ 19,95 sem juros",
+        "loja": "Santa Tereza Retrô",
+        "imagem": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246"
+    },
+    {
+        "titulo": "Boné snapback anos 90 bordado",
+        "precoAntigo": "89,99",
+        "preco": "29,90",
+        "desconto": "67% OFF",
+        "parcelas": "2x R$ 14,95 sem juros",
+        "loja": "Savassi Vintage",
+        "imagem": "https://images.unsplash.com/photo-1521369909029-2afed882baee"
+    },
+    {
+        "titulo": "Jaqueta bomber satin vintage",
+        "precoAntigo": "299,99",
+        "preco": "109,90",
+        "desconto": "63% OFF",
+        "parcelas": "6x R$ 18,32 sem juros",
+        "loja": "Brechó BH",
+        "imagem": "https://images.unsplash.com/photo-1523398002811-999ca8dec234"
+    },
+    {
+        "titulo": "Vestido evasê anos 60 estampado",
+        "precoAntigo": "219,99",
+        "preco": "79,90",
+        "desconto": "64% OFF",
+        "parcelas": "4x R$ 19,97 sem juros",
+        "loja": "Santa Tereza Retrô",
+        "imagem": "https://images.unsplash.com/photo-1496747611176-843222e1e57c"
+    },
+    {
+        "titulo": "Camisa polo Tommy Hilfiger vintage",
+        "precoAntigo": "269,99",
+        "preco": "94,90",
+        "desconto": "65% OFF",
+        "parcelas": "5x R$ 18,98 sem juros",
+        "loja": "Savassi Vintage",
+        "imagem": "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf"
+    }
+]
