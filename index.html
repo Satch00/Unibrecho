@@ -551,9 +551,7 @@ footer{
   .faq-left{position:static}
 }
 @media(max-width:768px){
-  .nav{padding:0 1rem}
   .nav-links{display:none}
-  .search-wrap{display:none}
   .footer-top{grid-template-columns:1fr 1fr}
   .chat-window{width:calc(100vw - 32px);right:16px;bottom:84px}
   .hero{padding:84px 1.5rem 48px}
@@ -565,9 +563,172 @@ footer{
 
 .reveal{opacity:0;transform:translateY(28px);transition:.7s cubic-bezier(.22,1,.36,1)}
 .reveal.visible{opacity:1;transform:none}
+
+.hero>.hero-glow{position:absolute;z-index:0} /* correção: o brilho estava entrando no fluxo e criando um vão de 400px no topo */
+/* ══ ACESSIBILIDADE ═════════════════════════════════════ */
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.skip-link{position:absolute;left:12px;top:-60px;z-index:700;background:var(--accent);color:#fff;padding:10px 16px;border-radius:var(--radius-sm);text-decoration:none;font-size:13px;transition:top .2s}
+.skip-link:focus{top:12px}
+:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px}
+.search-wrap input:focus{box-shadow:0 0 0 3px rgba(124,58,237,.25)}
+input:-webkit-autofill{-webkit-box-shadow:0 0 0 100px var(--bg-3) inset;-webkit-text-fill-color:var(--text);caret-color:var(--text)}
+.btn[hidden]{display:none}
+.scroll-anchor{scroll-margin-top:70px}
+
+/* ══ BUSCA / CATEGORIA ══════════════════════════════════ */
+.cs-selected{width:100%;text-align:left;font-weight:400}
+.cs-selected.active{color:var(--text);border-color:var(--accent)}
+.cs-options div[aria-selected="true"]{color:#fff;background:rgba(124,58,237,.22)}
+.cs-options div:focus-visible{outline:none;background:rgba(124,58,237,.3);color:#fff}
+.results-bar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  margin:-8px 0 22px;padding:12px 16px;font-size:13px;color:var(--text-2);
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius)
+}
+.results-bar[hidden]{display:none}
+.results-bar strong{color:var(--text);font-weight:500}
+.link-btn{background:none;border:none;color:var(--accent-2);cursor:pointer;font:inherit;font-size:13px;display:inline-flex;align-items:center;gap:5px;padding:4px 2px;border-radius:4px}
+.link-btn:hover{text-decoration:underline}
+#products.grid{flex-wrap:wrap;overflow-x:visible;scroll-snap-type:none}
+.card:focus-visible{border-color:var(--accent-2);box-shadow:0 0 0 3px rgba(168,85,247,.35)}
+.empty-state{
+  width:100%;display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:8px;padding:48px 16px;color:var(--text-2);font-size:14px;line-height:1.6
+}
+.empty-state i{font-size:34px;color:var(--accent-2);margin-bottom:6px}
+.empty-state h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--text)}
+.empty-state .btn{margin-top:12px}
+
+/* ══ USUÁRIO NA NAV ═════════════════════════════════════ */
+.user-chip{display:flex;align-items:center;gap:8px}
+.user-chip[hidden]{display:none}
+.avatar{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500
+}
+.user-name{font-size:13px;color:var(--text-2);max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.btn-icon{padding:0;width:36px;justify-content:center}
+
+/* ══ MODAIS ═════════════════════════════════════════════ */
+body.modal-open{overflow:hidden}
+.overlay{
+  position:fixed;inset:0;z-index:500;display:none;align-items:center;justify-content:center;
+  padding:20px;background:rgba(7,5,13,.78);backdrop-filter:blur(8px)
+}
+.overlay.open{display:flex;animation:fadeIn .2s ease}
+.modal{
+  position:relative;width:100%;max-width:440px;max-height:calc(100vh - 40px);overflow-y:auto;
+  background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--radius-xl);
+  box-shadow:0 24px 80px rgba(0,0,0,.65);padding:32px 28px 28px;
+  animation:popIn .28s cubic-bezier(.22,1,.36,1)
+}
+.modal-lg{max-width:900px;padding:0}
+.modal-close{
+  position:absolute;top:14px;right:14px;z-index:2;width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--border);background:rgba(7,5,13,.6);color:var(--text-2);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:16px;transition:.2s
+}
+.modal-close:hover{color:#fff;border-color:var(--border-2);background:rgba(124,58,237,.25)}
+@keyframes fadeIn{from{opacity:0}}
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.97)}}
+
+/* Login / cadastro */
+.auth-brand{display:flex;align-items:center;gap:8px;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:18px}
+.auth-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:600;line-height:1.15;margin-bottom:6px}
+.auth-sub{font-size:13px;color:var(--text-2);line-height:1.6;margin-bottom:22px}
+.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;background:var(--bg-3);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:22px}
+.auth-tab{height:34px;border:none;background:transparent;color:var(--text-2);font:500 13px 'DM Sans',sans-serif;border-radius:6px;cursor:pointer;transition:.2s}
+.auth-tab:hover{color:var(--text)}
+.auth-tab[aria-selected="true"]{background:var(--accent);color:#fff}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.field label{font-size:12px;color:var(--text-2);letter-spacing:.02em}
+.field input,.field textarea{
+  width:100%;height:42px;padding:0 14px;font:400 14px 'DM Sans',sans-serif;
+  background:var(--bg-3);color:var(--text);border:1px solid var(--border);
+  border-radius:var(--radius-sm);outline:none;transition:.2s
+}
+.field textarea{height:auto;min-height:84px;padding:10px 14px;resize:vertical;line-height:1.5}
+.field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.25)}
+.field input[aria-invalid="true"]{border-color:#f87171}
+.field-hint{font-size:11px;color:var(--text-3)}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:44px}
+.pw-toggle{position:absolute;right:4px;top:4px;width:34px;height:34px;border:none;background:none;color:var(--text-3);cursor:pointer;border-radius:6px;font-size:16px}
+.pw-toggle:hover{color:var(--text)}
+.form-error{font-size:13px;color:#fca5a5;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.25);padding:10px 12px;border-radius:var(--radius-sm);margin-bottom:14px;line-height:1.5}
+.form-error[hidden]{display:none}
+.auth-submit{width:100%;height:44px;justify-content:center;font-size:14px;border-radius:12px;margin-top:4px}
+.auth-submit:disabled{opacity:.6;cursor:wait}
+.auth-note{font-size:11px;color:var(--text-3);text-align:center;margin-top:14px;line-height:1.5}
+
+/* Detalhe do produto */
+.pm-grid{display:grid;grid-template-columns:1fr 1fr}
+.pm-media{background:var(--bg-3);display:flex;align-items:center;justify-content:center;padding:32px;min-height:400px;border-radius:var(--radius-xl) 0 0 0}
+.pm-media img{max-width:100%;max-height:440px;object-fit:contain;border-radius:var(--radius)}
+.pm-info{padding:36px 32px 28px;display:flex;flex-direction:column}
+.pm-tags{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;padding-right:36px}
+.pm-tags .badge{margin-top:0;display:inline-flex;align-items:center;gap:5px}
+.pm-region{font-size:12px;color:var(--text-3);display:inline-flex;align-items:center;gap:4px}
+.pm-title{font-family:'Cormorant Garamond',serif;font-size:clamp(26px,3vw,34px);font-weight:600;line-height:1.15;margin-bottom:18px}
+.pm-price{font-size:40px;margin:2px 0 8px}
+.pm-price sup{font-size:18px;margin-top:6px;margin-right:2px}
+.pm-price span{font-size:18px}
+.pm-actions{margin:22px 0 20px}
+.pm-actions .btn{width:100%;justify-content:center}
+.pm-trust{list-style:none;display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1px solid var(--border)}
+.pm-trust li{display:flex;gap:10px;font-size:13px;color:var(--text-2);line-height:1.5}
+.pm-trust i{color:var(--accent-2);font-size:16px;margin-top:1px;flex-shrink:0}
+.pm-comments{padding:28px 32px 32px;border-top:1px solid var(--border)}
+.pm-comments h3{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:16px;display:flex;align-items:baseline;gap:10px}
+.pm-count{font:400 12px 'DM Sans',sans-serif;color:var(--text-3)}
+.comment{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px}
+.comment-head{display:flex;gap:8px;align-items:baseline;margin-bottom:4px;font-size:12px}
+.comment-head strong{color:var(--text);font-weight:500;font-size:13px}
+.comment-head time{color:var(--text-3)}
+.comment p{font-size:13px;color:var(--text-2);line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.comments-empty{font-size:13px;color:var(--text-3);margin-bottom:18px}
+.comment-login{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;background:var(--bg-card);border:1px dashed var(--border-2);border-radius:var(--radius);font-size:13px;color:var(--text-2)}
+.comment-form .btn{margin-top:2px}
+
+/* Toasts */
+.toasts{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:600;display:flex;flex-direction:column;gap:8px;align-items:center;width:max-content;max-width:calc(100vw - 32px);pointer-events:none}
+.toast{display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:13px;line-height:1.4;color:var(--text);background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--radius-sm);box-shadow:0 10px 40px rgba(0,0,0,.5);animation:popIn .3s cubic-bezier(.22,1,.36,1);pointer-events:auto}
+.toast i{color:#4ade80;font-size:16px;flex-shrink:0}
+.toast.err i{color:#f87171}
+.toast.info i{color:var(--accent-2)}
+.toast.out{opacity:0;transform:translateY(8px);transition:.3s}
+
+/* ══ RESPONSIVO (busca no mobile, modal como bottom-sheet) ══ */
+@media(max-width:768px){
+  .nav{height:auto;padding:10px 1rem;flex-wrap:wrap;row-gap:10px}
+  .nav>div:first-child{flex:1 1 0!important;min-width:0}
+  .region-select{flex:1 1 0;min-width:0;max-width:200px}
+  .search-wrap{display:flex;order:3;flex-basis:100%;max-width:none;min-width:0}
+  .custom-select{width:140px}
+  .hero{padding-top:130px}
+  .scroll-anchor{scroll-margin-top:110px}
+  .pm-grid{grid-template-columns:1fr}
+  .pm-media{min-height:240px;padding:24px;border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+  .pm-media img{max-height:280px}
+  .pm-info{padding:24px 22px}
+  .pm-comments{padding:24px 22px 28px}
+  .overlay{padding:0;align-items:flex-end}
+  .modal{max-height:94vh;border-radius:var(--radius-xl) var(--radius-xl) 0 0}
+}
+@media(max-width:560px){
+  .nav .lbl,.user-name{display:none}
+  .nav-right .btn{padding:0 11px}
+  .custom-select{width:120px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .reveal{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
+<a class="skip-link" href="#products-section">Pular para as peças</a>
 
 <!-- NAV -->
 <nav class="nav">
@@ -582,28 +743,32 @@ footer{
       <option value="regiao3">Taboão da Serra-SP</option>
     </select>
   </div>
-  <div class="search-wrap">
-    <input type="text" placeholder="Buscar peças, estilos…" id="searchInput">
+  <form class="search-wrap" id="searchForm" role="search" autocomplete="off">
+    <label for="searchInput" class="sr-only">Buscar peças</label>
+    <input type="text" placeholder="Buscar peças, estilos…" id="searchInput" enterkeyhint="search">
     <div class="custom-select" id="catSelect">
-      <div class="cs-selected" id="csSelected">
-        Categoria <i class="ti ti-chevron-down" style="font-size:13px"></i>
-      </div>
-      <div class="cs-options" id="csOptions">
-        <div>Vintage</div><div>Streetwear</div><div>Oversized</div><div>Casual</div><div>Luxo</div>
-      </div>
+      <button type="button" class="cs-selected" id="csSelected" aria-haspopup="listbox" aria-expanded="false" aria-controls="csOptions">
+        <span id="csLabel">Categoria</span> <i class="ti ti-chevron-down" style="font-size:13px" aria-hidden="true"></i>
+      </button>
+      <div class="cs-options" id="csOptions" role="listbox" aria-label="Categoria"></div>
     </div>
-    <button class="btn btn-primary" onclick="document.getElementById('products-section').scrollIntoView({behavior:'smooth'})">
-      <i class="ti ti-search" style="font-size:14px"></i> Buscar
+    <button type="submit" class="btn btn-primary" aria-label="Buscar">
+      <i class="ti ti-search" style="font-size:14px" aria-hidden="true"></i><span class="lbl">Buscar</span>
     </button>
-  </div>
+  </form>
   <div class="nav-links">
     <a href="#sobre">Sobre nós</a>
     <a href="#esg">ESG</a>
     <a href="#faq">FAQ</a>
   </div>
   <div class="nav-right">
-    <button class="btn"><i class="ti ti-user" style="font-size:14px"></i> Entrar</button>
-    <button class="btn btn-primary"><i class="ti ti-plus" style="font-size:14px"></i> Anunciar</button>
+    <button class="btn" id="btnLogin" type="button"><i class="ti ti-user" style="font-size:14px" aria-hidden="true"></i><span class="lbl">Entrar</span></button>
+    <div class="user-chip" id="userChip" hidden>
+      <span class="avatar" id="userAvatar" aria-hidden="true"></span>
+      <span class="user-name" id="userName"></span>
+      <button class="btn btn-icon" id="btnLogout" type="button" aria-label="Sair da conta" title="Sair"><i class="ti ti-logout" style="font-size:15px" aria-hidden="true"></i></button>
+    </div>
+    <button class="btn btn-primary" id="btnAnunciar" type="button"><i class="ti ti-plus" style="font-size:14px" aria-hidden="true"></i><span class="lbl">Anunciar</span></button>
   </div>
 </nav>
 
@@ -633,7 +798,7 @@ footer{
 </section>
 
 <!-- PRODUTOS -->
-<section id="products-section">
+<section id="products-section" class="scroll-anchor">
   <div class="inner">
     <div class="products-header reveal">
       <div>
@@ -642,6 +807,7 @@ footer{
       </div>
       <button class="btn" id="verTodosBtn">Ver todos <i class="ti ti-arrow-right" style="font-size:14px"></i></button>
     </div>
+    <div id="resultsBar" class="results-bar" role="status" aria-live="polite" hidden></div>
     <div id="products">
       <div class="products-loading">
         <div class="spinner"></div> Carregando peças…
@@ -868,6 +1034,95 @@ footer{
   </div>
 </footer>
 
+<!-- MODAL: LOGIN / CADASTRO -->
+<div class="overlay" id="authModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button class="modal-close" type="button" data-close aria-label="Fechar"><i class="ti ti-x" aria-hidden="true"></i></button>
+    <div class="auth-brand"><span class="nav-logo-dot"></span>Unibrecho</div>
+    <h2 class="auth-title" id="authTitle">Que bom te ver</h2>
+    <p class="auth-sub" id="authSub">Entre para comprar, comentar e acompanhar suas peças.</p>
+
+    <div class="auth-tabs" role="tablist" aria-label="Acesso">
+      <button type="button" class="auth-tab" role="tab" id="tabLogin" aria-controls="loginForm" aria-selected="true">Entrar</button>
+      <button type="button" class="auth-tab" role="tab" id="tabSignup" aria-controls="signupForm" aria-selected="false" tabindex="-1">Criar conta</button>
+    </div>
+
+    <form id="loginForm" role="tabpanel" aria-labelledby="tabLogin" novalidate>
+      <div class="form-error" id="loginError" role="alert" hidden></div>
+      <div class="field">
+        <label for="loginEmail">E-mail</label>
+        <input type="email" id="loginEmail" autocomplete="email" inputmode="email" required>
+      </div>
+      <div class="field">
+        <label for="loginPass">Senha</label>
+        <div class="pw-wrap">
+          <input type="password" id="loginPass" autocomplete="current-password" required>
+          <button type="button" class="pw-toggle" data-toggle-pw="loginPass" aria-label="Mostrar senha"><i class="ti ti-eye" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary auth-submit">Entrar</button>
+    </form>
+
+    <form id="signupForm" role="tabpanel" aria-labelledby="tabSignup" novalidate hidden>
+      <div class="form-error" id="signupError" role="alert" hidden></div>
+      <div class="field">
+        <label for="signupName">Nome completo</label>
+        <input type="text" id="signupName" autocomplete="name" maxlength="60" required>
+      </div>
+      <div class="field">
+        <label for="signupEmail">E-mail</label>
+        <input type="email" id="signupEmail" autocomplete="email" inputmode="email" required>
+      </div>
+      <div class="field">
+        <label for="signupPass">Senha</label>
+        <div class="pw-wrap">
+          <input type="password" id="signupPass" autocomplete="new-password" minlength="8" required aria-describedby="passHint">
+          <button type="button" class="pw-toggle" data-toggle-pw="signupPass" aria-label="Mostrar senha"><i class="ti ti-eye" aria-hidden="true"></i></button>
+        </div>
+        <span class="field-hint" id="passHint">Mínimo de 8 caracteres.</span>
+      </div>
+      <button type="submit" class="btn btn-primary auth-submit">Criar conta</button>
+    </form>
+    <p class="auth-note">Seus dados ficam salvos apenas neste navegador (localStorage).</p>
+  </div>
+</div>
+
+<!-- MODAL: DETALHE DO PRODUTO -->
+<div class="overlay" id="productModal" aria-hidden="true">
+  <div class="modal modal-lg" role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+    <button class="modal-close" type="button" data-close aria-label="Fechar"><i class="ti ti-x" aria-hidden="true"></i></button>
+    <div class="pm-grid">
+      <div class="pm-media"><img id="pmImg" alt=""></div>
+      <div class="pm-info">
+        <div class="pm-tags">
+          <span class="badge" id="pmStore"></span>
+          <span class="pm-region" id="pmRegion"></span>
+        </div>
+        <h2 class="pm-title" id="pmTitle"></h2>
+        <p class="price-old" id="pmOld"></p>
+        <p class="price-main pm-price" id="pmPrice"></p>
+        <p class="pix" id="pmPix"></p>
+        <p class="pix" id="pmInst" style="margin-top:2px"></p>
+        <div class="pm-actions">
+          <button class="btn btn-primary hero-btn" id="pmBuy" type="button"><i class="ti ti-shopping-bag" style="font-size:16px" aria-hidden="true"></i> Comprar agora</button>
+        </div>
+        <ul class="pm-trust">
+          <li><i class="ti ti-shield-check" aria-hidden="true"></i><span>Pagamento retido até você confirmar que a peça chegou como descrita.</span></li>
+          <li><i class="ti ti-refresh" aria-hidden="true"></i><span>7 dias para solicitar devolução com reembolso completo.</span></li>
+          <li><i class="ti ti-sparkles" aria-hidden="true"></i><span>Peça passou pela curadoria da Unibrecho.</span></li>
+        </ul>
+      </div>
+    </div>
+    <section class="pm-comments" aria-labelledby="pmCommentsTitle">
+      <h3 id="pmCommentsTitle">Comentários <span class="pm-count" id="pmCount"></span></h3>
+      <div id="pmComments"></div>
+      <div id="pmCommentBox"></div>
+    </section>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
 <!-- CHATBOT FAB -->
 <button class="chat-fab" id="chatFab" aria-label="Abrir assistente">
   <i class="ti ti-message-chatbot" aria-hidden="true"></i>
@@ -905,87 +1160,665 @@ footer{
 </div>
 
 <script>
-// ── Global: tracks products currently loaded ───────────────────────
-let currentProducts = [];
+// ═══════════════════════════════════════════════════════════════════
+//  UNIBRECHO — produtos, busca, login (localStorage) e popup de produto
+// ═══════════════════════════════════════════════════════════════════
+(() => {
+'use strict';
 
-// ── Region → JSON file mapping (add new regions here) ──────────────
+// ── Regiões → arquivo JSON (para adicionar uma região: novo <option> + nova linha aqui)
 const REGIONS = {
-  "regiao1": "produtos.json",
-  "regiao2": "produtos0.json",
-  "regiao3": "produtos1.json"
+  regiao1: 'produtos.json',
+  regiao2: 'produtos0.json',
+  regiao3: 'produtos1.json'
 };
 
-// ── Load products from a given JSON file ───────────────────────────
-async function loadProducts(file) {
-  const container = document.getElementById('products');
-  container.innerHTML = `<div class="products-loading"><div class="spinner"></div> Carregando peças…</div>`;
-  try {
-    const res = await fetch(file);
-    if (!res.ok) throw new Error(`Não foi possível carregar ${file}`);
-    const products = await res.json();
-    currentProducts = products;
-    renderProducts(products);
-  } catch (err) {
-    container.innerHTML = `<div style="color:var(--text-3);font-size:13px;padding:32px 0">
-      <i class="ti ti-alert-circle" style="font-size:16px;margin-right:6px"></i>
-      Não foi possível carregar as peças. Certifique-se que o arquivo <strong>${file}</strong> está na mesma pasta que este HTML.
-    </div>`;
-    console.error(err);
+// ── Categorias do filtro: palavras-chave procuradas no título/loja (sem acento, minúsculas)
+const CATEGORIES = {
+  vintage:    { label: 'Vintage',    any: ['vintage', 'retro', 'anos 60', 'anos 70', 'anos 80', 'anos 90', 'anos 2000', 'old school'] },
+  streetwear: { label: 'Streetwear', any: ['streetwear', 'street', 'urban', 'moletom', 'tenis', 'bone', 'cargo', 'bomber', 'snapback', 'grunge', 'corta vento', 'banda'] },
+  oversized:  { label: 'Oversized',  any: ['oversized', 'wide leg', 'cargo'] },
+  casual:     { label: 'Casual',     any: ['casual', 'camiseta', 'short', 'bermuda', 'regata', 'polo', 'blusa', 'cropped', 'havaiana', 'tie dye'] },
+  luxo:       { label: 'Luxo',       any: ['premium', 'couro', 'ralph lauren', 'lacoste', 'tommy', 'hilfiger', 'alfaiataria', 'blazer', 'veludo', 'linho', 'chic'], not: ['sintetico'] }
+};
+
+// ── Sinônimos simples para a busca (chave e valores sem acento)
+const SYNONYMS = {
+  casaco: ['jaqueta', 'blazer', 'moletom'],
+  calcado: ['tenis', 'sandalia'],
+  sapato: ['tenis', 'sandalia'],
+  sneaker: ['tenis'],
+  tshirt: ['camiseta'],
+  mochila: ['bolsa'],
+  bolsa: ['mochila']
+};
+const STOPWORDS = new Set(['de', 'da', 'do', 'das', 'dos', 'e', 'a', 'o', 'para', 'com', 'em', 'na', 'no']);
+
+const KEYS = {
+  users:    'unibrecho:users:v1',
+  session:  'unibrecho:session:v1',
+  comments: 'unibrecho:comments:v1',
+  orders:   'unibrecho:orders:v1'
+};
+const SESSION_DAYS = 7;
+
+// ── Utilidades ─────────────────────────────────────────────────────
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+// Cria elementos sem innerHTML (evita XSS com dados vindos de JSON/usuário)
+function h(tag, attrs = {}, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k === 'text') el.textContent = v;
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid);
+  return el;
+}
+const icon = (name, size) => h('i', { class: 'ti ti-' + name, 'aria-hidden': 'true', style: size ? `font-size:${size}px` : null });
+
+const store = {
+  get(key, fallback) { try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch { return fallback; } },
+  set(key, val)      { try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch { return false; } },
+  del(key)           { try { localStorage.removeItem(key); } catch {} }
+};
+
+const norm = s => String(s ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
+
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    }
+    prev = cur;
+  }
+  return prev[b.length];
+}
+
+// Hash simples e rápido (só para gerar IDs estáveis de produto)
+function idHash(str) {
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+  for (let i = 0; i < str.length; i++) {
+    const c = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ c, 2654435761); h2 = Math.imul(h2 ^ c, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+}
+
+// "439,99" | "120.00" | "1.299,90" → número
+function parsePrice(v) {
+  if (typeof v === 'number') return v;
+  let s = String(v ?? '').replace(/[^\d.,]/g, '');
+  if (!s) return null;
+  if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.');
+  const n = parseFloat(s);
+  return Number.isFinite(n) ? n : null;
+}
+const fmtMoney = n => n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function splitPrice(n) {
+  const cents = Math.round(n * 100);
+  return { int: Math.floor(cents / 100).toLocaleString('pt-BR'), dec: String(cents % 100).padStart(2, '0') };
+}
+
+// Unsplash sem parâmetros baixa a imagem em tamanho original: pede uma versão menor
+function imgUrl(url, w) {
+  if (/^https:\/\/images\.unsplash\.com\//.test(url || '') && !url.includes('?')) {
+    return `${url}?auto=format&fit=max&w=${w}&q=75`;
+  }
+  return url;
+}
+const PLACEHOLDER = 'data:image/svg+xml,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 160"><rect width="180" height="160" fill="#131020"/>' +
+  '<path d="M90 52a9 9 0 1 1 9 9c-6 3-9 6-9 12v5L44 102c-6 3-4 11 3 11h86c7 0 9-8 3-11L90 78" fill="none" stroke="#8b5cf6" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+
+function toast(msg, type = 'ok') {
+  const ic = type === 'err' ? 'alert-circle' : type === 'info' ? 'info-circle' : 'circle-check';
+  const t = h('div', { class: 'toast ' + type }, icon(ic), h('span', { text: msg }));
+  $('#toasts').append(t);
+  setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 320); }, 4000);
+}
+
+// ── Modais (foco, Esc, clique fora, trava de scroll) ───────────────
+const FOCUSABLE = 'a[href],button:not([disabled]),textarea:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
+let activeModal = null, lastFocus = null;
+
+function openModal(m, initialFocus) {
+  if (activeModal === m) return;
+  if (activeModal) closeModal(activeModal, false); else lastFocus = document.activeElement;
+  activeModal = m;
+  m.classList.add('open');
+  m.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+  (initialFocus || $(FOCUSABLE, m))?.focus();
+}
+function closeModal(m, restoreFocus = true) {
+  m.classList.remove('open');
+  m.setAttribute('aria-hidden', 'true');
+  if (activeModal === m) activeModal = null;
+  if (m === authModal) pendingAfterAuth = null;
+  if (!activeModal) document.body.classList.remove('modal-open');
+  if (restoreFocus && lastFocus && document.contains(lastFocus)) lastFocus.focus();
+}
+$$('.overlay').forEach(ov => {
+  ov.addEventListener('mousedown', e => { if (e.target === ov) closeModal(ov); });
+  $$('[data-close]', ov).forEach(b => b.addEventListener('click', () => closeModal(ov)));
+});
+document.addEventListener('keydown', e => {
+  if (!activeModal) return;
+  if (e.key === 'Escape') { closeModal(activeModal); return; }
+  if (e.key !== 'Tab') return;
+  const f = $$(FOCUSABLE, activeModal).filter(x => x.offsetParent !== null);
+  if (!f.length) return;
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+
+// ═══════════════════════════════════════════════════════════════════
+//  LOGIN / CADASTRO (localStorage)
+//  • Senha nunca é guardada em texto: PBKDF2-SHA-256 + salt aleatório
+//  • A sessão guarda só nome/e-mail e expira em 7 dias
+//  ⚠ Protótipo: sem servidor, qualquer pessoa com acesso ao navegador
+//    consegue editar o localStorage. Em produção, use um backend.
+// ═══════════════════════════════════════════════════════════════════
+const encoder = new TextEncoder();
+const toB64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+const fromB64 = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+
+function weakHash(str) { // fallback só para contextos sem crypto.subtle (HTTP não seguro)
+  let a = 0x811c9dc5, b = 0x1b873593;
+  for (let i = 0; i < str.length; i++) { a = Math.imul(a ^ str.charCodeAt(i), 16777619); b = Math.imul(b + a, 2246822519) ^ (a >>> 7); }
+  return ((a >>> 0).toString(16) + (b >>> 0).toString(16)).padStart(16, '0');
+}
+async function hashPassword(password, saltB64, algo) {
+  const salt = saltB64 ? fromB64(saltB64) : crypto.getRandomValues(new Uint8Array(16));
+  const saltOut = saltB64 || toB64(salt);
+  const useStrong = algo ? algo === 'pbkdf2' : !!(window.crypto && crypto.subtle);
+  if (useStrong && window.crypto && crypto.subtle) {
+    const key = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations: 120000, hash: 'SHA-256' }, key, 256);
+    return { salt: saltOut, hash: toB64(bits), algo: 'pbkdf2' };
+  }
+  return { salt: saltOut, hash: weakHash(saltOut + password), algo: 'weak' };
+}
+
+const normEmail = e => String(e).trim().toLowerCase();
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+function getSession() {
+  const s = store.get(KEYS.session, null);
+  if (!s) return null;
+  if (!s.exp || Date.now() > s.exp) { store.del(KEYS.session); return null; }
+  return s;
+}
+function startSession(user) {
+  store.set(KEYS.session, { name: user.name, email: user.email, exp: Date.now() + SESSION_DAYS * 864e5 });
+}
+
+const authModal = $('#authModal');
+const loginForm = $('#loginForm'), signupForm = $('#signupForm');
+const tabLogin = $('#tabLogin'), tabSignup = $('#tabSignup');
+let pendingAfterAuth = null;
+
+function renderAuthUI() {
+  const s = getSession();
+  $('#btnLogin').hidden = !!s;
+  $('#userChip').hidden = !s;
+  if (s) {
+    $('#userAvatar').textContent = s.name.trim().charAt(0).toUpperCase();
+    $('#userName').textContent = s.name.trim().split(/\s+/)[0];
   }
 }
 
-function renderProducts(list) {
-  const c = document.getElementById('products');
-  c.innerHTML = '';
-  list.forEach(p => {
-    const parts = p.preco.split(',');
-    const int = parts[0];
-    const dec = parts[1] || '00';
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div class="img-area">
-        <img src="${p.imagem}" alt="${p.titulo}" loading="lazy"
-          onerror="this.src='https://via.placeholder.com/180x160/131020/8b5cf6?text=📦'">
-      </div>
-      <div class="card-body">
-        <p class="card-title">${p.titulo}</p>
-        <p class="price-old">R$ ${p.precoAntigo}</p>
-        <p class="price-main"><sup>R$</sup>${int}<span>,${dec}</span></p>
-        <p class="pix"><strong>${p.desconto}</strong> no Pix</p>
-        <p class="pix" style="margin-top:2px">${p.parcelas}</p>
-        <span class="badge">${p.desconto} · ${p.loja}</span>
-      </div>`;
-    c.appendChild(card);
-  });
+function showAuthTab(which) {
+  const isLogin = which === 'login';
+  tabLogin.setAttribute('aria-selected', String(isLogin));  tabLogin.tabIndex = isLogin ? 0 : -1;
+  tabSignup.setAttribute('aria-selected', String(!isLogin)); tabSignup.tabIndex = isLogin ? -1 : 0;
+  loginForm.hidden = !isLogin;
+  signupForm.hidden = isLogin;
+  $('#authTitle').textContent = isLogin ? 'Que bom te ver' : 'Crie sua conta';
+  clearErrors();
+}
+function clearErrors() {
+  $$('.form-error').forEach(e => { e.hidden = true; e.textContent = ''; });
+  $$('.field input').forEach(i => i.removeAttribute('aria-invalid'));
+}
+function formError(form, msg, field) {
+  const box = $('.form-error', form);
+  box.textContent = msg; box.hidden = false;
+  if (field) { field.setAttribute('aria-invalid', 'true'); field.focus(); }
 }
 
-// ── Region selector ────────────────────────────────────────────────
-const regionSelect = document.getElementById('regionSelect');
-regionSelect.addEventListener('change', () => {
-  const file = REGIONS[regionSelect.value];
-  if (file) loadProducts(file);
+function openAuth(tab = 'login', reason) {
+  showAuthTab(tab);
+  $('#authSub').textContent = reason || 'Entre para comprar, comentar e acompanhar suas peças.';
+  loginForm.reset(); signupForm.reset();
+  openModal(authModal, tab === 'login' ? $('#loginEmail') : $('#signupName'));
+}
+function requireLogin(action, reason) {
+  if (getSession()) { action(); return; }
+  pendingAfterAuth = action;
+  openAuth('login', reason);
+}
+function finishAuth(user, msg) {
+  startSession(user);
+  renderAuthUI();
+  const next = pendingAfterAuth;   // closeModal limpa pendingAfterAuth
+  closeModal(authModal);
+  toast(msg);
+  if (next) next();
+}
+
+tabLogin.addEventListener('click', () => showAuthTab('login'));
+tabSignup.addEventListener('click', () => showAuthTab('signup'));
+[tabLogin, tabSignup].forEach(t => t.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    const to = t === tabLogin ? 'signup' : 'login';
+    showAuthTab(to); (to === 'login' ? tabLogin : tabSignup).focus();
+  }
+}));
+
+$$('[data-toggle-pw]').forEach(btn => btn.addEventListener('click', () => {
+  const input = $('#' + btn.dataset.togglePw);
+  const show = input.type === 'password';
+  input.type = show ? 'text' : 'password';
+  btn.setAttribute('aria-label', show ? 'Ocultar senha' : 'Mostrar senha');
+  btn.firstElementChild.className = 'ti ti-' + (show ? 'eye-off' : 'eye');
+}));
+
+signupForm.addEventListener('submit', async e => {
+  e.preventDefault(); clearErrors();
+  const nameEl = $('#signupName'), emailEl = $('#signupEmail'), passEl = $('#signupPass');
+  const name = nameEl.value.trim().replace(/\s+/g, ' ');
+  const email = normEmail(emailEl.value);
+  const pass = passEl.value;
+  if (name.length < 2) return formError(signupForm, 'Informe seu nome completo.', nameEl);
+  if (!EMAIL_RE.test(email)) return formError(signupForm, 'Informe um e-mail válido.', emailEl);
+  if (pass.length < 8) return formError(signupForm, 'A senha precisa ter pelo menos 8 caracteres.', passEl);
+
+  const users = store.get(KEYS.users, []);
+  if (users.some(u => u.email === email)) return formError(signupForm, 'Este e-mail já tem cadastro. Tente entrar.', emailEl);
+
+  const btn = $('.auth-submit', signupForm); btn.disabled = true;
+  try {
+    const { salt, hash, algo } = await hashPassword(pass);
+    const user = { name, email, salt, hash, algo, createdAt: Date.now() };
+    users.push(user);
+    if (!store.set(KEYS.users, users)) return formError(signupForm, 'Não foi possível salvar: o armazenamento do navegador está bloqueado.');
+    finishAuth(user, `Conta criada! Bem-vindo(a), ${name.split(' ')[0]}.`);
+  } finally { btn.disabled = false; }
 });
 
-// Load default region on page init
-loadProducts(REGIONS[regionSelect.value]);
+loginForm.addEventListener('submit', async e => {
+  e.preventDefault(); clearErrors();
+  const emailEl = $('#loginEmail'), passEl = $('#loginPass');
+  const email = normEmail(emailEl.value), pass = passEl.value;
+  if (!EMAIL_RE.test(email)) return formError(loginForm, 'Informe um e-mail válido.', emailEl);
+  if (!pass) return formError(loginForm, 'Informe sua senha.', passEl);
 
-// ── "Ver todos" button ────────────────────────────────────────────
-document.getElementById('verTodosBtn').addEventListener('click', () => {
-  renderProducts(currentProducts);
+  const btn = $('.auth-submit', loginForm); btn.disabled = true;
+  try {
+    const user = store.get(KEYS.users, []).find(u => u.email === email);
+    const attempt = user ? await hashPassword(pass, user.salt, user.algo) : null;
+    if (!user || attempt.hash !== user.hash) return formError(loginForm, 'E-mail ou senha incorretos.', passEl);
+    finishAuth(user, `Olá de novo, ${user.name.split(' ')[0]}!`);
+  } finally { btn.disabled = false; }
 });
 
-// ── Dropdown de categorias ────────────────────────────────────────
-const csSelected = document.getElementById('csSelected');
-const csOptions  = document.getElementById('csOptions');
-csSelected.addEventListener('click', () => csOptions.classList.toggle('open'));
-csOptions.querySelectorAll('div').forEach(d => {
-  d.addEventListener('click', () => {
-    csSelected.innerHTML = d.textContent + ' <i class="ti ti-chevron-down" style="font-size:13px"></i>';
-    csOptions.classList.remove('open');
+$('#btnLogin').addEventListener('click', () => openAuth('login'));
+$('#btnLogout').addEventListener('click', () => {
+  store.del(KEYS.session); renderAuthUI(); toast('Você saiu da conta.', 'info');
+});
+$('#btnAnunciar').addEventListener('click', () =>
+  requireLogin(() => toast('Em breve: anúncio de peças direto por aqui.', 'info'), 'Entre para anunciar suas peças.'));
+window.addEventListener('storage', e => { if (e.key === KEYS.session) renderAuthUI(); }); // sincroniza entre abas
+
+// ═══════════════════════════════════════════════════════════════════
+//  PRODUTOS + BUSCA
+// ═══════════════════════════════════════════════════════════════════
+const productsEl = $('#products');
+const regionSelect = $('#regionSelect');
+const resultsBar = $('#resultsBar');
+const verTodosBtn = $('#verTodosBtn');
+const searchInput = $('#searchInput');
+const cache = new Map();
+const state = { region: regionSelect.value, all: [], query: '', cat: '', expanded: false, token: 0 };
+
+function prepare(p) {
+  const title = norm(p.titulo), loja = norm(p.loja);
+  return {
+    ...p,
+    id: idHash(`${p.titulo}|${p.loja}`),
+    price: parsePrice(p.preco),
+    old: parsePrice(p.precoAntigo),
+    hay: `${title} ${loja}`,
+    tokens: [
+      ...title.split(' ').filter(Boolean).map(t => ({ t, w: 1 })),
+      ...loja.split(' ').filter(Boolean).map(t => ({ t, w: 0.8 }))
+    ]
+  };
+}
+
+async function loadRegion() {
+  const file = REGIONS[state.region];
+  const token = ++state.token;
+  productsEl.className = '';
+  productsEl.replaceChildren(h('div', { class: 'products-loading' }, h('div', { class: 'spinner' }), ' Carregando peças…'));
+  resultsBar.hidden = true;
+  try {
+    let list = cache.get(file);
+    if (!list) {
+      const res = await fetch(file);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const raw = await res.json();
+      if (!Array.isArray(raw)) throw new Error('JSON inválido: esperado uma lista de produtos');
+      list = raw.map(prepare);
+      cache.set(file, list);
+    }
+    if (token !== state.token) return;
+    state.all = list;
+    applyFilters();
+  } catch (err) {
+    if (token !== state.token) return;
+    console.error(err);
+    productsEl.replaceChildren(h('div', { class: 'empty-state' },
+      icon('alert-circle'),
+      h('h3', { text: 'Não foi possível carregar as peças' }),
+      h('p', {}, 'Confira se ', h('strong', { text: file }), ' está na mesma pasta do index.html. ' +
+        'Se você abriu o arquivo direto do computador (file://), rode um servidor local — ' +
+        'por exemplo, a extensão Live Server do VS Code ou "python -m http.server".'),
+      h('button', { class: 'btn', type: 'button' }, icon('refresh', 14), 'Tentar novamente')
+    ));
+    $('.empty-state .btn', productsEl).addEventListener('click', loadRegion);
+  }
+}
+
+// ── Busca com tolerância a erros e ranking por relevância ──
+function wordScore(word, p) {
+  const candidates = [[word, 1], ...(SYNONYMS[word] || []).map(s => [s, 0.9])];
+  let best = 0;
+  for (const [w, mult] of candidates) {
+    for (const { t, w: weight } of p.tokens) {
+      let s = 0;
+      if (t === w) s = 4;
+      else if (w.length >= 2 && t.startsWith(w)) s = 3;
+      else if (w.length >= 3 && t.includes(w)) s = 2;
+      else if (w.length >= 4 && Math.abs(t.length - w.length) <= 2) {
+        const d = levenshtein(w, t);
+        if (d <= (w.length >= 7 ? 2 : 1)) s = 1.5 - d * 0.25;
+      }
+      s *= weight * mult;
+      if (s > best) best = s;
+    }
+  }
+  return best;
+}
+function rank(list, query) {
+  const words = norm(query).split(' ').filter(w => w && !STOPWORDS.has(w));
+  if (!words.length) return list;
+  const out = [];
+  for (const p of list) {
+    let total = 0;
+    for (const w of words) { const s = wordScore(w, p); if (s <= 0) { total = 0; break; } total += s; }
+    if (total > 0) out.push([total, p]);
+  }
+  return out.sort((a, b) => b[0] - a[0]).map(x => x[1]);
+}
+function inCategory(p, key) {
+  const c = CATEGORIES[key];
+  if (!c) return true;
+  const hay = ` ${p.hay} `;                       // casa palavras inteiras
+  const has = k => hay.includes(` ${k} `);
+  if (c.not && c.not.some(has)) return false;
+  return c.any.some(has);
+}
+
+function applyFilters() {
+  let list = state.all;
+  if (state.cat) list = list.filter(p => inCategory(p, state.cat));
+  const q = state.query.trim();
+  if (q) list = rank(list, q);
+  render(list, !!(q || state.cat));
+}
+
+function clearFilters() {
+  state.query = ''; state.cat = ''; searchInput.value = '';
+  setCategoryUI('');
+  applyFilters();
+}
+
+function render(list, filtering) {
+  productsEl.className = (filtering || state.expanded) ? 'grid' : '';
+  productsEl.replaceChildren();
+
+  if (!list.length) {
+    productsEl.append(h('div', { class: 'empty-state' },
+      icon('mood-empty'),
+      h('h3', { text: 'Nenhuma peça encontrada' }),
+      h('p', { text: 'Tente outra palavra, confira a escrita ou limpe os filtros.' }),
+      h('button', { class: 'btn', type: 'button', id: 'emptyClear' }, 'Limpar filtros')
+    ));
+    $('#emptyClear').addEventListener('click', clearFilters);
+  } else {
+    const frag = document.createDocumentFragment();
+    list.forEach(p => frag.append(cardEl(p)));
+    productsEl.append(frag);
+  }
+
+  // barra de resultados
+  resultsBar.hidden = !filtering;
+  verTodosBtn.hidden = filtering;
+  if (filtering) {
+    const parts = [h('span', {}, h('strong', { text: String(list.length) }), list.length === 1 ? ' peça encontrada' : ' peças encontradas')];
+    if (state.query.trim()) parts.push(' para ', h('strong', { text: `“${state.query.trim()}”` }));
+    if (state.cat) parts.push(' em ', h('strong', { text: CATEGORIES[state.cat].label }));
+    resultsBar.replaceChildren(
+      h('span', {}, ...parts),
+      h('button', { class: 'link-btn', type: 'button', id: 'barClear' }, icon('x', 13), 'Limpar filtros')
+    );
+    $('#barClear').addEventListener('click', clearFilters);
+  }
+  verTodosBtn.firstChild.textContent = state.expanded ? 'Recolher ' : 'Ver todos ';
+}
+
+function cardEl(p) {
+  const img = h('img', { src: imgUrl(p.imagem, 480), alt: '', loading: 'lazy' });
+  img.addEventListener('error', () => { img.src = PLACEHOLDER; }, { once: true });
+
+  let priceNode;
+  if (p.price != null) {
+    const { int, dec } = splitPrice(p.price);
+    priceNode = h('p', { class: 'price-main' }, h('sup', { text: 'R$' }), int, h('span', { text: ',' + dec }));
+  } else {
+    priceNode = h('p', { class: 'price-main', text: String(p.preco ?? '') });
+  }
+
+  const card = h('div', { class: 'card', role: 'button', tabindex: '0', 'aria-haspopup': 'dialog' },
+    h('div', { class: 'img-area' }, img),
+    h('div', { class: 'card-body' },
+      h('p', { class: 'card-title', text: p.titulo }),
+      p.old != null ? h('p', { class: 'price-old', text: 'R$ ' + fmtMoney(p.old) }) : null,
+      priceNode,
+      p.desconto ? h('p', { class: 'pix' }, h('strong', { text: p.desconto }), ' no Pix') : null,
+      p.parcelas ? h('p', { class: 'pix', style: 'margin-top:2px', text: p.parcelas }) : null,
+      h('span', { class: 'badge', text: [p.desconto, p.loja].filter(Boolean).join(' · ') })
+    )
+  );
+  card.addEventListener('click', () => openProduct(p));
+  card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProduct(p); } });
+  return card;
+}
+
+// ── Eventos da busca ──
+let debounce;
+searchInput.addEventListener('input', () => {
+  clearTimeout(debounce);
+  debounce = setTimeout(() => { state.query = searchInput.value; applyFilters(); }, 160);
+});
+$('#searchForm').addEventListener('submit', e => {
+  e.preventDefault();
+  clearTimeout(debounce);
+  state.query = searchInput.value;
+  applyFilters();
+  $('#products-section').scrollIntoView({ behavior: 'smooth' });
+});
+regionSelect.addEventListener('change', () => { state.region = regionSelect.value; loadRegion(); });
+verTodosBtn.addEventListener('click', () => { state.expanded = !state.expanded; applyFilters(); });
+
+// ── Dropdown de categorias (acessível por teclado) ──
+const csBtn = $('#csSelected'), csList = $('#csOptions');
+[{ v: '', label: 'Todas as categorias' }, ...Object.entries(CATEGORIES).map(([v, c]) => ({ v, label: c.label }))]
+  .forEach(o => csList.append(h('div', { role: 'option', tabindex: '-1', 'data-v': o.v, 'aria-selected': String(o.v === ''), text: o.label })));
+const csOpts = $$('[role="option"]', csList);
+
+function setCategoryUI(v) {
+  csOpts.forEach(o => o.setAttribute('aria-selected', String(o.dataset.v === v)));
+  $('#csLabel').textContent = v ? CATEGORIES[v].label : 'Categoria';
+  csBtn.classList.toggle('active', !!v);
+}
+function csOpen() {
+  csList.classList.add('open'); csBtn.setAttribute('aria-expanded', 'true');
+  (csOpts.find(o => o.getAttribute('aria-selected') === 'true') || csOpts[0]).focus();
+}
+function csClose(returnFocus) {
+  csList.classList.remove('open'); csBtn.setAttribute('aria-expanded', 'false');
+  if (returnFocus) csBtn.focus();
+}
+function csChoose(o) {
+  state.cat = o.dataset.v;
+  setCategoryUI(state.cat);
+  csClose(true);
+  applyFilters();
+}
+csBtn.addEventListener('click', () => csList.classList.contains('open') ? csClose() : csOpen());
+csBtn.addEventListener('keydown', e => { if (e.key === 'ArrowDown') { e.preventDefault(); csOpen(); } });
+csList.addEventListener('click', e => { const o = e.target.closest('[role="option"]'); if (o) csChoose(o); });
+csList.addEventListener('keydown', e => {
+  const i = csOpts.indexOf(document.activeElement);
+  if (e.key === 'ArrowDown') { e.preventDefault(); csOpts[Math.min(i + 1, csOpts.length - 1)].focus(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); csOpts[Math.max(i - 1, 0)].focus(); }
+  else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (i >= 0) csChoose(csOpts[i]); }
+  else if (e.key === 'Escape') { e.stopPropagation(); csClose(true); }
+  else if (e.key === 'Tab') csClose();
+});
+document.addEventListener('click', e => { if (!e.target.closest('#catSelect')) csClose(); });
+
+// ═══════════════════════════════════════════════════════════════════
+//  POPUP DE DETALHE DO PRODUTO + COMENTÁRIOS
+// ═══════════════════════════════════════════════════════════════════
+const productModal = $('#productModal');
+let currentProduct = null;
+
+function openProduct(p) {
+  currentProduct = p;
+  const img = $('#pmImg');
+  img.onerror = () => { img.onerror = null; img.src = PLACEHOLDER; };
+  img.src = imgUrl(p.imagem, 900);
+  img.alt = p.titulo;
+
+  $('#pmStore').replaceChildren(icon('building-store', 12), ' ' + (p.loja || 'Loja parceira'));
+  const regionLabel = regionSelect.options[regionSelect.selectedIndex].text;
+  $('#pmRegion').replaceChildren(icon('map-pin', 12), ' ' + regionLabel);
+  $('#pmTitle').textContent = p.titulo;
+
+  const old = $('#pmOld');
+  old.textContent = p.old != null ? 'R$ ' + fmtMoney(p.old) : '';
+  old.hidden = p.old == null;
+
+  const price = $('#pmPrice');
+  if (p.price != null) {
+    const { int, dec } = splitPrice(p.price);
+    price.replaceChildren(h('sup', { text: 'R$' }), int, h('span', { text: ',' + dec }));
+  } else price.textContent = String(p.preco ?? '');
+
+  const pix = $('#pmPix');
+  pix.replaceChildren(...(p.desconto ? [h('strong', { text: p.desconto }), ' no Pix'] : []));
+  $('#pmInst').textContent = p.parcelas || '';
+
+  renderComments(p);
+  openModal(productModal, $('#pmBuy'));
+}
+
+$('#pmBuy').addEventListener('click', () => {
+  const p = currentProduct; if (!p) return;
+  const session = getSession();
+  if (!session) {
+    // pede login e, depois dele, reabre o produto (sem comprar automaticamente)
+    pendingAfterAuth = () => { openProduct(p); toast('Tudo certo! Agora é só clicar em “Comprar agora”.', 'info'); };
+    openAuth('login', 'Entre na sua conta para concluir a compra.');
+    return;
+  }
+  const orders = store.get(KEYS.orders, []);
+  orders.push({ productId: p.id, title: p.titulo, loja: p.loja, price: p.price, email: session.email, ts: Date.now() });
+  store.set(KEYS.orders, orders);
+  closeModal(productModal);
+  toast(`Pedido enviado! ${p.loja || 'O vendedor'} entrará em contato, ${session.name.split(' ')[0]}.`);
+});
+
+const loadComments = p => (store.get(KEYS.comments, {})[p.id] || []);
+function renderComments(p) {
+  const list = loadComments(p);
+  $('#pmCount').textContent = list.length ? `(${list.length})` : '';
+  const box = $('#pmComments');
+  box.replaceChildren();
+  if (!list.length) {
+    box.append(h('p', { class: 'comments-empty', text: 'Nenhum comentário ainda. Seja a primeira pessoa a comentar!' }));
+  } else {
+    [...list].reverse().forEach(c => box.append(
+      h('div', { class: 'comment' },
+        h('div', { class: 'comment-head' },
+          h('strong', { text: c.name }),
+          h('time', { datetime: new Date(c.ts).toISOString(), text: new Date(c.ts).toLocaleDateString('pt-BR') })),
+        h('p', { text: c.text })
+      )));
+  }
+  renderCommentBox(p);
+}
+function renderCommentBox(p) {
+  const box = $('#pmCommentBox');
+  box.replaceChildren();
+  if (!getSession()) {
+    const btn = h('button', { class: 'btn btn-primary', type: 'button' }, icon('user', 14), 'Entrar');
+    btn.addEventListener('click', () => {
+      pendingAfterAuth = () => openProduct(p);
+      openAuth('login', 'Entre para deixar seu comentário.');
+    });
+    box.append(h('div', { class: 'comment-login' }, h('span', { text: 'Entre na sua conta para comentar.' }), btn));
+    return;
+  }
+  const ta = h('textarea', { id: 'pmCommentText', rows: '3', maxlength: '300', required: true, placeholder: 'Conte sua experiência ou tire uma dúvida…' });
+  const form = h('form', { class: 'comment-form' },
+    h('div', { class: 'field' }, h('label', { for: 'pmCommentText', text: 'Deixe seu comentário' }), ta),
+    h('button', { class: 'btn btn-primary', type: 'submit' }, icon('send', 14), 'Enviar comentário'));
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const s = getSession(); const text = ta.value.trim();
+    if (!s || !text) return;
+    const all = store.get(KEYS.comments, {});
+    (all[p.id] = all[p.id] || []).push({ name: s.name, text, ts: Date.now() });
+    if (!store.set(KEYS.comments, all)) return toast('Não foi possível salvar o comentário.', 'err');
+    renderComments(p);
+    toast('Comentário publicado.');
+    $('#pmCommentText')?.focus();
   });
-});
-document.addEventListener('click', e => { if (!e.target.closest('#catSelect')) csOptions.classList.remove('open'); });
+  box.append(form);
+}
+
+// ── Início ──
+renderAuthUI();
+loadRegion();
+
+})();
+
 
 // ── FAQ accordion ─────────────────────────────────────────────────
 document.querySelectorAll('.faq-q').forEach(btn => {
@@ -1031,9 +1864,12 @@ document.getElementById('chatClose').addEventListener('click', toggleChat);
 function addMsg(text, isUser) {
   const div = document.createElement('div');
   div.className = 'msg ' + (isUser ? 'user' : 'bot');
-  div.innerHTML = isUser
-    ? `<div class="msg-bubble">${text}</div>`
-    : `<div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div><div class="msg-bubble">${text}</div>`;
+  if (isUser) {
+    const bubble = document.createElement('div'); bubble.className = 'msg-bubble'; bubble.textContent = text;
+    div.appendChild(bubble);
+  } else {
+    div.innerHTML = `<div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div><div class="msg-bubble">${text}</div>`;
+  }
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
 }
