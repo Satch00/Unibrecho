@@ -535,6 +535,17 @@ footer{
   color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.2s
 }
 .chat-send:hover{background:#6d28d9}
+.svg-ic{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;display:block}
+.chat-fab .svg-ic{width:26px;height:26px}
+.chat-mic{
+  width:36px;height:36px;border-radius:var(--radius-sm);flex-shrink:0;
+  background:transparent;border:1px solid var(--border-2);cursor:pointer;
+  color:var(--text-2);font-size:17px;display:flex;align-items:center;justify-content:center;transition:.2s
+}
+.chat-mic:hover{background:rgba(124,58,237,.15);color:var(--text);border-color:var(--accent-2)}
+.chat-mic:disabled{opacity:.45;cursor:not-allowed}
+.chat-mic.listening{background:#dc2626;border-color:#dc2626;color:#fff;animation:micPulse 1.3s ease infinite}
+@keyframes micPulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.55)}70%{box-shadow:0 0 0 10px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
 
 .typing{display:flex;gap:5px;padding:4px 0}
 .typing span{width:7px;height:7px;border-radius:50%;background:var(--text-3);animation:blink 1.4s ease infinite}
@@ -823,6 +834,8 @@ body.modal-open{overflow:hidden}
 .access-option{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:11px;border:1px solid var(--border,rgba(255,255,255,.16));border-radius:12px;background:var(--bg-3,rgba(255,255,255,.04));color:inherit;font:inherit;font-size:14px;cursor:pointer;text-align:center}
 .access-option:hover{border-color:var(--accent-2,#a855f7);background:rgba(124,58,237,.13)}
 .access-option:focus-visible,.access-close:focus-visible{outline:3px solid var(--accent-2,#a855f7);outline-offset:3px}
+.access-option[aria-pressed="true"]{border-color:var(--accent-2,#a855f7);background:rgba(124,58,237,.22)}
+.access-option:disabled{opacity:.5;cursor:not-allowed}
 .access-status{font-size:13px;color:var(--text-2,#bbb);margin:18px 0 0;min-height:20px}
 body.access-high-contrast{background:#000!important;color:#fff!important}
 body.access-high-contrast *{color:#fff!important;border-color:#fff!important}
@@ -900,7 +913,8 @@ html.access-grayscale{filter:grayscale(1)}
       <button type="button" class="access-option" id="accessContrast" aria-pressed="false">◐ Alto contraste</button>
       <button type="button" class="access-option" id="accessUnderline" aria-pressed="false">↗ Destacar links</button>
       <button type="button" class="access-option" id="accessGray" aria-pressed="false">◑ Escala de cinza</button>
-      <button type="button" class="access-option" id="accessReset">↺ Restaurar padrão</button>
+      <button type="button" class="access-option" id="accessVoice" aria-pressed="false">🔊 Assistência por voz</button>
+      <button type="button" class="access-option" id="accessReset" style="grid-column:1/-1">↺ Restaurar padrão</button>
     </div>
     <p class="access-status" id="accessStatus" role="status" aria-live="polite">Nenhuma opção adicional ativada.</p>
   </section>
@@ -1260,7 +1274,7 @@ html.access-grayscale{filter:grayscale(1)}
 
 <!-- CHATBOT FAB -->
 <button class="chat-fab" id="chatFab" aria-label="Abrir assistente">
-  <i class="ti ti-message-chatbot" aria-hidden="true"></i>
+  <svg class="svg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-5l-5 3v-3H6a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h12z"/><path d="M9.5 9h.01"/><path d="M14.5 9h.01"/><path d="M9.5 13a3.5 3.5 0 0 0 5 0"/></svg>
   <span class="badge-dot"></span>
 </button>
 
@@ -1289,8 +1303,9 @@ html.access-grayscale{filter:grayscale(1)}
     <button class="sug-btn" data-key="pix">Desconto no Pix</button>
   </div>
   <div class="chat-input-row">
-    <input type="text" id="chatInput" placeholder="Digite sua dúvida…" autocomplete="off">
-    <button class="chat-send" id="chatSend"><i class="ti ti-send" aria-hidden="true"></i></button>
+    <input type="text" id="chatInput" placeholder="Digite ou fale sua dúvida…" autocomplete="off">
+    <button class="chat-mic" id="chatMic" type="button" aria-pressed="false" aria-label="Falar para digitar" title="Falar para digitar"><svg class="svg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M8 21h8"/><path d="M12 17v4"/></svg></button>
+    <button class="chat-send" id="chatSend" type="button" aria-label="Enviar mensagem"><svg class="svg-ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14L21 3"/><path d="M21 3l-6.5 18a.55.55 0 0 1-1 0L10 14l-7-3.5a.55.55 0 0 1 0-1L21 3"/></svg></button>
   </div>
 </div>
 
@@ -2065,13 +2080,14 @@ function showTyping() {
   msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
 }
 function hideTyping() { const el = document.getElementById('typing-indicator'); if (el) el.remove(); }
-function botReply(answer) { showTyping(); setTimeout(() => { hideTyping(); addMsg(answer, false); }, 900 + Math.random() * 500); }
+function botReply(answer) { showTyping(); setTimeout(() => { hideTyping(); addMsg(answer, false); if (window.unibrechoSpeak) window.unibrechoSpeak(answer); }, 900 + Math.random() * 500); }
 
 document.querySelectorAll('.sug-btn').forEach(btn => {
   btn.addEventListener('click', () => { addMsg(btn.textContent, true); botReply(ANSWERS[btn.dataset.key]); });
 });
 
 function handleSend() {
+  if (typeof listening !== 'undefined' && listening && rec) rec.abort();
   const text = inp.value.trim(); if (!text) return;
   inp.value = ''; addMsg(text, true);
   const lower = text.toLowerCase();
@@ -2084,6 +2100,54 @@ function handleSend() {
 }
 document.getElementById('chatSend').addEventListener('click', handleSend);
 inp.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
+
+// ── Ditado por voz no chat (transcreve a fala no campo de texto) ──
+const micBtn = document.getElementById('chatMic');
+const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+let rec = null, listening = false, baseText = '';
+
+function setMicUI(on) {
+  listening = on;
+  micBtn.classList.toggle('listening', on);
+  micBtn.setAttribute('aria-pressed', String(on));
+  const label = on ? 'Parar de ouvir' : 'Falar para digitar';
+  micBtn.setAttribute('aria-label', label);
+  micBtn.title = label;
+  micBtn.firstElementChild.innerHTML = on
+    ? '<path d="M3 3l18 18"/><path d="M9 5a3 3 0 0 1 6 0v5a3 3 0 0 1-.13.874m-2 2A3 3 0 0 1 9 10V5"/><path d="M5 10a7 7 0 0 0 10.846 5.85m2-2A6.967 6.967 0 0 0 19 10"/><path d="M8 21h8"/><path d="M12 17v4"/>'
+    : '<path d="M9 5a3 3 0 0 1 6 0v5a3 3 0 0 1-6 0z"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M8 21h8"/><path d="M12 17v4"/>';
+}
+
+if (!SpeechRec) {
+  micBtn.disabled = true;
+  micBtn.title = 'Seu navegador não suporta reconhecimento de voz.';
+} else {
+  rec = new SpeechRec();
+  rec.lang = 'pt-BR';
+  rec.interimResults = true;
+  rec.continuous = false;
+  rec.onresult = e => {
+    let t = '';
+    for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
+    inp.value = (baseText + ' ' + t).trim();
+  };
+  rec.onend = () => { setMicUI(false); inp.focus(); };
+  rec.onerror = e => {
+    setMicUI(false);
+    if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+      addMsg('Não consegui acessar o microfone. Permita o uso do microfone no navegador (e use o site em https ou localhost).', false);
+    } else if (e.error === 'no-speech') {
+      addMsg('Não ouvi nada. Clique no microfone e tente falar de novo. 🎤', false);
+    }
+  };
+  micBtn.addEventListener('click', () => {
+    if (listening) { rec.stop(); return; }
+    if (window.speechSynthesis) window.speechSynthesis.cancel(); // evita que a voz do site entre no microfone
+    baseText = inp.value.trim();
+    try { rec.start(); setMicUI(true); } catch (_) { /* já estava ouvindo */ }
+  });
+  document.getElementById('chatClose').addEventListener('click', () => { if (listening) rec.abort(); });
+}
 </script>
 
 <script>
@@ -2175,6 +2239,98 @@ inp.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
     setPressed('accessGray', enabled);
     status.textContent = enabled ? 'Escala de cinza ativada.' : 'Escala de cinza desativada.';
   });
+
+  // ── Assistência por voz ──
+  const voiceBtn = document.getElementById('accessVoice');
+  const synth = 'speechSynthesis' in window ? window.speechSynthesis : null;
+  let voiceOn = false, lastSpoken = '', hoverTimer;
+
+  const speak = (text) => {
+    if (!voiceOn || !synth || !text || text === lastSpoken) return;
+    lastSpoken = text;
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'pt-BR';
+    u.rate = 1;
+    synth.speak(u);
+  };
+
+  // Usado pelo chat virtual: lê a resposta do bot (sem HTML e sem emojis) quando a voz está ativa
+  window.unibrechoSpeak = (html) => {
+    if (!voiceOn) return;
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    const text = (tmp.textContent || '').replace(/\p{Extended_Pictographic}|\uFE0F/gu, '').replace(/\s+/g, ' ').trim();
+    if (!text) return;
+    lastSpoken = '';
+    speak('Uni respondeu: ' + text);
+  };
+
+  // Descobre o que deve ser lido para o elemento focado/apontado
+  const describe = (target) => {
+    const el = target.closest('button, a, input, textarea, select, img, [role="button"], [role="option"], h1, h2, h3, h4, label, p, li, .stat-card, .faq-a');
+    if (!el) return '';
+    let text = el.getAttribute('aria-label') || el.getAttribute('alt') || '';
+    if (!text && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)) {
+      const lbl = el.id && document.querySelector('label[for="' + el.id + '"]');
+      text = (lbl ? lbl.textContent : '') || el.placeholder || '';
+    }
+    if (!text) text = el.innerText || el.textContent || '';
+    text = text.replace(/\s+/g, ' ').trim().slice(0, 300);
+    if (!text) return '';
+    if (el.tagName === 'BUTTON' || el.getAttribute('role') === 'button') text += ', botão';
+    else if (el.tagName === 'A') text += ', link';
+    return text;
+  };
+
+  const setVoice = (on, announce = true) => {
+    voiceOn = on;
+    lastSpoken = '';
+    armedEl = null;
+    setPressed('accessVoice', on);
+    if (!on && synth) synth.cancel();
+    status.textContent = on ? 'Assistência por voz ativada.' : 'Assistência por voz desativada.';
+    if (on && announce) speak('Assistência por voz ativada. Passe o mouse ou navegue com a tecla Tab para ouvir os elementos.');
+  };
+
+  if (!synth) {
+    voiceBtn.disabled = true;
+    voiceBtn.title = 'Seu navegador não suporta leitura por voz.';
+  }
+  voiceBtn.addEventListener('click', () => setVoice(!voiceOn));
+
+  document.addEventListener('focusin', e => { if (voiceOn) speak(describe(e.target)); });
+  document.addEventListener('mouseover', e => {
+    if (!voiceOn) return;
+    clearTimeout(hoverTimer);
+    hoverTimer = setTimeout(() => speak(describe(e.target)), 350);
+  });
+  document.addEventListener('mouseup', () => {
+    if (!voiceOn) return;
+    const sel = String(window.getSelection()).trim();
+    if (sel) { lastSpoken = ''; speak(sel.slice(0, 500)); }   // lê texto selecionado
+  });
+  window.addEventListener('beforeunload', () => synth && synth.cancel());
+
+  // ── Clique em duas etapas: 1º clique fala o que é; 2º clique no mesmo item executa ──
+  let armedEl = null;
+  const ACTIONABLE = 'button, a[href], [role="button"], [role="option"], [role="tab"], input, textarea, select, summary';
+  window.addEventListener('click', e => {
+    if (!voiceOn) return;
+    const el = e.target.closest(ACTIONABLE);
+    if (!el || el.id === 'accessVoice') return;          // o botão da voz sempre responde direto
+    if (e.detail === 0) return;                           // teclado (Enter/Espaço): o item já foi falado ao receber foco
+    const isField = /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);
+    if (!isField && el === armedEl) { armedEl = null; return; }   // 2º clique: deixa a função acontecer
+    // 1º clique: só fala (campos de texto apenas anunciam, para poder digitar)
+    lastSpoken = '';
+    speak(describe(el) + (isField ? '' : '. Clique novamente para ativar.'));
+    if (isField) return;
+    armedEl = el;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }, true);
+
   document.getElementById('accessReset').addEventListener('click', () => {
     fontScale = 100;
     resetFontScale();
@@ -2185,6 +2341,7 @@ inp.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
     setPressed('accessContrast', false);
     setPressed('accessUnderline', false);
     setPressed('accessGray', false);
+    setVoice(false, false);
     status.textContent = 'Configurações de acessibilidade restauradas.';
   });
 })();
