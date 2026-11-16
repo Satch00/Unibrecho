@@ -784,6 +784,19 @@ body.modal-open{overflow:hidden}
 .comment-login{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 16px;background:var(--bg-card);border:1px dashed var(--border-2);border-radius:var(--radius);font-size:13px;color:var(--text-2)}
 .comment-form .btn{margin-top:2px}
 
+/* Anunciar */
+.field select{width:100%;height:42px;padding:0 12px;font:400 14px 'DM Sans',sans-serif;background:var(--bg-3);color:var(--text);border:1px solid var(--border);border-radius:var(--radius-sm);outline:none;transition:.2s}
+.field select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(124,58,237,.25)}
+.field input[type="file"]{height:auto;padding:9px 10px;cursor:pointer}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sell-preview{display:block;max-width:100%;max-height:180px;margin-top:8px;border-radius:var(--radius-sm);border:1px solid var(--border);object-fit:contain;background:var(--bg-3)}
+.sell-preview[hidden]{display:none}
+#sellModal .modal{max-width:520px}
+.pm-desc{font-size:13px;color:var(--text-2);line-height:1.6;margin-top:10px;white-space:pre-wrap;overflow-wrap:anywhere}
+.pm-delete{margin-top:10px;border-color:rgba(248,113,113,.4);color:#fca5a5}
+.pm-delete:hover{background:rgba(248,113,113,.12);border-color:#f87171}
+@media(max-width:480px){.field-row{grid-template-columns:1fr}}
+
 /* Toasts */
 .toasts{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:600;display:flex;flex-direction:column;gap:8px;align-items:center;width:max-content;max-width:calc(100vw - 32px);pointer-events:none}
 .toast{display:flex;align-items:center;gap:10px;padding:12px 16px;font-size:13px;line-height:1.4;color:var(--text);background:var(--bg-2);border:1px solid var(--border-2);border-radius:var(--radius-sm);box-shadow:0 10px 40px rgba(0,0,0,.5);animation:popIn .3s cubic-bezier(.22,1,.36,1);pointer-events:auto}
@@ -893,7 +906,7 @@ html.access-grayscale{filter:grayscale(1)}
       <span class="user-name" id="userName"></span>
       <button class="btn btn-icon" id="btnLogout" type="button" aria-label="Sair da conta" title="Sair"><i class="ti ti-logout" style="font-size:15px" aria-hidden="true"></i></button>
     </div>
-    <button class="btn btn-primary" id="btnAnunciar" type="button"><i class="ti ti-plus" style="font-size:14px" aria-hidden="true"></i><span class="lbl">Anunciar</span></button>
+    <button class="btn btn-primary" id="btnAnunciar" data-sell type="button"><i class="ti ti-plus" style="font-size:14px" aria-hidden="true"></i><span class="lbl">Anunciar</span></button>
   </div>
 </nav>
 
@@ -1135,7 +1148,7 @@ html.access-grayscale{filter:grayscale(1)}
     <h2>Sua peça parada<br>pode ser a <em>favorita</em><br>de alguém.</h2>
     <p>Mais de 4.800 vendedores já descobriram que dar uma segunda vida para roupas pode gerar renda — e ainda fazer bem pro planeta.</p>
     <div class="cta-banner-actions">
-      <button class="btn btn-primary hero-btn"><i class="ti ti-plus" style="font-size:16px"></i> Começar a vender</button>
+      <button class="btn btn-primary hero-btn" data-sell type="button"><i class="ti ti-plus" style="font-size:16px"></i> Começar a vender</button>
       <button class="btn hero-btn">Explorar o brechó</button>
     </div>
   </div>
@@ -1154,7 +1167,7 @@ html.access-grayscale{filter:grayscale(1)}
       <div class="footer-col">
         <h4>Plataforma</h4>
         <a href="#">Explorar peças</a>
-        <a href="#">Anunciar</a>
+        <a href="#" data-sell>Anunciar</a>
         <a href="#">Como funciona</a>
         <a href="#">Vendedor verificado</a>
       </div>
@@ -1252,8 +1265,10 @@ html.access-grayscale{filter:grayscale(1)}
         <p class="price-main pm-price" id="pmPrice"></p>
         <p class="pix" id="pmPix"></p>
         <p class="pix" id="pmInst" style="margin-top:2px"></p>
+        <p class="pm-desc" id="pmDesc" hidden></p>
         <div class="pm-actions">
           <button class="btn btn-primary hero-btn" id="pmBuy" type="button"><i class="ti ti-shopping-bag" style="font-size:16px" aria-hidden="true"></i> Comprar agora</button>
+          <button class="btn pm-delete" id="pmDelete" type="button" hidden><i class="ti ti-trash" style="font-size:15px" aria-hidden="true"></i> Excluir meu anúncio</button>
         </div>
         <ul class="pm-trust">
           <li><i class="ti ti-shield-check" aria-hidden="true"></i><span>Pagamento retido até você confirmar que a peça chegou como descrita.</span></li>
@@ -1267,6 +1282,54 @@ html.access-grayscale{filter:grayscale(1)}
       <div id="pmComments"></div>
       <div id="pmCommentBox"></div>
     </section>
+  </div>
+</div>
+
+<!-- MODAL: ANUNCIAR PEÇA -->
+<div class="overlay" id="sellModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="sellHeading">
+    <button class="modal-close" type="button" data-close aria-label="Fechar"><i class="ti ti-x" aria-hidden="true"></i></button>
+    <div class="auth-brand"><span class="nav-logo-dot"></span>Unibrecho</div>
+    <h2 class="auth-title" id="sellHeading">Anunciar uma peça</h2>
+    <p class="auth-sub">Preencha os dados da peça. O anúncio fica salvo neste navegador e aparece na vitrine da região escolhida.</p>
+    <form id="sellForm" novalidate>
+      <div class="form-error" id="sellError" role="alert" hidden></div>
+      <div class="field">
+        <label for="sellTitle">Título da peça</label>
+        <input type="text" id="sellTitle" maxlength="80" placeholder="Ex.: Jaqueta jeans vintage oversized" required>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="sellPrice">Preço (R$)</label>
+          <input type="text" id="sellPrice" inputmode="decimal" placeholder="89,90" required>
+        </div>
+        <div class="field">
+          <label for="sellOldPrice">Preço antigo (opcional)</label>
+          <input type="text" id="sellOldPrice" inputmode="decimal" placeholder="149,90">
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label for="sellRegion">Região</label>
+          <select id="sellRegion"></select>
+        </div>
+        <div class="field">
+          <label for="sellStore">Nome do vendedor/loja</label>
+          <input type="text" id="sellStore" maxlength="40" required>
+        </div>
+      </div>
+      <div class="field">
+        <label for="sellImage">Foto da peça</label>
+        <input type="file" id="sellImage" accept="image/*">
+        <span class="field-hint">A imagem é reduzida automaticamente para caber no armazenamento do navegador.</span>
+        <img id="sellPreview" class="sell-preview" alt="Pré-visualização da foto" hidden>
+      </div>
+      <div class="field">
+        <label for="sellDesc">Descrição (opcional)</label>
+        <textarea id="sellDesc" maxlength="300" rows="3" placeholder="Tamanho, estado de conservação, medidas…"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary auth-submit">Publicar anúncio</button>
+    </form>
   </div>
 </div>
 
@@ -1291,7 +1354,7 @@ html.access-grayscale{filter:grayscale(1)}
   <div class="chat-messages" id="chatMessages">
     <div class="msg bot">
       <div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div>
-      <div class="msg-bubble">Olá! 👋 Sou a <strong>Uni</strong>, assistente da Unibrecho. Como posso te ajudar hoje?</div>
+      <div class="msg-bubble">Olá! 👋 Sou a <strong>Uni</strong>, assistente da Unibrecho. Pode tirar dúvidas ou só bater um papo comigo. Como posso te ajudar hoje?</div>
     </div>
   </div>
   <div class="chat-suggestions" id="chatSuggestions">
@@ -1301,6 +1364,7 @@ html.access-grayscale{filter:grayscale(1)}
     <button class="sug-btn" data-key="devolucao">Política de devolução</button>
     <button class="sug-btn" data-key="verificado">Vendedor verificado</button>
     <button class="sug-btn" data-key="pix">Desconto no Pix</button>
+    <button class="sug-btn" data-key="papo">Bater um papo 💬</button>
   </div>
   <div class="chat-input-row">
     <input type="text" id="chatInput" placeholder="Digite ou fale sua dúvida…" autocomplete="off">
@@ -1348,7 +1412,8 @@ const KEYS = {
   users:    'unibrecho:users:v1',
   session:  'unibrecho:session:v1',
   comments: 'unibrecho:comments:v1',
-  orders:   'unibrecho:orders:v1'
+  orders:   'unibrecho:orders:v1',
+  listings: 'unibrecho:listings:v1'
 };
 const SESSION_DAYS = 7;
 
@@ -1628,8 +1693,6 @@ $('#btnLogin').addEventListener('click', () => openAuth('login'));
 $('#btnLogout').addEventListener('click', () => {
   store.del(KEYS.session); renderAuthUI(); toast('Você saiu da conta.', 'info');
 });
-$('#btnAnunciar').addEventListener('click', () =>
-  requireLogin(() => toast('Em breve: anúncio de peças direto por aqui.', 'info'), 'Entre para anunciar suas peças.'));
 window.addEventListener('storage', e => { if (e.key === KEYS.session) renderAuthUI(); }); // sincroniza entre abas
 
 // ═══════════════════════════════════════════════════════════════════
@@ -1647,7 +1710,7 @@ function prepare(p) {
   const title = norm(p.titulo), loja = norm(p.loja);
   return {
     ...p,
-    id: idHash(`${p.titulo}|${p.loja}`),
+    id: p._id || idHash(`${p.titulo}|${p.loja}`),
     price: parsePrice(p.preco),
     old: parsePrice(p.precoAntigo),
     hay: `${title} ${loja}`,
@@ -1675,7 +1738,8 @@ async function loadRegion() {
       cache.set(file, list);
     }
     if (token !== state.token) return;
-    state.all = list;
+    state.base = list;
+    state.all = withListings(list);
     applyFilters();
   } catch (err) {
     if (token !== state.token) return;
@@ -1781,7 +1845,7 @@ function render(list, filtering) {
 }
 
 function cardEl(p) {
-  const img = h('img', { src: imgUrl(p.imagem, 480), alt: '', loading: 'lazy' });
+  const img = h('img', { src: imgUrl(p.imagem || PLACEHOLDER, 480), alt: '', loading: 'lazy' });
   img.addEventListener('error', () => { img.src = PLACEHOLDER; }, { once: true });
 
   let priceNode;
@@ -1923,7 +1987,7 @@ function openProduct(p) {
   currentProduct = p;
   const img = $('#pmImg');
   img.onerror = () => { img.onerror = null; img.src = PLACEHOLDER; };
-  img.src = imgUrl(p.imagem, 900);
+  img.src = imgUrl(p.imagem || PLACEHOLDER, 900);
   img.alt = p.titulo;
 
   $('#pmStore').replaceChildren(icon('building-store', 12), ' ' + (p.loja || 'Loja parceira'));
@@ -1944,6 +2008,12 @@ function openProduct(p) {
   const pix = $('#pmPix');
   pix.replaceChildren(...(p.desconto ? [h('strong', { text: p.desconto }), ' no Pix'] : []));
   $('#pmInst').textContent = p.parcelas || '';
+
+  const desc = $('#pmDesc');
+  desc.textContent = p.descricao || '';
+  desc.hidden = !p.descricao;
+  const sess = getSession();
+  $('#pmDelete').hidden = !(p._own && sess && sess.email === p._owner);
 
   renderComments(p);
   openModal(productModal, $('#pmBuy'));
@@ -2014,6 +2084,138 @@ function renderCommentBox(p) {
   box.append(form);
 }
 
+// ═══════════════════════════════════════════════════════════════════
+//  ANUNCIAR PEÇAS (localStorage)
+//  Os anúncios ficam em 'unibrecho:listings:v1' e aparecem na vitrine da região escolhida.
+// ═══════════════════════════════════════════════════════════════════
+function withListings(base) {
+  const mine = store.get(KEYS.listings, [])
+    .filter(l => l.region === state.region)
+    .sort((a, b) => b.createdAt - a.createdAt)
+    .map(l => prepare({
+      titulo: l.titulo, loja: l.loja, preco: l.preco, precoAntigo: l.precoAntigo,
+      imagem: l.imagem, descricao: l.descricao, desconto: '', parcelas: '',
+      _own: true, _owner: l.owner, _id: l.id
+    }));
+  return [...mine, ...base];
+}
+function refreshListings() {
+  state.all = withListings(state.base || []);
+  applyFilters();
+}
+
+const sellModal = $('#sellModal'), sellForm = $('#sellForm');
+const sellPreview = $('#sellPreview'), sellImage = $('#sellImage'), sellRegion = $('#sellRegion');
+let sellImageData = '';
+[...regionSelect.options].forEach(o => sellRegion.append(h('option', { value: o.value, text: o.textContent })));
+
+// Reduz a foto (máx. 800 px, JPEG) para não estourar o limite do localStorage (~5 MB)
+function fileToDataUrl(file, max = 800) {
+  return new Promise((resolve, reject) => {
+    if (!/^image\//.test(file.type)) return reject(new Error('Escolha um arquivo de imagem.'));
+    const fr = new FileReader();
+    fr.onerror = () => reject(new Error('Não foi possível ler a imagem.'));
+    fr.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Essa imagem não pôde ser aberta.'));
+      img.onload = () => {
+        const k = Math.min(1, max / Math.max(img.width, img.height));
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(img.width * k));
+        c.height = Math.max(1, Math.round(img.height * k));
+        const ctx = c.getContext('2d');
+        ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+        ctx.drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', 0.8));
+      };
+      img.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  });
+}
+
+sellImage.addEventListener('change', async () => {
+  const file = sellImage.files[0];
+  $('#sellError').hidden = true;
+  if (!file) { sellImageData = ''; sellPreview.hidden = true; return; }
+  try {
+    sellImageData = await fileToDataUrl(file);
+    sellPreview.src = sellImageData;
+    sellPreview.hidden = false;
+  } catch (err) {
+    sellImageData = ''; sellPreview.hidden = true; sellImage.value = '';
+    formError(sellForm, err.message, sellImage);
+  }
+});
+
+function openSell() {
+  requireLogin(() => {
+    clearErrors();
+    sellForm.reset();
+    sellImageData = ''; sellPreview.hidden = true;
+    sellRegion.value = state.region;
+    $('#sellStore').value = getSession().name;
+    openModal(sellModal, $('#sellTitle'));
+  }, 'Entre para anunciar suas peças.');
+}
+$$('[data-sell]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); openSell(); }));
+
+sellForm.addEventListener('submit', e => {
+  e.preventDefault(); clearErrors();
+  const session = getSession();
+  if (!session) return formError(sellForm, 'Sua sessão expirou. Entre novamente.');
+  const titleEl = $('#sellTitle'), priceEl = $('#sellPrice'), oldEl = $('#sellOldPrice'), storeEl = $('#sellStore');
+  const titulo = titleEl.value.trim().replace(/\s+/g, ' ');
+  const preco = parsePrice(priceEl.value);
+  const antigo = oldEl.value.trim() ? parsePrice(oldEl.value) : null;
+  const loja = storeEl.value.trim().replace(/\s+/g, ' ');
+
+  if (titulo.length < 3) return formError(sellForm, 'Dê um título para a peça (mínimo 3 letras).', titleEl);
+  if (preco == null || preco <= 0) return formError(sellForm, 'Informe um preço válido, por exemplo 89,90.', priceEl);
+  if (oldEl.value.trim() && (antigo == null || antigo <= preco)) return formError(sellForm, 'O preço antigo precisa ser maior que o preço atual.', oldEl);
+  if (loja.length < 2) return formError(sellForm, 'Informe o nome do vendedor ou da loja.', storeEl);
+
+  const listing = {
+    id: 'u' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    owner: session.email,
+    titulo, loja, preco, precoAntigo: antigo,
+    imagem: sellImageData,
+    descricao: $('#sellDesc').value.trim(),
+    region: sellRegion.value,
+    createdAt: Date.now()
+  };
+  const all = store.get(KEYS.listings, []);
+  all.push(listing);
+  if (!store.set(KEYS.listings, all)) {
+    return formError(sellForm, 'Não foi possível salvar: o armazenamento do navegador está cheio ou bloqueado. Tente uma foto menor ou exclua anúncios antigos.');
+  }
+
+  closeModal(sellModal);
+  toast('Anúncio publicado! Sua peça já está na vitrine.');
+  // mostra o anúncio na região escolhida
+  if (listing.region !== state.region) {
+    const opt = regionOpts.find(o => o.dataset.v === listing.region);
+    regionSelect.value = listing.region;
+    regionOpts.forEach(o => o.setAttribute('aria-selected', String(o.dataset.v === listing.region)));
+    if (opt) $('#regionLabel').textContent = opt.textContent;
+    state.region = listing.region;
+    loadRegion();
+  } else {
+    refreshListings();
+  }
+  goToProductsWithAnimation();
+});
+
+$('#pmDelete').addEventListener('click', () => {
+  const p = currentProduct, s = getSession();
+  if (!p || !p._own || !s || s.email !== p._owner) return;
+  if (!confirm('Excluir este anúncio? Essa ação não pode ser desfeita.')) return;
+  store.set(KEYS.listings, store.get(KEYS.listings, []).filter(l => l.id !== p._id));
+  closeModal(productModal);
+  refreshListings();
+  toast('Anúncio excluído.', 'info');
+});
+
 // ── Início ──
 renderAuthUI();
 loadRegion();
@@ -2049,6 +2251,7 @@ const ANSWERS = {
   frete:      "O frete é calculado automaticamente no checkout com base no seu CEP. 🚚 Trabalhamos com Correios, Jadlog e Melhor Envio. O valor exato aparece antes de você finalizar a compra — sem surpresas!",
   devolucao:  "Sua compra é protegida! 🔒 Se a peça não for como no anúncio, você tem 7 dias após o recebimento para abrir uma solicitação de devolução. O reembolso é 100% garantido e processado em até 5 dias úteis.",
   verificado: "O selo de vendedor verificado é dado após 10 vendas com avaliação acima de 4.5 ⭐. Você também precisa confirmar CPF/CNPJ. Vendedores verificados aparecem em destaque nas buscas e têm muito mais conversão!",
+  papo:       "Bora! 😊 Pode falar o que quiser: moda, brechó, dicas de look ou qualquer coisa leve. Como foi seu dia?",
   pix:        "Ao pagar no Pix você recebe um desconto exclusivo direto no valor da peça! 💜 O percentual varia por anúncio e aparece sempre indicado nos cards. É a forma mais barata de comprar na Unibrecho.",
 };
 const GENERIC = [
@@ -2086,17 +2289,80 @@ document.querySelectorAll('.sug-btn').forEach(btn => {
   btn.addEventListener('click', () => { addMsg(btn.textContent, true); botReply(ANSWERS[btn.dataset.key]); });
 });
 
+// ── Conversa casual (bate-papo) ───────────────────────────────────
+// Para usar uma IA de verdade, aponte CHAT_API_URL para o SEU servidor (nunca coloque chave de API aqui).
+// O servidor recebe POST { messages:[{role:'user'|'assistant', content:'...'}] } e devolve { reply:'...' }.
+const CHAT_API_URL = '';
+const chatHistory = [];
+const nrm = t => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s?!]/g, ' ').replace(/\s+/g, ' ').trim();
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const escHtml = t => { const d = document.createElement('div'); d.textContent = t; return d.innerHTML.replace(/\n/g, '<br>'); };
+let chatUserName = '';
+
+const SMALLTALK = [
+  [/\b(meu nome e|me chamo|pode me chamar de)\s+([a-z]+)/, (m) => { chatUserName = m[2].charAt(0).toUpperCase() + m[2].slice(1); return `Prazer, ${chatUserName}! 😊 Que bom conversar com você. Quer dar uma olhada nas peças ou prefere só bater um papo?`; }],
+  [/\b(oi+|ola|eai|e ai|eae|opa|salve|hey|hello|bom dia|boa tarde|boa noite)\b/, () => [`Oi${chatUserName ? ', ' + chatUserName : ''}! 👋 Tudo bem por aí?`, 'Olá! 😊 Que bom te ver por aqui. Como posso ajudar?', 'E aí! 💜 Bora conversar ou procurar uma peça?']],
+  [/\b(tudo bem|td bem|como vai|como voce esta|como vc esta|como voce ta|como vc ta|beleza\?|tudo certo)\b/, () => ['Tô ótima, obrigada por perguntar! 💜 E você, como está?', 'Tudo certo por aqui! Adoro uma boa conversa. E com você?', 'Muito bem! Cercada de roupa bonita o dia todo, quem não estaria? 😄 E você?']],
+  [/\b(estou bem|to bem|tudo otimo|estou otimo|estou otima|to otimo|to otima|to feliz|estou feliz)\b/, () => ['Que bom saber! 😊 Quer comemorar com uma peça nova?', 'Isso me deixa feliz também! 💜 Posso ajudar em algo?']],
+  [/\b(triste|chateado|chateada|cansado|cansada|estressado|estressada|mal hoje|dia ruim|desanimado|desanimada)\b/, () => ['Poxa, sinto muito por isso. 💜 Respira fundo, um dia difícil não define você. Quer conversar mais sobre isso ou prefere uma distração com umas peças bonitas?', 'Entendo, tem dias assim. Estou aqui para ouvir. Se quiser, também posso sugerir um look confortável para levantar o astral. 🌿']],
+  [/\b(seu nome|como voce se chama|como vc se chama|quem e voce|quem e vc|quem voce e|voce e quem)\b/, () => 'Eu sou a Uni, assistente virtual da Unibrecho! 💜 Ajudo com dúvidas sobre compra e venda, e também adoro um bate-papo.'],
+  [/\b(voce e (um )?(robo|bot|humano|humana|pessoa|ia)|e um robo|e humano|e uma ia)\b/, () => 'Sou uma assistente virtual, não uma pessoa. 🤖 Mas faço o possível para ser simpática! Se precisar falar com alguém da equipe, é só usar o botão "Fale conosco" no rodapé.'],
+  [/\b(quantos anos|sua idade|onde voce mora|onde vc mora|de onde voce e)\b/, () => 'Sou digital, então moro na nuvem e não tenho idade, mas nasci junto com a Unibrecho! ☁️ E você, de onde é?'],
+  [/\b(o que voce faz|o que vc faz|pode fazer|sabe fazer|me ajuda|preciso de ajuda|ajuda)\b/, () => 'Posso explicar como comprar e vender, frete, devolução, Pix e vendedor verificado, dar dicas de look, contar piada ou só conversar. É só pedir! ✨'],
+  [/\b(piada|me faz rir|conta algo engracado|me faca rir|algo engracado)\b/, () => ['Por que o brechó nunca fica triste? Porque sempre dá uma segunda chance! 😄', 'Qual a roupa preferida do fantasma? A que já tem história! 👻', 'O que a camiseta disse pro cabide? "Valeu por segurar minha barra!" 😂']],
+  [/\b(dica de look|que roupa|o que vestir|o que uso|sugestao de look|look pra|look para|combinar)\b/, () => ['Dica rápida: jaqueta jeans vintage + camiseta lisa + calça reta é combinação certeira. 🧥 Quer que eu mostre peças parecidas? É só buscar "jaqueta" lá em cima!', 'Para um visual casual e estiloso: camiseta oversized, calça cargo e tênis. 👟 Use o filtro "Streetwear" para ver opções.', 'Quer algo elegante? Aposte em blazer e tons neutros. No filtro "Luxo" tem boas ideias! ✨']],
+  [/\b(sustentavel|sustentabilidade|planeta|meio ambiente|reciclar|consumo consciente)\b/, () => 'Amo esse assunto! 🌍 Comprar usado evita lixo têxtil e economiza muita água. Cada peça que ganha uma segunda vida já faz diferença.'],
+  [/\b(que horas|horas sao|hora agora)\b/, () => `Agora são ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}. ⏰`],
+  [/\b(que dia|data de hoje|dia e hoje|hoje e que dia)\b/, () => `Hoje é ${new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}. 📅`],
+  [/\b(clima|previsao do tempo|vai chover|tempo hoje)\b/, () => 'Não consigo ver o clima daqui, mas se estiver frio, que tal um moletom ou jaqueta no brechó? 🧥'],
+  [/\b(eu te amo|te amo|gosto de voce|gosto de vc|voce e legal|voce e demais|voce e incrivel)\b/, () => ['Ai, que fofo! 💜 Você também é demais!', 'Fiquei até emocionada! 🥹 Obrigada pelo carinho.']],
+  [/\b(burra|burro|idiota|inutil|odeio voce|chata)\b/, () => 'Poxa, desculpa se não ajudei como esperava. 😕 Me conta o que você precisa que eu tento de novo, ou chame a equipe pelo "Fale conosco".'],
+  [/\b(gostei|legal|massa|top|show|maneiro|incrivel|bacana|otimo|perfeito|boa)\b/, () => ['Que bom que gostou! 😊', 'Show! 💜 Algo mais em que eu possa ajudar?']],
+  [/\b(obrigad[oa]|valeu|vlw|brigad[oa]|agradeco)\b/, () => ['De nada! 💜 Qualquer coisa, é só chamar.', 'Imagina, foi um prazer! 😊', 'Por nada! Estou sempre por aqui. ✨']],
+  [/\b(tchau|ate mais|ate logo|flw|falou|adeus|ate a proxima|fui)\b/, () => ['Tchau, até a próxima! 👋💜', 'Até mais! Volte sempre que quiser conversar. 😊', 'Falou! Boas compras e boa vibe! ✨']],
+  [/\b(sim|claro|com certeza|quero|pode ser)\b/, () => 'Perfeito! 😊 Me diga o que você quer ver ou perguntar.'],
+  [/\b(nao|nao quero|talvez|depois)\b/, () => 'Sem problemas! Se mudar de ideia, estou por aqui. 💜'],
+  [/\b(kkk+|haha+|rs+|rsrs+|hehe+)\b/, () => ['😄 Adoro um bom papo descontraído!', 'Hahaha! 😂 Me conta mais.']],
+  [/\b(conversar|bater um papo|papo|conversa|conversar um pouco)\b/, () => 'Bora! 😊 Pode falar o que quiser: moda, brechó, dicas de look ou qualquer coisa leve.']
+];
+
+function localReply(text) {
+  const raw = text.toLowerCase();
+  const n = nrm(text);
+  // 1) Assuntos da loja
+  const kws = { comprar:['comprar','compra'], vender:['vender','venda','anunciar'], frete:['frete','entrega','envio'], devolucao:['devolver','devolução','reembolso'], verificado:['verificado','verificação','selo'], pix:['pix','desconto'] };
+  for (const [k, v] of Object.entries(ANSWERS)) {
+    if ((kws[k] || []).some(w => raw.includes(w))) return v;
+  }
+  // 2) Bate-papo
+  for (const [re, resp] of SMALLTALK) {
+    const m = n.match(re);
+    if (m) { const r = typeof resp === 'function' ? resp(m) : resp; return Array.isArray(r) ? pick(r) : r; }
+  }
+  // 3) Pergunta aberta sem assunto conhecido
+  if (n.endsWith('?')) return pick(['Boa pergunta! 🤔 Não tenho certeza sobre isso, mas posso falar de compra, venda, frete, devolução, dicas de look ou só conversar.', 'Hmm, essa eu não sei responder direitinho. Quer tentar de outro jeito ou falar com a equipe em "Fale conosco"? 💜']);
+  return pick(['Entendi! 😊 Me conta mais, estou ouvindo.', 'Interessante! Quer falar mais sobre isso ou prefere ver as peças?', ...GENERIC]);
+}
+
 function handleSend() {
   if (typeof listening !== 'undefined' && listening && rec) rec.abort();
   const text = inp.value.trim(); if (!text) return;
+  const viaVoice = (typeof sentByVoice !== 'undefined') && sentByVoice;   // mensagem ditada pelo microfone
+  if (typeof sentByVoice !== 'undefined') sentByVoice = false;
   inp.value = ''; addMsg(text, true);
-  const lower = text.toLowerCase();
-  let ans = GENERIC[Math.floor(Math.random() * GENERIC.length)];
-  const kws = { comprar:['comprar','compra'], vender:['vender','venda','anunciar'], frete:['frete','entrega','envio'], devolucao:['devolver','devolução','reembolso'], verificado:['verificado','verificação','selo'], pix:['pix','desconto'] };
-  for (const [k, v] of Object.entries(ANSWERS)) {
-    if ((kws[k] || []).some(w => lower.includes(w))) { ans = v; break; }
+  chatHistory.push({ role: 'user', content: text });
+  const finish = (html) => { hideTyping(); addMsg(html, false); chatHistory.push({ role: 'assistant', content: html }); if (window.unibrechoSpeak) window.unibrechoSpeak(html, viaVoice); };
+  if (!CHAT_API_URL) {
+    const ans = localReply(text);
+    showTyping(); setTimeout(() => finish(ans), 700 + Math.random() * 600);
+    return;
   }
-  botReply(ans);
+  // Com servidor de IA configurado: tenta a IA e, se falhar, usa as respostas locais
+  showTyping();
+  fetch(CHAT_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: chatHistory.slice(-12) }) })
+    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(d => finish(escHtml(String(d.reply || ''))) )
+    .catch(() => finish(localReply(text)));
 }
 document.getElementById('chatSend').addEventListener('click', handleSend);
 inp.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
@@ -2104,7 +2370,8 @@ inp.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
 // ── Ditado por voz no chat (transcreve a fala no campo de texto) ──
 const micBtn = document.getElementById('chatMic');
 const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-let rec = null, listening = false, baseText = '';
+let rec = null, listening = false, baseText = '', sentByVoice = false;
+inp.addEventListener('input', () => { sentByVoice = false; }); // se digitou, a resposta volta a ser só em texto
 
 function setMicUI(on) {
   listening = on;
@@ -2130,6 +2397,7 @@ if (!SpeechRec) {
     let t = '';
     for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
     inp.value = (baseText + ' ' + t).trim();
+    sentByVoice = true;
   };
   rec.onend = () => { setMicUI(false); inp.focus(); };
   rec.onerror = e => {
@@ -2245,8 +2513,8 @@ if (!SpeechRec) {
   const synth = 'speechSynthesis' in window ? window.speechSynthesis : null;
   let voiceOn = false, lastSpoken = '', hoverTimer;
 
-  const speak = (text) => {
-    if (!voiceOn || !synth || !text || text === lastSpoken) return;
+  const speak = (text, force = false) => {
+    if ((!voiceOn && !force) || !synth || !text || (text === lastSpoken && !force)) return;
     lastSpoken = text;
     synth.cancel();
     const u = new SpeechSynthesisUtterance(text);
@@ -2256,14 +2524,14 @@ if (!SpeechRec) {
   };
 
   // Usado pelo chat virtual: lê a resposta do bot (sem HTML e sem emojis) quando a voz está ativa
-  window.unibrechoSpeak = (html) => {
-    if (!voiceOn) return;
+  window.unibrechoSpeak = (html, force = false) => {
+    if (!voiceOn && !force) return;
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
     const text = (tmp.textContent || '').replace(/\p{Extended_Pictographic}|\uFE0F/gu, '').replace(/\s+/g, ' ').trim();
     if (!text) return;
     lastSpoken = '';
-    speak('Uni respondeu: ' + text);
+    speak(force ? text : 'Uni respondeu: ' + text, force);
   };
 
   // Descobre o que deve ser lido para o elemento focado/apontado
