@@ -1479,6 +1479,7 @@ html.access-grayscale{filter:grayscale(1)}
       <div class="chat-title">Uni — Assistente Unibrecho</div>
       <div class="chat-subtitle"><span class="chat-online"></span> Online agora</div>
     </div>
+    <button class="chat-close" id="chatClearMemory" aria-label="Limpar memória" title="Limpar memória"><i class="ti ti-trash"></i></button>
     <button class="chat-close" id="chatClose" aria-label="Fechar"><i class="ti ti-x"></i></button>
   </div>
   <div class="chat-messages" id="chatMessages">
@@ -2402,43 +2403,77 @@ const obs = new IntersectionObserver(entries => {
 }, { threshold: .12 });
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-// ── Chatbot ───────────────────────────────────────────────────────
+// ── Chatbot com memória persistente no navegador ───────────────────
 const fab  = document.getElementById('chatFab');
 const win  = document.getElementById('chatWindow');
 const msgs = document.getElementById('chatMessages');
 const inp  = document.getElementById('chatInput');
 
+const CHAT_MEMORY_KEY = 'unibrecho:uni-memory:v1';
+const CHAT_API_URL = ''; // Configure uma URL de backend para conectar uma IA generativa.
+const MAX_CHAT_MESSAGES = 100;
+const MAX_MEMORY_FACTS = 35;
+const MAX_LEARNED = 40;
 const ANSWERS = {
-  comprar:    "Para comprar na Unibrecho é simples! 🛍️ Explore as peças, clique naquela que te interessar e adicione ao carrinho. O pagamento fica retido até você confirmar que a peça chegou certinha. Se não gostar, tem 7 dias para devolver!",
-  vender:     "Vender aqui é fácil e gratuito! 📦 Crie sua conta, clique em 'Anunciar', adicione fotos e descrição da peça. Nossa curadoria revisa em até 24h. Quando vender, descontamos apenas 12% de comissão — sem mensalidade.",
-  frete:      "O frete é calculado automaticamente no checkout com base no seu CEP. 🚚 Trabalhamos com Correios, Jadlog e Melhor Envio. O valor exato aparece antes de você finalizar a compra — sem surpresas!",
-  devolucao:  "Sua compra é protegida! 🔒 Se a peça não for como no anúncio, você tem 7 dias após o recebimento para abrir uma solicitação de devolução. O reembolso é 100% garantido e processado em até 5 dias úteis.",
-  verificado: "O selo de vendedor verificado é dado após 10 vendas com avaliação acima de 4.5 ⭐. Você também precisa confirmar CPF/CNPJ. Vendedores verificados aparecem em destaque nas buscas e têm muito mais conversão!",
-  papo:       "Bora! 😊 Pode falar o que quiser: moda, brechó, dicas de look ou qualquer coisa leve. Como foi seu dia?",
-  pix:        "Ao pagar no Pix você recebe um desconto exclusivo direto no valor da peça! 💜 O percentual varia por anúncio e aparece sempre indicado nos cards. É a forma mais barata de comprar na Unibrecho.",
+  comprar: "Para comprar na Unibrecho é simples! Explore as peças, clique naquela que te interessar e siga para o carrinho. Confira as condições e informações do anúncio antes de finalizar.",
+  vender: "Para vender, crie sua conta, clique em 'Anunciar', adicione fotos e descrição da peça e envie o anúncio para análise. Consulte as condições exibidas no site antes de publicar.",
+  frete: "As informações de entrega e o valor do frete devem aparecer durante o processo de compra, conforme o endereço e as opções disponíveis.",
+  devolucao: "Consulte as condições de devolução apresentadas no anúncio e na área de ajuda antes de concluir a compra. Se houver um problema com o pedido, entre em contato com o suporte.",
+  verificado: "O selo de verificação identifica vendedores que passaram pelo processo de validação da plataforma. Consulte a área de ajuda para conferir os critérios vigentes.",
+  papo: "Podemos conversar. Você pode falar sobre moda, brechós, preferências ou qualquer outro assunto.",
+  pix: "Se houver desconto no Pix, ele será indicado no anúncio ou na etapa de pagamento. Confira o valor final antes de concluir a compra."
 };
-const GENERIC = [
-  "Boa pergunta! Para essa dúvida específica, recomendo acessar nossa <strong>Central de Ajuda</strong> ou conversar com o suporte pelo chat em tempo real. 💜",
-  "Entendi! Sobre isso, o melhor é verificar a aba <strong>FAQ</strong> aqui no site ou nos chamar no WhatsApp. Estou aqui para o que precisar! 😊",
-  "Hmm, não tenho certeza sobre isso agora, mas nossa equipe de suporte vai te ajudar rapidinho! Clique em 'Fale Conosco' no rodapé. 🚀",
-];
+const nrm = t => String(t ?? '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s?!]/g, ' ').replace(/\s+/g, ' ').trim();
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const escHtml = t => { const d = document.createElement('div'); d.textContent = String(t ?? ''); return d.innerHTML.replace(/\n/g, '<br>'); };
 
+function emptyMemory() { return { version: 1, profile: { name: '', facts: [] }, learned: [], messages: [] }; }
+function loadMemory() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CHAT_MEMORY_KEY) || 'null');
+    if (!saved || typeof saved !== 'object') return emptyMemory();
+    return {
+      version: 1,
+      profile: { name: String(saved.profile?.name || '').slice(0, 60), facts: Array.isArray(saved.profile?.facts) ? saved.profile.facts.filter(x => typeof x === 'string').slice(-MAX_MEMORY_FACTS) : [] },
+      learned: Array.isArray(saved.learned) ? saved.learned.filter(x => x && typeof x.question === 'string' && typeof x.answer === 'string').slice(-MAX_LEARNED) : [],
+      messages: Array.isArray(saved.messages) ? saved.messages.filter(x => x && ['user','assistant'].includes(x.role) && typeof x.content === 'string').slice(-MAX_CHAT_MESSAGES) : []
+    };
+  } catch (_) { return emptyMemory(); }
+}
+let uniMemory = loadMemory();
 let chatOpen = false;
+let chatHistory = uniMemory.messages.map(m => ({ role: m.role, content: m.content }));
+let chatUserName = uniMemory.profile.name || '';
+
+function saveMemory() {
+  try { localStorage.setItem(CHAT_MEMORY_KEY, JSON.stringify(uniMemory)); return true; }
+  catch (err) { console.warn('Não foi possível salvar a memória da Uni:', err); return false; }
+}
 function toggleChat() { chatOpen = !chatOpen; win.classList.toggle('open', chatOpen); if (chatOpen) inp.focus(); }
 fab.addEventListener('click', toggleChat);
 document.getElementById('chatClose').addEventListener('click', toggleChat);
 
-function addMsg(text, isUser) {
+// Renderização segura: conteúdo vindo do armazenamento é tratado como texto.
+function addMsg(text, isUser, persist = true) {
+  const content = String(text ?? '');
   const div = document.createElement('div');
   div.className = 'msg ' + (isUser ? 'user' : 'bot');
   if (isUser) {
-    const bubble = document.createElement('div'); bubble.className = 'msg-bubble'; bubble.textContent = text;
+    const bubble = document.createElement('div'); bubble.className = 'msg-bubble'; bubble.textContent = content;
     div.appendChild(bubble);
   } else {
-    div.innerHTML = `<div class="msg-avatar"><i class="ti ti-sparkles" style="font-size:12px"></i></div><div class="msg-bubble">${text}</div>`;
+    const avatar = document.createElement('div'); avatar.className = 'msg-avatar'; avatar.innerHTML = '<i class="ti ti-sparkles" style="font-size:12px"></i>';
+    const bubble = document.createElement('div'); bubble.className = 'msg-bubble'; bubble.textContent = content;
+    div.append(avatar, bubble);
   }
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
+  if (persist) {
+    uniMemory.messages.push({ role: isUser ? 'user' : 'assistant', content, at: Date.now() });
+    uniMemory.messages = uniMemory.messages.slice(-MAX_CHAT_MESSAGES);
+    chatHistory = uniMemory.messages.map(m => ({ role: m.role, content: m.content }));
+    saveMemory();
+  }
 }
 function showTyping() {
   const div = document.createElement('div'); div.className = 'msg bot'; div.id = 'typing-indicator';
@@ -2446,89 +2481,141 @@ function showTyping() {
   msgs.appendChild(div); msgs.scrollTop = msgs.scrollHeight;
 }
 function hideTyping() { const el = document.getElementById('typing-indicator'); if (el) el.remove(); }
-function botReply(answer) { showTyping(); setTimeout(() => { hideTyping(); addMsg(answer, false); if (window.unibrechoSpeak) window.unibrechoSpeak(answer); }, 900 + Math.random() * 500); }
+function restoreChat() {
+  if (!uniMemory.messages.length) return;
+  msgs.replaceChildren();
+  uniMemory.messages.forEach(m => addMsg(m.content, m.role === 'user', false));
+}
+restoreChat();
 
-document.querySelectorAll('.sug-btn').forEach(btn => {
-  btn.addEventListener('click', () => { addMsg(btn.textContent, true); botReply(ANSWERS[btn.dataset.key]); });
-});
-
-// ── Conversa casual (bate-papo) ───────────────────────────────────
-// Para usar uma IA de verdade, aponte CHAT_API_URL para o SEU servidor (nunca coloque chave de API aqui).
-// O servidor recebe POST { messages:[{role:'user'|'assistant', content:'...'}] } e devolve { reply:'...' }.
-const CHAT_API_URL = '';
-const chatHistory = [];
-const nrm = t => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s?!]/g, ' ').replace(/\s+/g, ' ').trim();
-const pick = a => a[Math.floor(Math.random() * a.length)];
-const escHtml = t => { const d = document.createElement('div'); d.textContent = t; return d.innerHTML.replace(/\n/g, '<br>'); };
-let chatUserName = '';
+// Aprende fatos somente quando o visitante os declara de forma explícita.
+function learnFromMessage(text) {
+  const raw = String(text).trim();
+  const n = nrm(raw);
+  let learnedSomething = '';
+  const nameMatch = raw.match(/\b(?:meu nome (?:é|e)|me chamo|pode me chamar de)\s+([\p{L}][\p{L}'-]{1,30})/iu);
+  if (nameMatch) {
+    chatUserName = nameMatch[1].charAt(0).toLocaleUpperCase('pt-BR') + nameMatch[1].slice(1);
+    uniMemory.profile.name = chatUserName;
+    learnedSomething = `Vou lembrar que seu nome é ${chatUserName}.`;
+  }
+  const explicitFact = raw.match(/\b(?:lembre que|guarde que|quero que voc[eê] lembre que|anote que)\s+(.{4,180})/i);
+  const preference = raw.match(/\b((?:eu )?(?:gosto de|adoro|prefiro|n[aã]o gosto de|odeio|tenho interesse em)\s+.{3,140})/i);
+  const fact = explicitFact?.[1] || preference?.[1];
+  if (fact) {
+    const clean = fact.trim().replace(/[.!?]+$/, '');
+    if (clean && !uniMemory.profile.facts.some(f => nrm(f) === nrm(clean))) {
+      uniMemory.profile.facts.push(clean);
+      uniMemory.profile.facts = uniMemory.profile.facts.slice(-MAX_MEMORY_FACTS);
+      learnedSomething = `Vou guardar essa informação: “${clean}”.`;
+    }
+  }
+  // Forma de ensinar uma resposta específica: "quando eu perguntar X, responda Y".
+  const teach = raw.match(/quando eu (?:perguntar|disser)\s+(.{2,100}?),?\s*(?:responda|diga|fale)\s+(.{2,220})$/i);
+  if (teach) {
+    const question = teach[1].trim().replace(/["“”]/g, '');
+    const answer = teach[2].trim().replace(/["“”]$/g, '');
+    uniMemory.learned = uniMemory.learned.filter(x => nrm(x.question) !== nrm(question));
+    uniMemory.learned.push({ question, answer, at: Date.now() });
+    uniMemory.learned = uniMemory.learned.slice(-MAX_LEARNED);
+    learnedSomething = `Aprendi uma resposta personalizada. Quando você mencionar “${question}”, vou usar essa orientação.`;
+  }
+  if (learnedSomething) saveMemory();
+  return learnedSomething;
+}
 
 const SMALLTALK = [
-  [/\b(meu nome e|me chamo|pode me chamar de)\s+([a-z]+)/, (m) => { chatUserName = m[2].charAt(0).toUpperCase() + m[2].slice(1); return `Prazer, ${chatUserName}! 😊 Que bom conversar com você. Quer dar uma olhada nas peças ou prefere só bater um papo?`; }],
-  [/\b(oi+|ola|eai|e ai|eae|opa|salve|hey|hello|bom dia|boa tarde|boa noite)\b/, () => [`Oi${chatUserName ? ', ' + chatUserName : ''}! 👋 Tudo bem por aí?`, 'Olá! 😊 Que bom te ver por aqui. Como posso ajudar?', 'E aí! 💜 Bora conversar ou procurar uma peça?']],
-  [/\b(tudo bem|td bem|como vai|como voce esta|como vc esta|como voce ta|como vc ta|beleza\?|tudo certo)\b/, () => ['Tô ótima, obrigada por perguntar! 💜 E você, como está?', 'Tudo certo por aqui! Adoro uma boa conversa. E com você?', 'Muito bem! Cercada de roupa bonita o dia todo, quem não estaria? 😄 E você?']],
-  [/\b(estou bem|to bem|tudo otimo|estou otimo|estou otima|to otimo|to otima|to feliz|estou feliz)\b/, () => ['Que bom saber! 😊 Quer comemorar com uma peça nova?', 'Isso me deixa feliz também! 💜 Posso ajudar em algo?']],
-  [/\b(triste|chateado|chateada|cansado|cansada|estressado|estressada|mal hoje|dia ruim|desanimado|desanimada)\b/, () => ['Poxa, sinto muito por isso. 💜 Respira fundo, um dia difícil não define você. Quer conversar mais sobre isso ou prefere uma distração com umas peças bonitas?', 'Entendo, tem dias assim. Estou aqui para ouvir. Se quiser, também posso sugerir um look confortável para levantar o astral. 🌿']],
-  [/\b(seu nome|como voce se chama|como vc se chama|quem e voce|quem e vc|quem voce e|voce e quem)\b/, () => 'Eu sou a Uni, assistente virtual da Unibrecho! 💜 Ajudo com dúvidas sobre compra e venda, e também adoro um bate-papo.'],
-  [/\b(voce e (um )?(robo|bot|humano|humana|pessoa|ia)|e um robo|e humano|e uma ia)\b/, () => 'Sou uma assistente virtual, não uma pessoa. 🤖 Mas faço o possível para ser simpática! Se precisar falar com alguém da equipe, é só usar o botão "Fale conosco" no rodapé.'],
-  [/\b(quantos anos|sua idade|onde voce mora|onde vc mora|de onde voce e)\b/, () => 'Sou digital, então moro na nuvem e não tenho idade, mas nasci junto com a Unibrecho! ☁️ E você, de onde é?'],
-  [/\b(o que voce faz|o que vc faz|pode fazer|sabe fazer|me ajuda|preciso de ajuda|ajuda)\b/, () => 'Posso explicar como comprar e vender, frete, devolução, Pix e vendedor verificado, dar dicas de look, contar piada ou só conversar. É só pedir! ✨'],
-  [/\b(piada|me faz rir|conta algo engracado|me faca rir|algo engracado)\b/, () => ['Por que o brechó nunca fica triste? Porque sempre dá uma segunda chance! 😄', 'Qual a roupa preferida do fantasma? A que já tem história! 👻', 'O que a camiseta disse pro cabide? "Valeu por segurar minha barra!" 😂']],
-  [/\b(dica de look|que roupa|o que vestir|o que uso|sugestao de look|look pra|look para|combinar)\b/, () => ['Dica rápida: jaqueta jeans vintage + camiseta lisa + calça reta é combinação certeira. 🧥 Quer que eu mostre peças parecidas? É só buscar "jaqueta" lá em cima!', 'Para um visual casual e estiloso: camiseta oversized, calça cargo e tênis. 👟 Use o filtro "Streetwear" para ver opções.', 'Quer algo elegante? Aposte em blazer e tons neutros. No filtro "Luxo" tem boas ideias! ✨']],
-  [/\b(sustentavel|sustentabilidade|planeta|meio ambiente|reciclar|consumo consciente)\b/, () => 'Amo esse assunto! 🌍 Comprar usado evita lixo têxtil e economiza muita água. Cada peça que ganha uma segunda vida já faz diferença.'],
-  [/\b(que horas|horas sao|hora agora)\b/, () => `Agora são ${new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}. ⏰`],
-  [/\b(que dia|data de hoje|dia e hoje|hoje e que dia)\b/, () => `Hoje é ${new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}. 📅`],
-  [/\b(clima|previsao do tempo|vai chover|tempo hoje)\b/, () => 'Não consigo ver o clima daqui, mas se estiver frio, que tal um moletom ou jaqueta no brechó? 🧥'],
-  [/\b(eu te amo|te amo|gosto de voce|gosto de vc|voce e legal|voce e demais|voce e incrivel)\b/, () => ['Ai, que fofo! 💜 Você também é demais!', 'Fiquei até emocionada! 🥹 Obrigada pelo carinho.']],
-  [/\b(burra|burro|idiota|inutil|odeio voce|chata)\b/, () => 'Poxa, desculpa se não ajudei como esperava. 😕 Me conta o que você precisa que eu tento de novo, ou chame a equipe pelo "Fale conosco".'],
-  [/\b(gostei|legal|massa|top|show|maneiro|incrivel|bacana|otimo|perfeito|boa)\b/, () => ['Que bom que gostou! 😊', 'Show! 💜 Algo mais em que eu possa ajudar?']],
-  [/\b(obrigad[oa]|valeu|vlw|brigad[oa]|agradeco)\b/, () => ['De nada! 💜 Qualquer coisa, é só chamar.', 'Imagina, foi um prazer! 😊', 'Por nada! Estou sempre por aqui. ✨']],
-  [/\b(tchau|ate mais|ate logo|flw|falou|adeus|ate a proxima|fui)\b/, () => ['Tchau, até a próxima! 👋💜', 'Até mais! Volte sempre que quiser conversar. 😊', 'Falou! Boas compras e boa vibe! ✨']],
-  [/\b(sim|claro|com certeza|quero|pode ser)\b/, () => 'Perfeito! 😊 Me diga o que você quer ver ou perguntar.'],
-  [/\b(nao|nao quero|talvez|depois)\b/, () => 'Sem problemas! Se mudar de ideia, estou por aqui. 💜'],
-  [/\b(kkk+|haha+|rs+|rsrs+|hehe+)\b/, () => ['😄 Adoro um bom papo descontraído!', 'Hahaha! 😂 Me conta mais.']],
-  [/\b(conversar|bater um papo|papo|conversa|conversar um pouco)\b/, () => 'Bora! 😊 Pode falar o que quiser: moda, brechó, dicas de look ou qualquer coisa leve.']
+  [/\b(oi+|ola|eai|e ai|eae|opa|salve|hey|hello|bom dia|boa tarde|boa noite)\b/, () => `Olá${chatUserName ? ', ' + chatUserName : ''}! Como posso ajudar?`],
+  [/\b(tudo bem|td bem|como vai|como voce esta|como vc esta|como voce ta|como vc ta|beleza|tudo certo)\b/, () => 'Tudo certo por aqui. E com você?'],
+  [/\b(seu nome|como voce se chama|quem e voce|quem e vc)\b/, () => 'Eu sou a Uni, assistente virtual da Unibrecho. Posso ajudar com dúvidas sobre a plataforma e conversar com você.'],
+  [/\b(obrigad[oa]|valeu|vlw|agradeco)\b/, () => 'De nada. Se precisar, pode continuar a conversa.'],
+  [/\b(tchau|ate mais|ate logo|falou|adeus|fui)\b/, () => 'Até mais. A conversa fica salva neste navegador.'],
+  [/\b(piada|me faz rir|conta algo engracado)\b/, () => 'Por que a roupa foi ao brechó? Para ganhar uma segunda chance de sair por aí.'],
+  [/\b(conversar|bater um papo|papo|conversa)\b/, () => 'Podemos conversar. O que está passando pela sua cabeça?']
 ];
 
-function localReply(text) {
-  const raw = text.toLowerCase();
+function tokenSimilarity(a, b) {
+  const stop = new Set(['voce','vc','isso','essa','esse','uma','para','com','que','qual','como','quando','onde','porque','sobre','mais','muito','quero','gostaria','pode','poderia','meu','minha','tem','ser','foi','dos','das','nos','nas']);
+  const A = new Set(nrm(a).split(' ').filter(w => w.length > 2 && !stop.has(w)));
+  const B = new Set(nrm(b).split(' ').filter(w => w.length > 2 && !stop.has(w)));
+  if (!A.size || !B.size) return 0;
+  let common = 0; A.forEach(w => { if (B.has(w)) common++; });
+  return common / (A.size + B.size - common);
+}
+function memoryReply(text) {
   const n = nrm(text);
-  // 1) Assuntos da loja
-  const kws = { comprar:['comprar','compra'], vender:['vender','venda','anunciar'], frete:['frete','entrega','envio'], devolucao:['devolver','devolução','reembolso'], verificado:['verificado','verificação','selo'], pix:['pix','desconto'] };
-  for (const [k, v] of Object.entries(ANSWERS)) {
-    if ((kws[k] || []).some(w => raw.includes(w))) return v;
+  const direct = uniMemory.learned.map(item => ({...item, score: Math.max(tokenSimilarity(text, item.question), n.includes(nrm(item.question)) ? .98 : 0)})).sort((a,b) => b.score-a.score)[0];
+  if (direct && direct.score >= .45) return direct.answer;
+  if (/\b(o que voce lembra|o que sabe sobre mim|o que voce sabe de mim|minhas preferencias|minha memoria)\b/.test(n)) {
+    const facts = [...(chatUserName ? [`Seu nome é ${chatUserName}`] : []), ...uniMemory.profile.facts];
+    return facts.length ? `Até agora, você compartilhou comigo: ${facts.join('; ')}.` : 'Ainda não tenho informações pessoais salvas. Você pode dizer “lembre que...” ou contar suas preferências.';
   }
-  // 2) Bate-papo
-  for (const [re, resp] of SMALLTALK) {
-    const m = n.match(re);
-    if (m) { const r = typeof resp === 'function' ? resp(m) : resp; return Array.isArray(r) ? pick(r) : r; }
+  if (/\b(esqueca|apague|apagar|limpe|remova)\b/.test(n) && /\b(memoria|informacoes|dados|conversa|historico)\b/.test(n)) {
+    return 'Se quiser apagar tudo o que a Uni guardou, use o comando “limpar memória” ou o botão de limpar conversa no cabeçalho.';
   }
-  // 3) Pergunta aberta sem assunto conhecido
-  if (n.endsWith('?')) return pick(['Boa pergunta! 🤔 Não tenho certeza sobre isso, mas posso falar de compra, venda, frete, devolução, dicas de look ou só conversar.', 'Hmm, essa eu não sei responder direitinho. Quer tentar de outro jeito ou falar com a equipe em "Fale conosco"? 💜']);
-  return pick(['Entendi! 😊 Me conta mais, estou ouvindo.', 'Interessante! Quer falar mais sobre isso ou prefere ver as peças?', ...GENERIC]);
+  return '';
+}
+function localReply(text) {
+  const n = nrm(text);
+  const learned = memoryReply(text);
+  if (learned) return learned;
+  const learnedFact = uniMemory.profile.facts.find(f => n.split(' ').some(w => w.length > 3 && nrm(f).includes(w)));
+  if (learnedFact && /\b(eu|meu|minha|gosto|prefiro|lembra|lembra que)\b/.test(n)) return `Você já me contou que ${learnedFact}. Quer me dizer mais sobre isso?`;
+  const kws = { comprar:['comprar','compra'], vender:['vender','venda','anunciar'], frete:['frete','entrega','envio'], devolucao:['devolver','devolucao','reembolso'], verificado:['verificado','verificacao','selo'], pix:['pix','desconto'] };
+  for (const [key, words] of Object.entries(kws)) if (words.some(w => n.includes(w))) return ANSWERS[key];
+  for (const [re, response] of SMALLTALK) if (re.test(n)) return typeof response === 'function' ? response() : response;
+  // Recupera uma conversa anterior semelhante, sem fingir que isso é compreensão de IA.
+  const prior = uniMemory.messages.filter(m => m.role === 'user').map(m => ({...m, score: tokenSimilarity(text, m.content)})).sort((a,b) => b.score-a.score)[0];
+  if (prior && prior.score >= .58) {
+    const idx = uniMemory.messages.findIndex(m => m === prior || (m.role === 'user' && m.content === prior.content));
+    const previousAnswer = uniMemory.messages.slice(idx + 1).find(m => m.role === 'assistant');
+    if (previousAnswer) return `Você já me perguntou algo parecido antes. Naquela conversa, respondi: “${previousAnswer.content}”`;
+  }
+  if (n.endsWith('?')) return 'Ainda não sei responder a essa pergunta com segurança. Você pode explicar de outro jeito ou me ensinar uma resposta dizendo: “quando eu perguntar X, responda Y”.';
+  return 'Entendi. Pode me contar um pouco mais? Vou manter o contexto desta conversa e guardar as informações úteis que você compartilhar explicitamente.';
 }
 
 function handleSend() {
   if (typeof listening !== 'undefined' && listening && rec) rec.abort();
   const text = inp.value.trim(); if (!text) return;
-  const viaVoice = (typeof sentByVoice !== 'undefined') && sentByVoice;   // mensagem ditada pelo microfone
+  const viaVoice = (typeof sentByVoice !== 'undefined') && sentByVoice;
   if (typeof sentByVoice !== 'undefined') sentByVoice = false;
-  inp.value = ''; addMsg(text, true);
-  chatHistory.push({ role: 'user', content: text });
-  const finish = (html) => { hideTyping(); addMsg(html, false); chatHistory.push({ role: 'assistant', content: html }); if (window.unibrechoSpeak) window.unibrechoSpeak(html, viaVoice); };
-  if (!CHAT_API_URL) {
-    const ans = localReply(text);
-    showTyping(); setTimeout(() => finish(ans), 700 + Math.random() * 600);
+  inp.value = '';
+  addMsg(text, true);
+  const learned = learnFromMessage(text);
+  const finish = reply => {
+    hideTyping();
+    addMsg(reply, false);
+    if (window.unibrechoSpeak) window.unibrechoSpeak(reply, viaVoice);
+  };
+  if (learned) { showTyping(); setTimeout(() => finish(learned), 350); return; }
+  if (CHAT_API_URL) {
+    showTyping();
+    fetch(CHAT_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: chatHistory.slice(-12), memory: uniMemory.profile }) })
+      .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(d => finish(String(d.reply || 'Não consegui formular uma resposta.')))
+      .catch(() => finish(localReply(text)));
     return;
   }
-  // Com servidor de IA configurado: tenta a IA e, se falhar, usa as respostas locais
   showTyping();
-  fetch(CHAT_API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: chatHistory.slice(-12) }) })
-    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-    .then(d => finish(escHtml(String(d.reply || ''))) )
-    .catch(() => finish(localReply(text)));
+  setTimeout(() => finish(localReply(text)), 450 + Math.random() * 350);
 }
 document.getElementById('chatSend').addEventListener('click', handleSend);
 inp.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
+
+document.querySelectorAll('.sug-btn').forEach(btn => {
+  btn.addEventListener('click', () => { addMsg(btn.textContent, true); showTyping(); setTimeout(() => { hideTyping(); const answer = ANSWERS[btn.dataset.key] || localReply(btn.textContent); addMsg(answer, false); }, 450); });
+});
+
+// Limpeza explícita da memória: o visitante controla o que fica salvo.
+const clearChatBtn = document.getElementById('chatClearMemory');
+if (clearChatBtn) clearChatBtn.addEventListener('click', () => {
+  if (!confirm('Apagar o histórico e as informações que a Uni guardou neste navegador?')) return;
+  uniMemory = emptyMemory(); chatHistory = []; chatUserName = '';
+  msgs.replaceChildren();
+  addMsg('Memória limpa. Podemos começar uma nova conversa.', false);
+  saveMemory();
+});
 
 // ── Ditado por voz no chat (transcreve a fala no campo de texto) ──
 const micBtn = document.getElementById('chatMic');
