@@ -230,7 +230,7 @@ body::before{
 .card-title{font-size:13px;color:var(--text);line-height:1.45;margin:0 0 8px;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .price-old{font-size:12px;color:var(--text-3);text-decoration:line-through;margin:0 0 2px}
-.price-main{font-size:22px;font-weight:500;color:#fff;margin:0 0 6px;line-height:1.1}
+.price-main{font-size:22px;font-weight:500;color:var(--text);margin:0 0 6px;line-height:1.1}
 .price-main sup{font-size:13px;vertical-align:top;margin-top:4px;display:inline-block}
 .price-main span{font-size:13px;font-weight:400;vertical-align:bottom}
 .pix{font-size:12px;color:var(--text-2);margin:0}
@@ -791,11 +791,83 @@ body.modal-open{overflow:hidden}
 .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .sell-preview{display:block;max-width:100%;max-height:180px;margin-top:8px;border-radius:var(--radius-sm);border:1px solid var(--border);object-fit:contain;background:var(--bg-3)}
 .sell-preview[hidden]{display:none}
-#sellModal .modal{max-width:520px}
+#sellModal .modal{max-width:760px}
 .pm-desc{font-size:13px;color:var(--text-2);line-height:1.6;margin-top:10px;white-space:pre-wrap;overflow-wrap:anywhere}
 .pm-delete{margin-top:10px;border-color:rgba(248,113,113,.4);color:#fca5a5}
 .pm-delete:hover{background:rgba(248,113,113,.12);border-color:#f87171}
 @media(max-width:480px){.field-row{grid-template-columns:1fr}}
+
+/* ══ ANUNCIAR (re-estilizado) ═══════════════════════════ */
+.sell-modal{padding:34px 34px 26px}
+.sell-head{display:flex;align-items:center;gap:16px;margin-bottom:26px;padding-right:36px}
+.sell-head-icon{
+  width:52px;height:52px;border-radius:16px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  box-shadow:0 8px 24px var(--accent-glow)
+}
+.sell-head .auth-title{margin-bottom:4px}
+.sell-head .auth-sub{margin-bottom:0}
+.sell-grid{display:grid;grid-template-columns:260px 1fr;gap:28px;align-items:start}
+.sell-label{display:block;font-size:12px;color:var(--text-2);letter-spacing:.02em;margin-bottom:8px}
+.sell-col-media .field-hint{display:block;margin-top:10px;line-height:1.5}
+.dropzone{
+  position:relative;display:flex;align-items:center;justify-content:center;
+  width:100%;aspect-ratio:4/5;overflow:hidden;cursor:pointer;
+  background:var(--bg-3);border:2px dashed var(--border-2);border-radius:var(--radius);
+  transition:border-color .2s, background-color .2s, box-shadow .2s
+}
+.dropzone:hover,.dropzone.is-drag{border-color:var(--accent-2);background:rgba(124,58,237,.10)}
+.dropzone:focus-within{border-color:var(--accent-2);box-shadow:0 0 0 3px rgba(124,58,237,.25)}
+.dz-input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:2}
+.dz-empty{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:20px;color:var(--text-2);font-size:12px;line-height:1.4}
+.dz-empty strong{font-size:14px;font-weight:500;color:var(--text)}
+.dz-empty small{font-size:11px;color:var(--text-3);margin-top:6px}
+.dz-icon{
+  width:54px;height:54px;border-radius:50%;margin-bottom:8px;
+  display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--accent-2);
+  background:rgba(124,58,237,.14);border:1px solid var(--border-2)
+}
+.dz-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:var(--bg-3)}
+.dz-preview[hidden]{display:none}
+.dz-preview:not([hidden]) + .dz-empty{display:none}
+.dz-change{
+  position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:1;display:none;
+  align-items:center;gap:6px;padding:7px 14px;border-radius:99px;font-size:12px;white-space:nowrap;
+  color:#fff;background:rgba(7,5,13,.72);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18)
+}
+.dz-preview:not([hidden]) ~ .dz-change{display:inline-flex}
+.sell-col-fields .field{margin-bottom:16px}
+.sell-col-fields .field label em{font-style:normal;color:var(--text-3)}
+.sell-modal .field input,.sell-modal .field select,.sell-modal .field textarea{background:var(--bg-3);border-radius:10px}
+.sell-modal .input-prefix{position:relative}
+.sell-modal .input-prefix span{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-3);pointer-events:none}
+.sell-modal .input-prefix input{padding-left:40px}
+.sell-modal .field select{
+  appearance:none;-webkit-appearance:none;padding-right:36px;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center
+}
+.sell-count{align-self:flex-end}
+.sell-actions{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  margin-top:8px;padding-top:20px;border-top:1px solid var(--border)
+}
+.sell-fee{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-3);line-height:1.4}
+.sell-fee i{font-size:15px;color:var(--accent-2);flex-shrink:0}
+.sell-buttons{display:flex;gap:10px;margin-left:auto}
+.sell-buttons .btn{height:44px;padding:0 22px;font-size:14px;border-radius:12px;justify-content:center}
+.sell-submit:disabled{opacity:.6;cursor:wait}
+:root.access-theme-light .dz-change{color:#fff}
+@media(max-width:760px){
+  .sell-modal{padding:26px 20px 22px}
+  .sell-grid{grid-template-columns:1fr;gap:22px}
+  .dropzone{aspect-ratio:16/10}
+  .sell-actions{flex-direction:column;align-items:stretch}
+  .sell-buttons{margin-left:0}
+  .sell-buttons .btn{flex:1}
+}
+@media(max-width:480px){.sell-head-icon{display:none}}
 
 /* Toasts */
 .toasts{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:600;display:flex;flex-direction:column;gap:8px;align-items:center;width:max-content;max-width:calc(100vw - 32px);pointer-events:none}
@@ -839,6 +911,9 @@ body.modal-open{overflow:hidden}
 .access-modal[hidden]{display:none!important}
 .access-modal{position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.68);backdrop-filter:blur(4px)}
 .access-dialog{width:min(100%,480px);max-height:min(85vh,720px);overflow:auto;background:var(--bg-card,#17121f);color:var(--text,#fff);border:1px solid var(--border,rgba(255,255,255,.14));border-radius:20px;padding:24px;box-shadow:0 24px 80px rgba(0,0,0,.45)}
+/* Mantém a rolagem, mas esconde a barra visual */
+.access-dialog{scrollbar-width:none;-ms-overflow-style:none}
+.access-dialog::-webkit-scrollbar{display:none;width:0;height:0}
 .access-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:8px}
 .access-head h2{font-size:clamp(23px,4vw,30px);margin:0;color:var(--text,#fff)}
 .access-description{font-size:14px;line-height:1.6;color:var(--text-2,#bbb);margin:8px 0 20px}
@@ -856,6 +931,30 @@ body.access-high-contrast a,body.access-high-contrast button{background:#000!imp
 body.access-underline-links a{text-decoration:underline!important;text-decoration-thickness:2px!important;text-underline-offset:3px!important}
 html.access-grayscale{filter:grayscale(1)}
 @media(max-width:420px){.access-dialog{padding:18px}.access-options{grid-template-columns:1fr 1fr}.access-option{font-size:13px;padding:9px}}
+
+/* ── Tema claro: corrige textos que estavam fixos em branco / roxo claro ── */
+:root.access-theme-light .price-main,
+:root.access-theme-light .pm-price{color:var(--text)}
+:root.access-theme-light .price-old{color:var(--text-3)}
+:root.access-theme-light .pix strong{color:#6d28d9}
+:root.access-theme-light .badge,
+:root.access-theme-light .hero-badge,
+:root.access-theme-light .sug-btn{color:#6d28d9;background:rgba(124,58,237,.10);border-color:rgba(124,58,237,.28)}
+:root.access-theme-light .cs-options div[aria-selected="true"],
+:root.access-theme-light .region-custom-select .cs-options div[aria-selected="true"],
+:root.access-theme-light .cs-options div:focus-visible{color:#4c1d95;background:rgba(124,58,237,.16)}
+:root.access-theme-light .modal-close:hover{color:var(--text)}
+:root.access-theme-light .modal-close{background:rgba(255,255,255,.8)}
+:root.access-theme-light .form-error{color:#b91c1c}
+:root.access-theme-light .pm-delete{color:#b91c1c}
+:root.access-theme-light .esg-pillar.e .esg-pillar-tag,
+:root.access-theme-light .esg-pillar.e .esg-pillar-item-icon{color:#15803d}
+:root.access-theme-light .esg-pillar.s .esg-pillar-tag,
+:root.access-theme-light .esg-pillar.s .esg-pillar-item-icon{color:#7e22ce}
+:root.access-theme-light .esg-pillar.g .esg-pillar-tag,
+:root.access-theme-light .esg-pillar.g .esg-pillar-item-icon{color:#b45309}
+:root.access-theme-light .toast,
+:root.access-theme-light .chat-window{box-shadow:0 10px 40px rgba(35,24,52,.18)}
 
 </style>
 </head>
@@ -1287,48 +1386,79 @@ html.access-grayscale{filter:grayscale(1)}
 
 <!-- MODAL: ANUNCIAR PEÇA -->
 <div class="overlay" id="sellModal" aria-hidden="true">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="sellHeading">
+  <div class="modal sell-modal" role="dialog" aria-modal="true" aria-labelledby="sellHeading">
     <button class="modal-close" type="button" data-close aria-label="Fechar"><i class="ti ti-x" aria-hidden="true"></i></button>
-    <div class="auth-brand"><span class="nav-logo-dot"></span>Unibrecho</div>
-    <h2 class="auth-title" id="sellHeading">Anunciar uma peça</h2>
-    <p class="auth-sub">Preencha os dados da peça. O anúncio fica salvo neste navegador e aparece na vitrine da região escolhida.</p>
+
+    <header class="sell-head">
+      <span class="sell-head-icon" aria-hidden="true"><i class="ti ti-tag"></i></span>
+      <div>
+        <h2 class="auth-title" id="sellHeading">Anunciar uma peça</h2>
+        <p class="auth-sub">Dê uma segunda vida à sua roupa. O anúncio aparece na vitrine da região escolhida.</p>
+      </div>
+    </header>
+
     <form id="sellForm" novalidate>
       <div class="form-error" id="sellError" role="alert" hidden></div>
-      <div class="field">
-        <label for="sellTitle">Título da peça</label>
-        <input type="text" id="sellTitle" maxlength="80" placeholder="Ex.: Jaqueta jeans vintage oversized" required>
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="sellPrice">Preço (R$)</label>
-          <input type="text" id="sellPrice" inputmode="decimal" placeholder="89,90" required>
+
+      <div class="sell-grid">
+        <!-- Foto -->
+        <div class="sell-col-media">
+          <span class="sell-label" id="sellImageLabel">Foto da peça</span>
+          <label class="dropzone" id="sellDrop" for="sellImage">
+            <input type="file" id="sellImage" class="dz-input" accept="image/*" aria-labelledby="sellImageLabel">
+            <img id="sellPreview" class="dz-preview" alt="Pré-visualização da foto" hidden>
+            <span class="dz-empty">
+              <span class="dz-icon" aria-hidden="true"><i class="ti ti-photo-up"></i></span>
+              <strong>Adicionar foto</strong>
+              <span>Clique, arraste ou cole (Ctrl+V) uma imagem</span>
+              <small>JPG, PNG ou WEBP</small>
+            </span>
+            <span class="dz-change" aria-hidden="true"><i class="ti ti-camera"></i> Trocar foto</span>
+          </label>
+          <span class="field-hint">A imagem é reduzida automaticamente para caber no armazenamento do navegador.</span>
         </div>
-        <div class="field">
-          <label for="sellOldPrice">Preço antigo (opcional)</label>
-          <input type="text" id="sellOldPrice" inputmode="decimal" placeholder="149,90">
+
+        <!-- Dados -->
+        <div class="sell-col-fields">
+          <div class="field">
+            <label for="sellTitle">Título da peça</label>
+            <input type="text" id="sellTitle" maxlength="80" placeholder="Ex.: Jaqueta jeans vintage oversized" required>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="sellPrice">Preço</label>
+              <div class="input-prefix"><span aria-hidden="true">R$</span><input type="text" id="sellPrice" inputmode="decimal" placeholder="89,90" required></div>
+            </div>
+            <div class="field">
+              <label for="sellOldPrice">Preço antigo <em>(opcional)</em></label>
+              <div class="input-prefix"><span aria-hidden="true">R$</span><input type="text" id="sellOldPrice" inputmode="decimal" placeholder="149,90"></div>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="sellRegion">Região</label>
+              <select id="sellRegion"></select>
+            </div>
+            <div class="field">
+              <label for="sellStore">Vendedor / loja</label>
+              <input type="text" id="sellStore" maxlength="40" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="sellDesc">Descrição <em>(opcional)</em></label>
+            <textarea id="sellDesc" maxlength="300" rows="3" placeholder="Tamanho, estado de conservação, medidas…"></textarea>
+            <span class="field-hint sell-count" id="sellCount" aria-live="off">0/300</span>
+          </div>
         </div>
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label for="sellRegion">Região</label>
-          <select id="sellRegion"></select>
-        </div>
-        <div class="field">
-          <label for="sellStore">Nome do vendedor/loja</label>
-          <input type="text" id="sellStore" maxlength="40" required>
+
+      <div class="sell-actions">
+        <p class="sell-fee"><i class="ti ti-info-circle" aria-hidden="true"></i> Anunciar é grátis. Taxa de 12% só quando vender.</p>
+        <div class="sell-buttons">
+          <button type="button" class="btn" data-close>Cancelar</button>
+          <button type="submit" class="btn btn-primary sell-submit"><i class="ti ti-rocket" style="font-size:15px" aria-hidden="true"></i> Publicar anúncio</button>
         </div>
       </div>
-      <div class="field">
-        <label for="sellImage">Foto da peça</label>
-        <input type="file" id="sellImage" accept="image/*">
-        <span class="field-hint">A imagem é reduzida automaticamente para caber no armazenamento do navegador.</span>
-        <img id="sellPreview" class="sell-preview" alt="Pré-visualização da foto" hidden>
-      </div>
-      <div class="field">
-        <label for="sellDesc">Descrição (opcional)</label>
-        <textarea id="sellDesc" maxlength="300" rows="3" placeholder="Tamanho, estado de conservação, medidas…"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary auth-submit">Publicar anúncio</button>
     </form>
   </div>
 </div>
@@ -2148,6 +2278,39 @@ sellImage.addEventListener('change', async () => {
   }
 });
 
+// Arrastar e soltar, contador de caracteres e reset visual do formulário de anúncio
+const sellDrop = $('#sellDrop'), sellDesc = $('#sellDesc'), sellCount = $('#sellCount');
+const updateSellCount = () => { sellCount.textContent = `${sellDesc.value.length}/${sellDesc.maxLength}`; };
+sellDesc.addEventListener('input', updateSellCount);
+sellForm.addEventListener('reset', () => setTimeout(updateSellCount, 0));
+['dragenter', 'dragover'].forEach(ev => sellDrop.addEventListener(ev, e => { e.preventDefault(); sellDrop.classList.add('is-drag'); }));
+['dragleave', 'drop'].forEach(ev => sellDrop.addEventListener(ev, e => { e.preventDefault(); sellDrop.classList.remove('is-drag'); }));
+// Coloca um arquivo de imagem (arrastado ou colado) no campo de foto
+function setSellFile(file) {
+  try {
+    const dt = new DataTransfer(); dt.items.add(file);
+    sellImage.files = dt.files;
+    sellImage.dispatchEvent(new Event('change'));
+    return true;
+  } catch (_) { return false; /* navegador sem suporte: use o clique */ }
+}
+sellDrop.addEventListener('drop', e => {
+  const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (file) setSellFile(file);
+});
+// Colar imagem da área de transferência (Ctrl+V / Cmd+V) enquanto o anúncio está aberto
+document.addEventListener('paste', e => {
+  if (activeModal !== sellModal) return;
+  const items = [...(e.clipboardData?.items || [])];
+  const item = items.find(i => i.kind === 'file' && i.type.startsWith('image/'));
+  if (!item) return;                      // texto colado nos campos segue normal
+  const file = item.getAsFile();
+  if (!file) return;
+  e.preventDefault();
+  if (setSellFile(file)) toast('Imagem colada!', 'info');
+  else toast('Seu navegador não permite colar imagens aqui. Use o clique ou arraste.', 'err');
+});
+
 function openSell() {
   requireLogin(() => {
     clearErrors();
@@ -2489,13 +2652,21 @@ if (!SpeechRec) {
     setPressed('accessThemeDark', !isLight);
     status.textContent = isLight ? 'Tema claro ativado.' : 'Tema escuro ativado.';
   };
-  themeLightBtn.addEventListener('click', () => setTheme('light'));
+  themeLightBtn.addEventListener('click', () => {
+    // Alto contraste usa fundo preto, então é incompatível com o tema claro: desliga junto.
+    if (document.body.classList.contains('access-high-contrast')) {
+      document.body.classList.remove('access-high-contrast');
+      setPressed('accessContrast', false);
+    }
+    setTheme('light');
+  });
   themeDarkBtn.addEventListener('click', () => setTheme('dark'));
 
   document.getElementById('accessContrast').addEventListener('click', e => {
     const enabled = document.body.classList.toggle('access-high-contrast');
     setPressed('accessContrast', enabled);
-    status.textContent = enabled ? 'Alto contraste ativado.' : 'Alto contraste desativado.';
+    if (enabled) setTheme('dark');   // alto contraste aciona o tema escuro junto
+    status.textContent = enabled ? 'Alto contraste ativado com tema escuro.' : 'Alto contraste desativado.';
   });
   document.getElementById('accessUnderline').addEventListener('click', () => {
     const enabled = document.body.classList.toggle('access-underline-links');
