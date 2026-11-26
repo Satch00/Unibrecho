@@ -6,7 +6,7 @@
 <title>Unibrecho — Moda Circular</title>
 <link rel="icon" type="image/png" href="Logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Pacifico&family=Orbitron:wght@500&family=Playfair+Display:wght@500&family=Space+Mono&family=Great+Vibes&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
 <style>
 :root {
@@ -956,6 +956,90 @@ html.access-grayscale{filter:grayscale(1)}
 :root.access-theme-light .toast,
 :root.access-theme-light .chat-window{box-shadow:0 10px 40px rgba(35,24,52,.18)}
 
+/* ── Tela escura por inatividade ── */
+.idle-overlay{
+  position:fixed;inset:0;z-index:1000;overflow:hidden;
+  background:radial-gradient(ellipse at 50% 42%,#1b0a38 0%,#0b0616 48%,#000 100%);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s ease            /* volta rápido ao despertar */
+}
+.idle-overlay.on{
+  opacity:1;pointer-events:auto;
+  transition:opacity 4s ease             /* escurece devagar */
+}
+.idle-title{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:clamp(36px,7vw,84px);font-weight:500;
+  letter-spacing:.02em;color:#a855f7;user-select:none;pointer-events:none;z-index:2;
+  text-shadow:0 0 18px rgba(168,85,247,.75),0 0 52px rgba(124,58,237,.55)
+}
+.idle-title .cursor{color:#d8b4fe}
+.idle-title .cursor.off{visibility:hidden}
+
+/* Decoração do fundo escuro */
+.idle-overlay::before{            /* estrelas que cintilam */
+  content:'';position:absolute;inset:0;z-index:0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 18%,#c4b5fd 50%,transparent 52%),
+    radial-gradient(1px 1px at 17% 72%,#e9d5ff 50%,transparent 52%),
+    radial-gradient(2px 2px at 26% 36%,#a855f7 50%,transparent 52%),
+    radial-gradient(1px 1px at 34% 86%,#c4b5fd 50%,transparent 52%),
+    radial-gradient(1.5px 1.5px at 45% 12%,#e9d5ff 50%,transparent 52%),
+    radial-gradient(1px 1px at 58% 78%,#c4b5fd 50%,transparent 52%),
+    radial-gradient(2px 2px at 67% 24%,#a855f7 50%,transparent 52%),
+    radial-gradient(1.5px 1.5px at 76% 62%,#e9d5ff 50%,transparent 52%),
+    radial-gradient(1px 1px at 84% 14%,#c4b5fd 50%,transparent 52%),
+    radial-gradient(2px 2px at 92% 48%,#a855f7 50%,transparent 52%),
+    radial-gradient(1px 1px at 5% 52%,#e9d5ff 50%,transparent 52%),
+    radial-gradient(1.5px 1.5px at 52% 92%,#c4b5fd 50%,transparent 52%),
+    radial-gradient(1px 1px at 96% 88%,#e9d5ff 50%,transparent 52%),
+    radial-gradient(1.5px 1.5px at 38% 56%,#c4b5fd 50%,transparent 52%);
+  animation:idleTwinkle 3.2s ease-in-out infinite alternate
+}
+.idle-overlay::after{             /* aura giratória atrás do título */
+  content:'';position:absolute;z-index:0;left:50%;top:50%;
+  width:76vmin;height:76vmin;margin:-38vmin 0 0 -38vmin;border-radius:50%;
+  background:conic-gradient(from 0deg,rgba(124,58,237,0),rgba(168,85,247,.38),rgba(124,58,237,0),rgba(192,132,252,.28),rgba(124,58,237,0));
+  filter:blur(46px);animation:idleSpin 16s linear infinite
+}
+.idle-ring{                       /* ondas que expandem do centro */
+  position:absolute;z-index:1;left:50%;top:50%;border-radius:50%;
+  border:1px solid rgba(168,85,247,.45);
+  width:46vmin;height:46vmin;transform:translate(-50%,-50%) scale(.6);opacity:0;
+  animation:idleRing 6s ease-out infinite
+}
+.idle-ring:nth-child(2){animation-delay:2s}
+.idle-ring:nth-child(3){animation-delay:4s}
+.idle-orb{                        /* esferas de luz flutuando */
+  position:absolute;z-index:0;border-radius:50%;filter:blur(42px);
+  background:radial-gradient(circle,rgba(168,85,247,.5),rgba(124,58,237,0) 70%);
+  animation:idleFloat 9s ease-in-out infinite alternate
+}
+.idle-orb.o1{width:38vmin;height:38vmin;left:-8vmin;top:-8vmin}
+.idle-orb.o2{width:44vmin;height:44vmin;right:-10vmin;bottom:-12vmin;animation-delay:-4s}
+@keyframes idleTwinkle{from{opacity:.35}to{opacity:1}}
+@keyframes idleSpin{to{transform:rotate(360deg)}}
+@keyframes idleRing{
+  0%{transform:translate(-50%,-50%) scale(.6);opacity:0}
+  15%{opacity:.7}
+  100%{transform:translate(-50%,-50%) scale(1.9);opacity:0}
+}
+@keyframes idleFloat{from{transform:translate(0,0) scale(1)}to{transform:translate(6vmin,5vmin) scale(1.2)}}
+@media (prefers-reduced-motion:reduce){
+  .idle-overlay::before,.idle-overlay::after,.idle-ring,.idle-orb{animation:none!important}
+  .idle-ring{opacity:.25;transform:translate(-50%,-50%) scale(1)}
+}
+/* Alto contraste não deve deixar o título branco nem os anéis brancos */
+body.access-high-contrast .idle-overlay .idle-title #idleText{color:#a855f7!important}
+body.access-high-contrast .idle-overlay .idle-title #idleCursor{color:#d8b4fe!important}
+body.access-high-contrast .idle-overlay .idle-ring{border-color:rgba(168,85,247,.45)!important}
+.access-select{justify-content:space-between;cursor:default}
+.access-select select{
+  background:var(--bg-card);color:inherit;border:1px solid var(--border-2);
+  border-radius:8px;padding:6px 8px;font:inherit;font-size:13px;cursor:pointer
+}
+.access-select select:disabled{opacity:.5;cursor:not-allowed}
+
 </style>
 </head>
 <body>
@@ -1026,6 +1110,18 @@ html.access-grayscale{filter:grayscale(1)}
       <button type="button" class="access-option" id="accessUnderline" aria-pressed="false">↗ Destacar links</button>
       <button type="button" class="access-option" id="accessGray" aria-pressed="false">◑ Escala de cinza</button>
       <button type="button" class="access-option" id="accessVoice" aria-pressed="false">🔊 Assistência por voz</button>
+      <button type="button" class="access-option" id="accessIdleToggle" aria-pressed="true">🌙 Escurecer por inatividade</button>
+      <label class="access-option access-select" for="accessIdleTime">
+        <span>⏱ Tempo</span>
+        <select id="accessIdleTime" aria-label="Tempo de inatividade até escurecer a tela">
+          <option value="5">5 s (teste)</option>
+          <option value="15">15 s</option>
+          <option value="30">30 s</option>
+          <option value="60">1 min</option>
+          <option value="120">2 min</option>
+          <option value="300">5 min</option>
+        </select>
+      </label>
       <button type="button" class="access-option" id="accessReset" style="grid-column:1/-1">↺ Restaurar padrão</button>
     </div>
     <p class="access-status" id="accessStatus" role="status" aria-live="polite">Nenhuma opção adicional ativada.</p>
@@ -1464,6 +1560,13 @@ html.access-grayscale{filter:grayscale(1)}
 </div>
 
 <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<!-- Tela escura por inatividade -->
+<div class="idle-overlay" id="idleOverlay" aria-hidden="true">
+  <span class="idle-orb o1"></span><span class="idle-orb o2"></span>
+  <span class="idle-ring"></span><span class="idle-ring"></span><span class="idle-ring"></span>
+  <div class="idle-title" id="idleTitle"><span id="idleText"></span><span class="cursor off" id="idleCursor">_</span></div>
+</div>
 
 <!-- CHATBOT FAB -->
 <button class="chat-fab" id="chatFab" aria-label="Abrir assistente">
@@ -2714,7 +2817,7 @@ if (!SpeechRec) {
     if (modal.hidden) return;
     if (e.key === 'Escape') close();
     if (e.key === 'Tab') {
-      const focusable = [...modal.querySelectorAll('button:not([disabled])')];
+      const focusable = [...modal.querySelectorAll('button:not([disabled]), select:not([disabled])')];
       const first = focusable[0], last = focusable[focusable.length - 1];
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
@@ -2870,6 +2973,125 @@ if (!SpeechRec) {
     setVoice(false, false);
     status.textContent = 'Configurações de acessibilidade restauradas.';
   });
+})();
+</script>
+
+<!-- Escurecer a tela por inatividade (gradual, configurável na Acessibilidade) -->
+<script>
+(() => {
+  const KEY = 'unibrecho:idle:v1';
+  const DEFAULT = { enabled: true, seconds: 300 };   // ← depois do teste, troque para 30
+  const overlay = document.getElementById('idleOverlay');
+  const toggle  = document.getElementById('accessIdleToggle');
+  const sel     = document.getElementById('accessIdleTime');
+  const status  = document.getElementById('accessStatus');
+  const accessModal = document.getElementById('accessModal');
+  if (!overlay || !toggle || !sel) return;
+
+  const load = () => {
+    try {
+      const s = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (s && typeof s.enabled === 'boolean' && Number(s.seconds) > 0) return { enabled: s.enabled, seconds: Number(s.seconds) };
+    } catch (_) {}
+    return { ...DEFAULT };
+  };
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(cfg)); } catch (_) {} };
+
+  let cfg = load(), timer, guardUntil = 0;
+
+  // ── Título digitado: U > Un > ... > Unibrecho, depois pisca "_" por 5 s ──
+  const TITLE = 'Unibrechó', TYPE_MS = 150, BLINK_MS = 500, BLINK_TOTAL = 5000;
+  const textEl = document.getElementById('idleText');
+  const cursorEl = document.getElementById('idleCursor');
+  let titleTimer = null, resetTimer = null;
+
+  const stopTitle = () => {
+    clearTimeout(titleTimer); titleTimer = null;
+    clearTimeout(resetTimer);
+    // espera o fade de saída terminar antes de limpar o texto
+    resetTimer = setTimeout(() => {
+      if (overlay.classList.contains('on')) return;
+      textEl.textContent = ''; cursorEl.classList.add('off');
+    }, 500);
+  };
+  const FONTS = [
+    "'Cormorant Garamond',serif", "'Pacifico',cursive", "'Orbitron',sans-serif",
+    "'Playfair Display',serif", "'Space Mono',monospace", "'Great Vibes',cursive"
+  ];
+  const titleEl = document.getElementById('idleTitle');
+  let fontIdx = 0;
+  const startTitle = (reset = true) => {
+    clearTimeout(titleTimer); clearTimeout(resetTimer);
+    if (reset) fontIdx = 0;
+    titleEl.style.fontFamily = FONTS[fontIdx % FONTS.length];
+    textEl.textContent = ''; cursorEl.classList.add('off');
+    let i = 0;
+    const type = () => {
+      i++;
+      textEl.textContent = TITLE.slice(0, i);
+      if (i < TITLE.length) { titleTimer = setTimeout(type, TYPE_MS); return; }
+      // terminou de digitar: pisca o cursor por 5 segundos
+      let elapsed = 0;
+      cursorEl.classList.remove('off');            // Unibrecho_
+      const blink = () => {
+        elapsed += BLINK_MS;
+        if (elapsed >= BLINK_TOTAL) { fontIdx++; startTitle(false); return; }  // reescreve com a próxima fonte
+        cursorEl.classList.toggle('off');
+        titleTimer = setTimeout(blink, BLINK_MS);
+      };
+      titleTimer = setTimeout(blink, BLINK_MS);
+    };
+    type();
+  };
+
+  const syncUI = () => {
+    toggle.setAttribute('aria-pressed', String(cfg.enabled));
+    sel.value = String(cfg.seconds);
+    sel.disabled = !cfg.enabled;
+  };
+
+  const schedule = () => {
+    clearTimeout(timer);
+    if (!cfg.enabled) return;
+    timer = setTimeout(() => {
+      // não escurece enquanto o menu de acessibilidade estiver aberto
+      if (accessModal && !accessModal.hidden) { schedule(); return; }
+      overlay.classList.add('on');
+      startTitle();
+    }, cfg.seconds * 1000);
+  };
+
+  // Qualquer atividade acorda a tela e reinicia a contagem.
+  // O primeiro clique/tecla que acorda é "engolido" para não acionar algo escondido.
+  ['mousemove','mousedown','mouseup','click','keydown','keyup','touchstart','touchend','wheel','scroll']
+    .forEach(type => window.addEventListener(type, e => {
+      const dark = overlay.classList.contains('on');
+      if (dark) { overlay.classList.remove('on'); guardUntil = Date.now() + 400; stopTitle(); }
+      const passive = type === 'mousemove' || type === 'wheel' || type === 'scroll';
+      if (!passive && (dark || Date.now() < guardUntil)) {
+        e.preventDefault(); e.stopImmediatePropagation();
+      }
+      schedule();
+    }, { capture: true, passive: false }));
+
+  toggle.addEventListener('click', () => {
+    cfg.enabled = !cfg.enabled;
+    save(); syncUI(); schedule();
+    status.textContent = cfg.enabled ? 'Escurecer por inatividade ativado.' : 'Escurecer por inatividade desativado.';
+  });
+  sel.addEventListener('change', () => {
+    cfg.seconds = Number(sel.value) || DEFAULT.seconds;
+    save(); schedule();
+    status.textContent = 'Tela escurece após ' + sel.options[sel.selectedIndex].text + ' sem atividade.';
+  });
+
+  // "Restaurar padrão" também restaura esta opção
+  document.getElementById('accessReset').addEventListener('click', () => {
+    cfg = { ...DEFAULT }; save(); syncUI(); schedule();
+  });
+
+  syncUI();
+  schedule();
 })();
 </script>
 
